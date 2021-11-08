@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/login")
-public class UserLoginServlet extends HttpServlet {
+public class UserLoginServlet extends UserServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -31,21 +31,7 @@ public class UserLoginServlet extends HttpServlet {
 
         try {
             UserEntity user = userService.checkCredentials(username, password);
-            String destPage = "index.jsp";
-
-            if (user != null) {
-
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-                destPage = "home.jsp";
-            } else {
-                String message = "Invalid email/password";
-                request.setAttribute("message", message);
-            }
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-            dispatcher.forward(request, response);
-
+            newPage(user, request, response);
         } catch (CredentialsException ex) {
             throw new ServletException(ex);
         }

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/signup")
-public class UserSignupServlet extends HttpServlet {
+public class UserSignupServlet extends UserServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -33,26 +33,12 @@ public class UserSignupServlet extends HttpServlet {
         UserEntity user = null;
         try {
             user = userService.createUser(username, email, password);
+            newPage(user, request, response);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        String destPage = "index.jsp";
-
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            destPage = "home.jsp";
-        }
-        // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
-        else {
-            String message = "Invalid email/password";
-            request.setAttribute("message", message);
-        }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-        dispatcher.forward(request, response);
-
     }
+
+
 }
 
