@@ -13,40 +13,10 @@ import java.util.Objects;
 public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
-    private Long user_id;
-
-    @Column(name = "username", unique=true, nullable=false)
+    private int user_id;
     private String username;
-
-    @Column(name = "password", nullable=false)
     private String password;
-
-    @Column(name = "email", unique=true, nullable=false)
     private String email;
-
-    //relationship definition part
-
-    @OneToMany(mappedBy="userOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ServicePackageEntity> servicePackages;
-
-    /**
-     * Orders are few can be loaded eagerly.
-     * Removing the user removes the orders too.
-     */
-    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER,	cascade=CascadeType.REMOVE)
-    private List<OrderEntity> orders;
-
-
-    /**
-     * Alerts are few can be loaded eagerly.
-     * Removing the user removes the alerts too.
-     */
-    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
-    private List<AlertEntity> alerts;
-
 
     public UserEntity() {
     }
@@ -57,14 +27,19 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
-    public Long getUser_id() {
+
+    @Id
+    @Column(name = "user_id")
+    public int getUserId() {
         return user_id;
     }
 
-    public void setUser_id(Long user_id) {
+    public void setUserId(int userId) {
         this.user_id = user_id;
     }
 
+    @Basic
+    @Column(name = "username")
     public String getUsername() {
         return username;
     }
@@ -73,6 +48,8 @@ public class UserEntity implements Serializable {
         this.username = username;
     }
 
+    @Basic
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -81,6 +58,8 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
+    @Basic
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -89,27 +68,27 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public List<ServicePackageEntity> getServicePackages() {
-        return servicePackages;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserEntity that = (UserEntity) o;
+
+        if (user_id != that.user_id) return false;
+        if (!Objects.equals(username, that.username)) return false;
+        if (!Objects.equals(password, that.password)) return false;
+        if (!Objects.equals(email, that.email)) return false;
+
+        return true;
     }
 
-    public void setServicePackages(List<ServicePackageEntity> servicePackages) {
-        this.servicePackages = servicePackages;
-    }
-
-    public List<OrderEntity> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderEntity> orders) {
-        this.orders = orders;
-    }
-
-    public List<AlertEntity> getAlerts() {
-        return alerts;
-    }
-
-    public void setAlerts(List<AlertEntity> alerts) {
-        this.alerts = alerts;
+    @Override
+    public int hashCode() {
+        int result = user_id;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
     }
 }
