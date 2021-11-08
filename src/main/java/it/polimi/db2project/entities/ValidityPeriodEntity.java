@@ -3,8 +3,8 @@ package it.polimi.db2project.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "validityperiod", schema = "dbtelco", catalog = "")
-public class ValidityperiodEntity {
+@Table(name = "validityperiod", schema = "dbtelco")
+public class ValidityPeriodEntity {
     private int validityPeriodId;
     private int numOfMonths;
     private int monthlyFee;
@@ -44,7 +44,7 @@ public class ValidityperiodEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ValidityperiodEntity that = (ValidityperiodEntity) o;
+        ValidityPeriodEntity that = (ValidityPeriodEntity) o;
 
         if (validityPeriodId != that.validityPeriodId) return false;
         if (numOfMonths != that.numOfMonths) return false;

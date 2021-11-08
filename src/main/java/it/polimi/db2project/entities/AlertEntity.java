@@ -2,38 +2,59 @@ package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-// ciaoooooooo
+
 @Entity
-@Table(name = "alert", schema = "dbtelco", catalog = "")
-public class AlertEntity {
-    private int alertId;
-    private int amount;
-    private Timestamp dateAndTime;
-    private int userOwner;
+@Table(name = "alert", schema = "dbtelco")
+public class AlertEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public AlertEntity() {
+    }
+
+    public AlertEntity(float amount, Timestamp dateAndTime, UserEntity user) {
+        this.amount = amount;
+        this.dateAndTime = dateAndTime;
+        this.user = user;
+    }
 
     @Id
-    @Column(name = "alert_id")
-    public int getAlertId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "alert_id", nullable = false)
+    private Long alertId;
+
+    @Column(name = "amount", nullable = false)
+    private float amount;
+
+    @Column(name = "dateAndTime", nullable = false)
+    private Timestamp dateAndTime;
+
+    @ManyToOne
+    @JoinColumn(name = "userOwner")
+    private UserEntity user;
+
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getAlertId() {
         return alertId;
     }
 
-    public void setAlertId(int alertId) {
+    public void setAlertId(Long alertId) {
         this.alertId = alertId;
     }
 
-    @Basic
-    @Column(name = "amount")
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
-    @Basic
-    @Column(name = "dateAndTime")
     public Timestamp getDateAndTime() {
         return dateAndTime;
     }
@@ -42,37 +63,13 @@ public class AlertEntity {
         this.dateAndTime = dateAndTime;
     }
 
-    @Basic
-    @Column(name = "userOwner")
-    public int getUserOwner() {
-        return userOwner;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserOwner(int userOwner) {
-        this.userOwner = userOwner;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        AlertEntity that = (AlertEntity) o;
-
-        if (alertId != that.alertId) return false;
-        if (amount != that.amount) return false;
-        if (userOwner != that.userOwner) return false;
-        if (dateAndTime != null ? !dateAndTime.equals(that.dateAndTime) : that.dateAndTime != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = alertId;
-        result = 31 * result + amount;
-        result = 31 * result + (dateAndTime != null ? dateAndTime.hashCode() : 0);
-        result = 31 * result + userOwner;
-        return result;
-    }
 }
