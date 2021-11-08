@@ -11,6 +11,23 @@ import java.sql.Timestamp;
 public class OrderEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public OrderEntity(
+            Long user_id,
+            Timestamp dateAndHour,
+            float totalValueOrder,
+            String status,
+            UserEntity userOwner,
+            ServicePackageEntity servicePackage
+    ) {
+        this.user_id = user_id;
+        this.dateAndHour = dateAndHour;
+        this.totalValueOrder = totalValueOrder;
+        this.status = status;
+        this.userOwner = userOwner;
+        this.servicePackage = servicePackage;
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
@@ -26,7 +43,6 @@ public class OrderEntity implements Serializable {
     private String status;
 
     //relationship definition part
-
     @ManyToOne @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
@@ -34,28 +50,9 @@ public class OrderEntity implements Serializable {
     private ServicePackageEntity servicePackage;
 
     public OrderEntity(){
-
     }
 
-    public OrderEntity(
-        Long user_id,
-        Timestamp dateAndHour,
-        float totalValueOrder,
-        String status,
-        UserEntity userOwner,
-        ServicePackageEntity servicePackage
-    ) {
-        this.user_id = user_id;
-        this.dateAndHour = dateAndHour;
-        this.totalValueOrder = totalValueOrder;
-        this.status = status;
-        this.userOwner = userOwner;
-        this.servicePackage = servicePackage;
-    }
 
-    /**
-     * getter and setter
-     */
 
     public Long getUser_id() {
         return user_id;
