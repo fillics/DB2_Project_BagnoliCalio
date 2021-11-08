@@ -3,7 +3,7 @@ package it.polimi.db2project.entities;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
-
+// ciaoooooooo
 @Entity
 @Table(name = "alert", schema = "dbtelco", catalog = "")
 public class AlertEntity {
