@@ -2,62 +2,29 @@ package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Table(name = "validityperiod", schema = "dbtelco")
-public class ValidityPeriodEntity {
-    private int validityPeriodId;
+public class ValidityPeriodEntity implements Serializable {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "validityPeriod_id", nullable = false)
+    private Long validityPeriod_id;
+
+    @Column(name = "numOfMonths", nullable=false)
     private int numOfMonths;
-    private int monthlyFee;
 
-    @Id
-    @Column(name = "validityPeriod_Id")
-    public int getValidityPeriodId() {
-        return validityPeriodId;
-    }
-
-    public void setValidityPeriodId(int validityPeriodId) {
-        this.validityPeriodId = validityPeriodId;
-    }
-
-    @Basic
-    @Column(name = "numOfMonths")
-    public int getNumOfMonths() {
-        return numOfMonths;
-    }
-
-    public void setNumOfMonths(int numOfMonths) {
-        this.numOfMonths = numOfMonths;
-    }
-
-    @Basic
     @Column(name = "monthlyFee")
-    public int getMonthlyFee() {
-        return monthlyFee;
-    }
+    private float monthlyFee;
 
-    public void setMonthlyFee(int monthlyFee) {
-        this.monthlyFee = monthlyFee;
-    }
+    //relationship definition part
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    @ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER)
+    private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
-        ValidityPeriodEntity that = (ValidityPeriodEntity) o;
-
-        if (validityPeriodId != that.validityPeriodId) return false;
-        if (numOfMonths != that.numOfMonths) return false;
-        if (monthlyFee != that.monthlyFee) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = validityPeriodId;
-        result = 31 * result + numOfMonths;
-        result = 31 * result + monthlyFee;
-        return result;
-    }
+    @OneToMany(mappedBy="validityPeriod", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
+    private List<ServicePackageEntity> servicePackages;
 }
+

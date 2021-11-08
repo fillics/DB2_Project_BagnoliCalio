@@ -2,27 +2,75 @@ package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Table(name = "servicepackagetoselect", schema = "dbtelco")
-public class ServicePackageToSelectEntity {
-    private int servicePackageToSelectId;
-    private String name;
-    private int services;
-    private Integer optionalProduct;
-    private int validityPeriod;
+public class ServicePackageToSelectEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "servicePackageToSelect_id")
-    public int getServicePackageToSelectId() {
-        return servicePackageToSelectId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "servicePackageToSelect_id", nullable = false)
+    private Long servicePackageToSelect_id;
+
+    @Column(name = "name", nullable=false)
+    private String name;
+
+    //relationship definition part
+
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+        name="offer",
+        joinColumns={@JoinColumn(name="servicePackageToSelect_id")},
+        inverseJoinColumns={@JoinColumn(name="service_id")}
+    )
+    private List<ServiceEntity> services;
+
+
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+        name="offerProduct",
+        joinColumns={@JoinColumn(name="servicePackageToSelect_id")},
+        inverseJoinColumns={@JoinColumn(name="optionalProduct_id")}
+    )
+    private List<OptionalProductEntity> optionalProducts;
+
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+        name="proposal",
+        joinColumns={@JoinColumn(name="servicePackageToSelect_id")},
+        inverseJoinColumns={@JoinColumn(name="validityPeriod_id")}
+    )
+    private List<ValidityPeriodEntity> validityPeriods;
+
+    @OneToMany(mappedBy="packageSelected", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ServicePackageEntity> servicePackages;
+
+    public ServicePackageToSelectEntity(){
     }
 
-    public void setServicePackageToSelectId(int servicePackageToSelectId) {
-        this.servicePackageToSelectId = servicePackageToSelectId;
+    public ServicePackageToSelectEntity(
+        String name,
+        List<ServiceEntity> services,
+        List<OptionalProductEntity> optionalProducts,
+        List<ValidityPeriodEntity> validityPeriods
+    ) {
+        this.name = name;
+        this.services = services;
+        this.optionalProducts = optionalProducts;
+        this.validityPeriods = validityPeriods;
     }
 
-    @Basic
-    @Column(name = "name")
+    public Long getServicePackageToSelect_id() {
+        return servicePackageToSelect_id;
+    }
+
+    public void setServicePackageToSelect_id(Long servicePackageToSelect_id) {
+        this.servicePackageToSelect_id = servicePackageToSelect_id;
+    }
+
     public String getName() {
         return name;
     }
@@ -31,60 +79,27 @@ public class ServicePackageToSelectEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "services")
-    public int getServices() {
+    public List<ServiceEntity> getServices() {
         return services;
     }
 
-    public void setServices(int services) {
+    public void setServices(List<ServiceEntity> services) {
         this.services = services;
     }
 
-    @Basic
-    @Column(name = "optionalProduct")
-    public Integer getOptionalProduct() {
-        return optionalProduct;
+    public List<OptionalProductEntity> getOptionalProducts() {
+        return optionalProducts;
     }
 
-    public void setOptionalProduct(Integer optionalProduct) {
-        this.optionalProduct = optionalProduct;
+    public void setOptionalProducts(List<OptionalProductEntity> optionalProducts) {
+        this.optionalProducts = optionalProducts;
     }
 
-    @Basic
-    @Column(name = "validityPeriod")
-    public int getValidityPeriod() {
-        return validityPeriod;
+    public List<ValidityPeriodEntity> getValidityPeriods() {
+        return validityPeriods;
     }
 
-    public void setValidityPeriod(int validityPeriod) {
-        this.validityPeriod = validityPeriod;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ServicePackageToSelectEntity that = (ServicePackageToSelectEntity) o;
-
-        if (servicePackageToSelectId != that.servicePackageToSelectId) return false;
-        if (services != that.services) return false;
-        if (validityPeriod != that.validityPeriod) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (optionalProduct != null ? !optionalProduct.equals(that.optionalProduct) : that.optionalProduct != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = servicePackageToSelectId;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + services;
-        result = 31 * result + (optionalProduct != null ? optionalProduct.hashCode() : 0);
-        result = 31 * result + validityPeriod;
-        return result;
+    public void setValidityPeriods(List<ValidityPeriodEntity> validityPeriods) {
+        this.validityPeriods = validityPeriods;
     }
 }

@@ -2,9 +2,11 @@ package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
-@Table(name = "service", schema = "dbtelco", catalog = "")
-public class ServiceEntity {
+@Table(name = "service", schema = "dbtelco")
+public class ServiceEntity implements Serializable {
     private int serviceId;
     private String typeOfService;
     private Integer numMinutes;
