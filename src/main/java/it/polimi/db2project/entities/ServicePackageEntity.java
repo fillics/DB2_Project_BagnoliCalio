@@ -2,72 +2,71 @@ package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "servicepackage", schema = "dbtelco")
-public class ServicePackageEntity {
-    private int servicePackageId;
-    private int packageSelected;
-    private int validityPeriod;
-    private int optionalProduct;
-    private int userOwner;
-    private Date startDate;
-    private Date endDate;
-    private int totalValuePackage;
+public class ServicePackageEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "servicePackage_id")
-    public int getServicePackageId() {
-        return servicePackageId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "servicePackage_id", nullable = false)
+    private Long servicePackage_id;
+
+    @Column(name = "startDate", nullable=false)
+    private Date startDate;
+
+    @Column(name = "endDate", nullable=false)
+    private Date endDate;
+
+    @Column(name = "totalValuePackage", unique=true, nullable=false)
+    private float totalValuePackage;
+
+
+    //relationship definition part
+
+    @ManyToOne @JoinColumn(name = "packageSelected")
+    private ServicePackageToSelectEntity packageSelected;
+
+    @ManyToOne @JoinColumn(name = "validityPeriod")
+    private ValidityPeriodEntity validityPeriod;
+
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+        name="addedProduct",
+        joinColumns={@JoinColumn(name="servicePackage_id")},
+        inverseJoinColumns={@JoinColumn(name="optionalProduct_id")}
+    )
+    private List<OptionalProductEntity> optionalProducts;
+
+    @ManyToOne @JoinColumn(name = "userOwner")
+    private UserEntity userOwner;
+
+    public ServicePackageEntity(){
+
     }
 
-    public void setServicePackageId(int servicePackageId) {
-        this.servicePackageId = servicePackageId;
-    }
-
-    @Basic
-    @Column(name = "packageSelected")
-    public int getPackageSelected() {
-        return packageSelected;
-    }
-
-    public void setPackageSelected(int packageSelected) {
+    public ServicePackageEntity(Date startDate, Date endDate, float totalValuePackage, ServicePackageToSelectEntity packageSelected, ValidityPeriodEntity validityPeriod, List<OptionalProductEntity> optionalProducts, UserEntity userOwner) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalValuePackage = totalValuePackage;
         this.packageSelected = packageSelected;
-    }
-
-    @Basic
-    @Column(name = "validityPeriod")
-    public int getValidityPeriod() {
-        return validityPeriod;
-    }
-
-    public void setValidityPeriod(int validityPeriod) {
         this.validityPeriod = validityPeriod;
-    }
-
-    @Basic
-    @Column(name = "optionalProduct")
-    public int getOptionalProduct() {
-        return optionalProduct;
-    }
-
-    public void setOptionalProduct(int optionalProduct) {
-        this.optionalProduct = optionalProduct;
-    }
-
-    @Basic
-    @Column(name = "userOwner")
-    public int getUserOwner() {
-        return userOwner;
-    }
-
-    public void setUserOwner(int userOwner) {
+        this.optionalProducts = optionalProducts;
         this.userOwner = userOwner;
     }
 
-    @Basic
-    @Column(name = "startDate")
+    public Long getServicePackage_id() {
+        return servicePackage_id;
+    }
+
+    public void setServicePackage_id(Long servicePackage_id) {
+        this.servicePackage_id = servicePackage_id;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -76,8 +75,6 @@ public class ServicePackageEntity {
         this.startDate = startDate;
     }
 
-    @Basic
-    @Column(name = "endDate")
     public Date getEndDate() {
         return endDate;
     }
@@ -86,45 +83,43 @@ public class ServicePackageEntity {
         this.endDate = endDate;
     }
 
-    @Basic
-    @Column(name = "totalValuePackage")
-    public int getTotalValuePackage() {
+    public float getTotalValuePackage() {
         return totalValuePackage;
     }
 
-    public void setTotalValuePackage(int totalValuePackage) {
+    public void setTotalValuePackage(float totalValuePackage) {
         this.totalValuePackage = totalValuePackage;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ServicePackageEntity that = (ServicePackageEntity) o;
-
-        if (servicePackageId != that.servicePackageId) return false;
-        if (packageSelected != that.packageSelected) return false;
-        if (validityPeriod != that.validityPeriod) return false;
-        if (optionalProduct != that.optionalProduct) return false;
-        if (userOwner != that.userOwner) return false;
-        if (totalValuePackage != that.totalValuePackage) return false;
-        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
-        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
-
-        return true;
+    public ServicePackageToSelectEntity getPackageSelected() {
+        return packageSelected;
     }
 
-    @Override
-    public int hashCode() {
-        int result = servicePackageId;
-        result = 31 * result + packageSelected;
-        result = 31 * result + validityPeriod;
-        result = 31 * result + optionalProduct;
-        result = 31 * result + userOwner;
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        result = 31 * result + totalValuePackage;
-        return result;
+    public void setPackageSelected(ServicePackageToSelectEntity packageSelected) {
+        this.packageSelected = packageSelected;
+    }
+
+    public ValidityPeriodEntity getValidityPeriod() {
+        return validityPeriod;
+    }
+
+    public void setValidityPeriod(ValidityPeriodEntity validityPeriod) {
+        this.validityPeriod = validityPeriod;
+    }
+
+    public List<OptionalProductEntity> getOptionalProducts() {
+        return optionalProducts;
+    }
+
+    public void setOptionalProducts(List<OptionalProductEntity> optionalProducts) {
+        this.optionalProducts = optionalProducts;
+    }
+
+    public UserEntity getUserOwner() {
+        return userOwner;
+    }
+
+    public void setUserOwner(UserEntity userOwner) {
+        this.userOwner = userOwner;
     }
 }
