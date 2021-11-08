@@ -2,30 +2,69 @@ package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "order", schema = "dbtelco", catalog = "")
-public class OrderEntity {
-    private int orderId;
-    private Timestamp dateAndHour;
-    private int userOwner;
-    private int servicepackage;
-    private int totalvalueOrder;
-    private String status;
+@Table(name = "order", schema = "dbtelco")
+public class OrderEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "order_id")
-    public int getOrderId() {
-        return orderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id", nullable = false)
+    private Long user_id;
+
+    @Column(name = "dateAndHour", nullable=false)
+    private Timestamp dateAndHour;
+
+    @Column(name = "totalValueOrder", nullable=false)
+    private float totalValueOrder;
+
+    @Column(name = "status", nullable=false)
+    private String status;
+
+    //relationship definition part
+
+    @ManyToOne @JoinColumn(name = "userOwner")
+    private UserEntity userOwner;
+
+    @OneToOne(mappedBy = "servicePackage", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ServicePackageEntity servicePackage;
+
+    public OrderEntity(){
+
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public OrderEntity(
+        Long user_id,
+        Timestamp dateAndHour,
+        float totalValueOrder,
+        String status,
+        UserEntity userOwner,
+        ServicePackageEntity servicePackage
+    ) {
+        this.user_id = user_id;
+        this.dateAndHour = dateAndHour;
+        this.totalValueOrder = totalValueOrder;
+        this.status = status;
+        this.userOwner = userOwner;
+        this.servicePackage = servicePackage;
     }
 
-    @Basic
-    @Column(name = "dateAndHour")
+    /**
+     * getter and setter
+     */
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
     public Timestamp getDateAndHour() {
         return dateAndHour;
     }
@@ -34,38 +73,14 @@ public class OrderEntity {
         this.dateAndHour = dateAndHour;
     }
 
-    @Basic
-    @Column(name = "userOwner")
-    public int getUserOwner() {
-        return userOwner;
+    public float getTotalValueOrder() {
+        return totalValueOrder;
     }
 
-    public void setUserOwner(int userOwner) {
-        this.userOwner = userOwner;
+    public void setTotalValueOrder(float totalValueOrder) {
+        this.totalValueOrder = totalValueOrder;
     }
 
-    @Basic
-    @Column(name = "servicepackage")
-    public int getServicepackage() {
-        return servicepackage;
-    }
-
-    public void setServicepackage(int servicepackage) {
-        this.servicepackage = servicepackage;
-    }
-
-    @Basic
-    @Column(name = "totalvalueOrder")
-    public int getTotalvalueOrder() {
-        return totalvalueOrder;
-    }
-
-    public void setTotalvalueOrder(int totalvalueOrder) {
-        this.totalvalueOrder = totalvalueOrder;
-    }
-
-    @Basic
-    @Column(name = "status")
     public String getStatus() {
         return status;
     }
@@ -74,31 +89,19 @@ public class OrderEntity {
         this.status = status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OrderEntity that = (OrderEntity) o;
-
-        if (orderId != that.orderId) return false;
-        if (userOwner != that.userOwner) return false;
-        if (servicepackage != that.servicepackage) return false;
-        if (totalvalueOrder != that.totalvalueOrder) return false;
-        if (dateAndHour != null ? !dateAndHour.equals(that.dateAndHour) : that.dateAndHour != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
-
-        return true;
+    public UserEntity getUserOwner() {
+        return userOwner;
     }
 
-    @Override
-    public int hashCode() {
-        int result = orderId;
-        result = 31 * result + (dateAndHour != null ? dateAndHour.hashCode() : 0);
-        result = 31 * result + userOwner;
-        result = 31 * result + servicepackage;
-        result = 31 * result + totalvalueOrder;
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        return result;
+    public void setUserOwner(UserEntity userOwner) {
+        this.userOwner = userOwner;
+    }
+
+    public ServicePackageEntity getServicePackage() {
+        return servicePackage;
+    }
+
+    public void setServicePackage(ServicePackageEntity servicePackage) {
+        this.servicePackage = servicePackage;
     }
 }
