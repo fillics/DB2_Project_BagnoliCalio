@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/signup")
-public class UserSignupServlet extends UserServlet {
+public class UserSignupServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -27,13 +27,28 @@ public class UserSignupServlet extends UserServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
 
         UserEntity user = null;
         try {
             user = userService.createUser(username, email, password);
-            newPage(user, request, response);
+            String destPage = "index.jsp";
+
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                destPage = "home.jsp";
+            }
+            // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
+            else {
+                String message = "Invalid email/password";
+                request.setAttribute("message", message);
+            }
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
+            dispatcher.forward(request, response);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

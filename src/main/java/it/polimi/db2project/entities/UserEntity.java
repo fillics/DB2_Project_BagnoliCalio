@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user", schema = "dbtelco")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM UserEntity r  WHERE r.username = ?1 and r.password = ?2")
-
+@Table(name = "user", schema = "dbtelco")
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,24 +28,30 @@ public class UserEntity implements Serializable {
     private String email;
 
     //relationship definition part
-//
-//    @OneToMany(mappedBy="userOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<ServicePackageEntity> servicePackages;
-//
-//    /**
-//     * Orders are few can be loaded eagerly.
-//     * Removing the user removes the orders too.
-//     */
-//    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
-//    private List<OrderEntity> orders;
-//
-//
-//    /**
-//     * Alerts are few can be loaded eagerly.
-//     * Removing the user removes the alerts too.
-//     */
-//    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
-//    private List<AlertEntity> alerts;
+/*
+
+    @OneToMany(mappedBy="userOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ServicePackageEntity> servicePackages;
+
+    */
+/**
+     * Orders are few can be loaded eagerly.
+     * Removing the user removes the orders too.
+     *//*
+
+    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
+    private List<OrderEntity> orders;
+
+
+    */
+/**
+     * Alerts are few can be loaded eagerly.
+     * Removing the user removes the alerts too.
+     *//*
+
+    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
+    private List<AlertEntity> alerts;
+*/
 
 
     public UserEntity() {

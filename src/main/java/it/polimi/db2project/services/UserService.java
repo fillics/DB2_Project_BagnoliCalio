@@ -38,33 +38,6 @@ public class UserService {
 
     }
 
-    public UserEntity checkLogin(String username, String password) throws SQLException,ClassNotFoundException {
-        final String DB_URL = "jdbc:mysql://localhost:3306/dbtelco";
-        final String USER = "admin";
-        final String PASS = "admin";
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-        String sql = "SELECT * FROM user WHERE username = ? and password = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, username);
-        statement.setString(2, password);
-
-        ResultSet result = statement.executeQuery();
-
-        UserEntity user = null;
-
-        if (result.next()) {
-            user = new UserEntity();
-            user.setUsername(result.getString("username"));
-        }
-
-        connection.close();
-
-        return user;
-    }
-
-
 
     public UserEntity createUser(String username, String email, String password) throws SQLException {
         UserEntity user = new UserEntity(username, email, password);
