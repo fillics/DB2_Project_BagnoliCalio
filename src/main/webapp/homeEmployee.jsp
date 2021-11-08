@@ -4,11 +4,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Admin CPanel - Bookshop</title>
+    <title>Telco Website</title>
+    <link href="/css/style.css" data-th-href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <div style="text-align: center">
-    <h1>Welcome to Bookshop Website Admin Panel</h1>
+    <h1>YOU ARE AN EMPLOYEE</h1>
     <b>${user.username} (${user.email})</b>
     <br><br>
     <a href="${pageContext.request.contextPath}/logout">Logout</a>

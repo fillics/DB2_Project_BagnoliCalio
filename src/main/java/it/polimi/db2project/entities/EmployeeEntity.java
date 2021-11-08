@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@NamedQuery(name = "Employee.checkCredentials", query = "SELECT e FROM EmployeeEntity e  WHERE e.username = ?1 and e.password = ?2")
 @Table(name = "employee", schema = "dbtelco")
 public class EmployeeEntity implements Serializable {
     private static final long serialVersionUID = 1L;
