@@ -2,26 +2,46 @@ package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
-@Table(name = "employee", schema = "dbtelco", catalog = "")
-public class EmployeeEntity {
-    private int employeeId;
-    private String username;
-    private String password;
-    private String email;
+@Table(name = "employee", schema = "dbtelco")
+public class EmployeeEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "employee_id")
-    public int getEmployeeId() {
-        return employeeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_id", nullable = false)
+    private Long employee_id;
+
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
+
+    public EmployeeEntity() {
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public EmployeeEntity(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
-    @Basic
-    @Column(name = "username")
+
+    public Long getEmployee_id() {
+        return employee_id;
+    }
+
+    public void setEmployee_id(Long employee_id) {
+        this.employee_id = employee_id;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -30,8 +50,6 @@ public class EmployeeEntity {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -40,8 +58,6 @@ public class EmployeeEntity {
         this.password = password;
     }
 
-    @Basic
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -50,27 +66,4 @@ public class EmployeeEntity {
         this.email = email;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EmployeeEntity that = (EmployeeEntity) o;
-
-        if (employeeId != that.employeeId) return false;
-        if (username != null ? !username.equals(that.username) : that.username != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = employeeId;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
-    }
 }

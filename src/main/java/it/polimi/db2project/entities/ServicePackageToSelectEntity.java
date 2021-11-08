@@ -3,8 +3,8 @@ package it.polimi.db2project.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "servicepackagetoselect", schema = "dbtelco", catalog = "")
-public class ServicepackagetoselectEntity {
+@Table(name = "servicepackagetoselect", schema = "dbtelco")
+public class ServicePackageToSelectEntity {
     private int servicePackageToSelectId;
     private String name;
     private int services;
@@ -66,7 +66,7 @@ public class ServicepackagetoselectEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ServicepackagetoselectEntity that = (ServicepackagetoselectEntity) o;
+        ServicePackageToSelectEntity that = (ServicePackageToSelectEntity) o;
 
         if (servicePackageToSelectId != that.servicePackageToSelectId) return false;
         if (services != that.services) return false;

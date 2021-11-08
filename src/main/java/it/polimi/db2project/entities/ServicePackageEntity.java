@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "servicepackage", schema = "dbtelco", catalog = "")
-public class ServicepackageEntity {
+@Table(name = "servicepackage", schema = "dbtelco")
+public class ServicePackageEntity {
     private int servicePackageId;
     private int packageSelected;
     private int validityPeriod;
@@ -101,7 +101,7 @@ public class ServicepackageEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ServicepackageEntity that = (ServicepackageEntity) o;
+        ServicePackageEntity that = (ServicePackageEntity) o;
 
         if (servicePackageId != that.servicePackageId) return false;
         if (packageSelected != that.packageSelected) return false;

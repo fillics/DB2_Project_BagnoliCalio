@@ -7,13 +7,13 @@
 
         <class>it.polimi.db2project.entities.AlertEntity</class>
         <class>it.polimi.db2project.entities.EmployeeEntity</class>
-        <class>it.polimi.db2project.entities.OptionalproductEntity</class>
+        <class>it.polimi.db2project.entities.OptionalProductEntity</class>
         <class>it.polimi.db2project.entities.OrderEntity</class>
         <class>it.polimi.db2project.entities.ServiceEntity</class>
-        <class>it.polimi.db2project.entities.ServicepackageEntity</class>
-        <class>it.polimi.db2project.entities.ServicepackagetoselectEntity</class>
+        <class>it.polimi.db2project.entities.ServicePackageEntity</class>
+        <class>it.polimi.db2project.entities.ServicePackageToSelectEntity</class>
         <class>it.polimi.db2project.entities.UserEntity</class>
-        <class>it.polimi.db2project.entities.ValidityperiodEntity</class>
+        <class>it.polimi.db2project.entities.ValidityPeriodEntity</class>
         <properties>
             <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306"/>
             <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
