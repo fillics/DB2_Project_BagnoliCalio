@@ -43,16 +43,15 @@ public class OrderEntity implements Serializable {
     private String status;
 
     //relationship definition part
-    @ManyToOne @JoinColumn(name = "userOwner")
+    @ManyToOne (cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
-    @OneToOne(mappedBy = "servicePackage", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "servicePackageAssociated", cascade = CascadeType.ALL, orphanRemoval = true)
     private ServicePackageEntity servicePackage;
 
     public OrderEntity(){
     }
-
-
 
     public Long getUser_id() {
         return user_id;

@@ -3,31 +3,79 @@ package it.polimi.db2project.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "service", schema = "dbtelco")
 public class ServiceEntity implements Serializable {
-    private int serviceId;
+    private static final long serialVersionUID = 1L;
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "service_id", nullable = false)
+    private Long service_id;
+
+    @Column(name = "typeOfService", nullable=false)
     private String typeOfService;
-    private Integer numMinutes;
-    private Integer numSms;
-    private Integer feeExtraMinute;
-    private Integer feeExtraSmSs;
-    private Integer numberOfGigabytes;
-    private Integer feeForExtraGigabytes;
 
-    @Id
-    @Column(name = "service_id")
-    public int getServiceId() {
-        return serviceId;
+    @Column(name = "numMinutes")
+    private int numMinutes;
+
+    @Column(name = "numSMS")
+    private int numSMS;
+
+    @Column(name = "feeExtraMinute")
+    private int feeExtraMinute;
+
+    @Column(name = "feeExtraSMSs")
+    private int feeExtraSMSs;
+
+    @Column(name = "numberOfGigabytes")
+    private int numberOfGigabytes;
+
+    @Column(name = "feeForExtraGigabytes")
+    private int feeForExtraGigabytes;
+
+
+    //relationship definition part
+
+    @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
+    private List<ServicePackageToSelectEntity> servicePackagesToSelect;
+
+    public ServiceEntity(){
     }
 
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
+    public ServiceEntity(
+        Long service_id,
+        String typeOfService,
+        int numMinutes,
+        int numSMS,
+        int feeExtraMinute,
+        int feeExtraSMSs,
+        int numberOfGigabytes,
+        int feeForExtraGigabytes
+    ) {
+        this.service_id = service_id;
+        this.typeOfService = typeOfService;
+        this.numMinutes = numMinutes;
+        this.numSMS = numSMS;
+        this.feeExtraMinute = feeExtraMinute;
+        this.feeExtraSMSs = feeExtraSMSs;
+        this.numberOfGigabytes = numberOfGigabytes;
+        this.feeForExtraGigabytes = feeForExtraGigabytes;
     }
 
-    @Basic
-    @Column(name = "typeOfService")
+    /**
+     * getter and setter
+     */
+
+    public Long getService_id() {
+        return service_id;
+    }
+
+    public void setService_id(Long service_id) {
+        this.service_id = service_id;
+    }
+
     public String getTypeOfService() {
         return typeOfService;
     }
@@ -36,99 +84,59 @@ public class ServiceEntity implements Serializable {
         this.typeOfService = typeOfService;
     }
 
-    @Basic
-    @Column(name = "numMinutes")
-    public Integer getNumMinutes() {
+    public int getNumMinutes() {
         return numMinutes;
     }
 
-    public void setNumMinutes(Integer numMinutes) {
+    public void setNumMinutes(int numMinutes) {
         this.numMinutes = numMinutes;
     }
 
-    @Basic
-    @Column(name = "numSMS")
-    public Integer getNumSms() {
-        return numSms;
+    public int getNumSMS() {
+        return numSMS;
     }
 
-    public void setNumSms(Integer numSms) {
-        this.numSms = numSms;
+    public void setNumSMS(int numSMS) {
+        this.numSMS = numSMS;
     }
 
-    @Basic
-    @Column(name = "feeExtraMinute")
-    public Integer getFeeExtraMinute() {
+    public int getFeeExtraMinute() {
         return feeExtraMinute;
     }
 
-    public void setFeeExtraMinute(Integer feeExtraMinute) {
+    public void setFeeExtraMinute(int feeExtraMinute) {
         this.feeExtraMinute = feeExtraMinute;
     }
 
-    @Basic
-    @Column(name = "FeeExtraSMSs")
-    public Integer getFeeExtraSmSs() {
-        return feeExtraSmSs;
+    public int getFeeExtraSMSs() {
+        return feeExtraSMSs;
     }
 
-    public void setFeeExtraSmSs(Integer feeExtraSmSs) {
-        this.feeExtraSmSs = feeExtraSmSs;
+    public void setFeeExtraSMSs(int feeExtraSMSs) {
+        this.feeExtraSMSs = feeExtraSMSs;
     }
 
-    @Basic
-    @Column(name = "NumberOfGigabytes")
-    public Integer getNumberOfGigabytes() {
+    public int getNumberOfGigabytes() {
         return numberOfGigabytes;
     }
 
-    public void setNumberOfGigabytes(Integer numberOfGigabytes) {
+    public void setNumberOfGigabytes(int numberOfGigabytes) {
         this.numberOfGigabytes = numberOfGigabytes;
     }
 
-    @Basic
-    @Column(name = "FeeForExtraGigabytes")
-    public Integer getFeeForExtraGigabytes() {
+    public int getFeeForExtraGigabytes() {
         return feeForExtraGigabytes;
     }
 
-    public void setFeeForExtraGigabytes(Integer feeForExtraGigabytes) {
+    public void setFeeForExtraGigabytes(int feeForExtraGigabytes) {
         this.feeForExtraGigabytes = feeForExtraGigabytes;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ServiceEntity that = (ServiceEntity) o;
-
-        if (serviceId != that.serviceId) return false;
-        if (typeOfService != null ? !typeOfService.equals(that.typeOfService) : that.typeOfService != null)
-            return false;
-        if (numMinutes != null ? !numMinutes.equals(that.numMinutes) : that.numMinutes != null) return false;
-        if (numSms != null ? !numSms.equals(that.numSms) : that.numSms != null) return false;
-        if (feeExtraMinute != null ? !feeExtraMinute.equals(that.feeExtraMinute) : that.feeExtraMinute != null)
-            return false;
-        if (feeExtraSmSs != null ? !feeExtraSmSs.equals(that.feeExtraSmSs) : that.feeExtraSmSs != null) return false;
-        if (numberOfGigabytes != null ? !numberOfGigabytes.equals(that.numberOfGigabytes) : that.numberOfGigabytes != null)
-            return false;
-        if (feeForExtraGigabytes != null ? !feeForExtraGigabytes.equals(that.feeForExtraGigabytes) : that.feeForExtraGigabytes != null)
-            return false;
-
-        return true;
+    public List<ServicePackageToSelectEntity> getServicePackagesToSelect() {
+        return servicePackagesToSelect;
     }
 
-    @Override
-    public int hashCode() {
-        int result = serviceId;
-        result = 31 * result + (typeOfService != null ? typeOfService.hashCode() : 0);
-        result = 31 * result + (numMinutes != null ? numMinutes.hashCode() : 0);
-        result = 31 * result + (numSms != null ? numSms.hashCode() : 0);
-        result = 31 * result + (feeExtraMinute != null ? feeExtraMinute.hashCode() : 0);
-        result = 31 * result + (feeExtraSmSs != null ? feeExtraSmSs.hashCode() : 0);
-        result = 31 * result + (numberOfGigabytes != null ? numberOfGigabytes.hashCode() : 0);
-        result = 31 * result + (feeForExtraGigabytes != null ? feeForExtraGigabytes.hashCode() : 0);
-        return result;
+    public void setServicePackagesToSelect(List<ServicePackageToSelectEntity> servicePackagesToSelect) {
+        this.servicePackagesToSelect = servicePackagesToSelect;
     }
 }

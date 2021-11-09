@@ -3,20 +3,21 @@ package it.polimi.db2project.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM UserEntity r  WHERE r.username = ?1 and r.password = ?2")
 @Table(name = "user", schema = "dbtelco")
+@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM UserEntity r  WHERE r.username = ?1 and r.password = ?2")
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
-    private int user_id;
+    @Column(name = "user_id", nullable=false)
+    private Long user_id;
 
     @Column(name = "username", unique=true, nullable=false)
     private String username;
@@ -27,31 +28,17 @@ public class UserEntity implements Serializable {
     @Column(name = "email", unique=true, nullable=false)
     private String email;
 
-    //relationship definition part
-/*
 
-    @OneToMany(mappedBy="userOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ServicePackageEntity> servicePackages;
-
-    */
-/**
-     * Orders are few can be loaded eagerly.
-     * Removing the user removes the orders too.
-     *//*
-
-    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
-    private List<OrderEntity> orders;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServicePackageEntity> servicePackages = new ArrayList<>();
 
 
-    */
-/**
-     * Alerts are few can be loaded eagerly.
-     * Removing the user removes the alerts too.
-     *//*
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderEntity> orders = new ArrayList<>();
 
-    @OneToMany(mappedBy="userOwner", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
-    private List<AlertEntity> alerts;
-*/
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AlertEntity> alerts = new ArrayList<>();
 
 
     public UserEntity() {
@@ -63,12 +50,11 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
-
-    public int getUserId() {
+    public Long getUserId() {
         return user_id;
     }
 
-    public void setUserId(int user_id) {
+    public void setUserId(Long user_id) {
         this.user_id = user_id;
     }
 
@@ -96,27 +82,50 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-//    public List<ServicePackageEntity> getServicePackages() {
-//        return servicePackages;
-//    }
-//
-//    public void setServicePackages(List<ServicePackageEntity> servicePackages) {
-//        this.servicePackages = servicePackages;
-//    }
-//
-//    public List<OrderEntity> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(List<OrderEntity> orders) {
-//        this.orders = orders;
-//    }
-//
-//    public List<AlertEntity> getAlerts() {
-//        return alerts;
-//    }
-//
-//    public void setAlerts(List<AlertEntity> alerts) {
-//        this.alerts = alerts;
-//    }
+    public List<ServicePackageEntity> getServicePackages() {
+        return servicePackages;
+    }
+
+    public void setServicePackages(List<ServicePackageEntity> servicePackages) {
+        this.servicePackages = servicePackages;
+    }
+
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
+    }
+
+    public List<AlertEntity> getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(List<AlertEntity> alerts) {
+        this.alerts = alerts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserEntity that = (UserEntity) o;
+
+        if (!Objects.equals(user_id, that.user_id)) return false;
+        if (!Objects.equals(username, that.username)) return false;
+        if (!Objects.equals(password, that.password)) return false;
+        if (!Objects.equals(email, that.email)) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user_id != null ? user_id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
+    }
 }

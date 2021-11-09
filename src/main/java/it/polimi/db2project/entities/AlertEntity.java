@@ -13,10 +13,10 @@ public class AlertEntity implements Serializable {
     public AlertEntity() {
     }
 
-    public AlertEntity(float amount, Timestamp dateAndTime, UserEntity user) {
+    public AlertEntity(float amount, Timestamp dateAndTime, UserEntity userOwner) {
         this.amount = amount;
         this.dateAndTime = dateAndTime;
-        this.user = user;
+        this.userOwner = userOwner;
     }
 
     @Id
@@ -32,7 +32,7 @@ public class AlertEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "userOwner")
-    private UserEntity user;
+    private UserEntity userOwner;
 
 
     public static long getSerialVersionUID() {
@@ -63,12 +63,12 @@ public class AlertEntity implements Serializable {
         this.dateAndTime = dateAndTime;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public UserEntity getUserOwner() {
+        return userOwner;
     }
 
     public void setUser(UserEntity user) {
-        this.user = user;
+        this.userOwner = userOwner;
     }
 
 

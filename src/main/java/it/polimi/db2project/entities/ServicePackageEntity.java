@@ -25,7 +25,6 @@ public class ServicePackageEntity implements Serializable {
     @Column(name = "totalValuePackage", unique=true, nullable=false)
     private float totalValuePackage;
 
-
     //relationship definition part
 
     @ManyToOne @JoinColumn(name = "packageSelected")
@@ -46,7 +45,6 @@ public class ServicePackageEntity implements Serializable {
     private UserEntity userOwner;
 
     public ServicePackageEntity(){
-
     }
 
     public ServicePackageEntity(Date startDate, Date endDate, float totalValuePackage, ServicePackageToSelectEntity packageSelected, ValidityPeriodEntity validityPeriod, List<OptionalProductEntity> optionalProducts, UserEntity userOwner) {
