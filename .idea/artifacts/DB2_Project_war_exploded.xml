@@ -19,12 +19,6 @@
           <element id="library" level="project" name="Maven: org.eclipse.persistence:org.eclipse.persistence.core:3.0.0" />
           <element id="library" level="project" name="Maven: org.eclipse.persistence:org.eclipse.persistence.jpa.jpql:3.0.0" />
           <element id="library" level="project" name="Maven: jakarta.persistence:jakarta.persistence-api:3.0.0" />
-          <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf:3.0.11.RELEASE" />
-          <element id="library" level="project" name="Maven: ognl:ognl:3.1.12" />
-          <element id="library" level="project" name="Maven: org.javassist:javassist:3.20.0-GA" />
-          <element id="library" level="project" name="Maven: org.attoparser:attoparser:2.0.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
         </element>
       </element>
       <element id="directory" name="META-INF">

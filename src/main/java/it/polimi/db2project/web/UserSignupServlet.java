@@ -45,7 +45,7 @@ public class UserSignupServlet extends HttpServlet {
                 if (employee != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", employee);
-                    destPage = "homeEmployee.jsp";
+                    destPage = "employeePage.jsp";
                 }
                 // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
                 else {

@@ -35,7 +35,7 @@ public class UserLoginServlet extends HttpServlet {
 
         UserEntity user = null;
         EmployeeEntity employee = null;
-        String destPage = "index.jsp";
+        String destServlet = "index.jsp";
         try {
             employee = employeeService.checkCredentials(username, password);
         } catch (CredentialsException e) {
@@ -45,7 +45,7 @@ public class UserLoginServlet extends HttpServlet {
         if (employee != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", employee);
-            destPage = "homeEmployee.jsp";
+            destServlet = "homePageClient";  //<------ CAMBIARE QUA IL SERVLET PER IL CUSTOMER
         }
         else {
             try {
@@ -56,15 +56,18 @@ public class UserLoginServlet extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                destPage = "homeEmployee.jsp";
+                destServlet = "homePageClient";
             } else {
                 String message = "Invalid email/password";
                 request.setAttribute("messageLogin", message);
             }
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-        dispatcher.forward(request, response);
-
+        response.sendRedirect(destServlet); // <---- questa è una servlet
         }
- }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp);
+    }
+}
