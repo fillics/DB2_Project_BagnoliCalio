@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 
         UserEntity user = null;
         EmployeeEntity employee = null;
-        String destServlet = "login";
+        String destServlet;
         try {
             employee = employeeService.checkCredentials(username, password);
         } catch (CredentialsException e) {
@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
         if (employee != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", employee);
-            destServlet = "homePageEmployee";  //<------ CAMBIARE QUA IL SERVLET PER IL CUSTOMER
+            destServlet = "homePageEmployee";
         }
         else {
             try {
@@ -58,8 +58,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("user", user);
                 destServlet = "homePageClient";
             } else {
-                String message = "Invalid email/password";
-                request.setAttribute("messageLogin", message);
+                destServlet = "login?loginFailed=true";
             }
         }
         response.sendRedirect(destServlet); // <---- questa è una servlet
@@ -67,10 +66,12 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+        String message = "Invalid email/password";
+        if (req.getParameter("loginFailed") != null) {
+            req.setAttribute("messageLogin", message);
+        }
         dispatcher.forward(req, resp);
     }
 }
-
-
-//come mettere la response nell'url della page

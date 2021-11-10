@@ -30,69 +30,78 @@ public class SignupServlet extends HttpServlet {
     }
 
 
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        boolean cbState = request.getParameter( "employee" ) != null;
+        boolean isEmployee = request.getParameter( "employee" ) != null;
+        String destServlet = "signup";
+
 
         //se sono un employee
-        if(cbState) {
-            String destPage = "index.jsp";
+        if(isEmployee) {
             EmployeeEntity employee = null;
             if (employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent()) {
-                String message = "Username/Email already exists: try again by entering a new one";
-                request.setAttribute("messageSignUp", message);
-            } else {
+                destServlet = "signup?signupFailed=true";
+            }
+            else {
                 try {
                     employee = employeeService.createEmployee(username, email, password);
 
                     if (employee != null) {
                         HttpSession session = request.getSession();
                         session.setAttribute("user", employee);
-                        destPage = "homeEmployee.jsp";
+                        destServlet = "homePageEmployee";
                     }
-                    // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
                     else {
-                        String message = "Registration failed. Retry!";
-                        request.setAttribute("messageSignUp", message);
+                        destServlet = "signup?signupError=true"; //settiamo il parametro signupError = true, così poi nella get verifichiamo se quel parametro è true
                     }
-
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
-            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-            dispatcher.forward(request, response);
         }
+
         //se non sono un employee
         else {
-            UserEntity user = null;
+            UserEntity user;
             try {
                 user = userService.createUser(username, email, password);
-                String destPage = "index.jsp";
 
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    destPage = "homeCustomer.jsp";
+                    destServlet = "homePageCustomer";
                 }
-                // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
                 else {
-                    String message = "Registration failed. Retry!";
-                    request.setAttribute("messageSignUp", message);
+                    destServlet = "signup?signupError=true";
                 }
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-                dispatcher.forward(request, response);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
 
+        response.sendRedirect(destServlet); // <---- questa è una servlet
+
 
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+        String message;
+        if (req.getParameter("signupFailed") != null) {
+            message = "Username/Email already exist: try again by entering a new one";
+            req.setAttribute("messageSignUp", message);
+        }
+        else if (req.getParameter("signupError") != null) {
+            message = "Registration failed. Retry!";
+            req.setAttribute("messageSignUp", message);
+        }
+        dispatcher.forward(req, resp);
+    }
 
 }
 
