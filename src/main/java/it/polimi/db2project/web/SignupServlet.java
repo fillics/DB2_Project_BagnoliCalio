@@ -2,6 +2,7 @@ package it.polimi.db2project.web;
 
 import it.polimi.db2project.entities.EmployeeEntity;
 import it.polimi.db2project.entities.UserEntity;
+import it.polimi.db2project.exception.CredentialsException;
 import it.polimi.db2project.services.EmployeeService;
 import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
@@ -36,28 +37,33 @@ public class SignupServlet extends HttpServlet {
         boolean cbState = request.getParameter( "employee" ) != null;
 
         //se sono un employee
-        if(cbState){
+        if(cbState) {
+            String destPage = "index.jsp";
             EmployeeEntity employee = null;
-            try {
-                employee = employeeService.createEmployee(username, email, password);
-                String destPage = "index.jsp";
+            if (employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent()) {
+                String message = "Username/Email already exists: try again by entering a new one";
+                request.setAttribute("messageSignUp", message);
+            } else {
+                try {
+                    employee = employeeService.createEmployee(username, email, password);
 
-                if (employee != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", employee);
-                    destPage = "homeEmployee.jsp";
-                }
-                // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
-                else {
-                    String message = "Registration failed. Retry!";
-                    request.setAttribute("messageSignUp", message);
-                }
+                    if (employee != null) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", employee);
+                        destPage = "homeEmployee.jsp";
+                    }
+                    // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
+                    else {
+                        String message = "Registration failed. Retry!";
+                        request.setAttribute("messageSignUp", message);
+                    }
 
-                RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-                dispatcher.forward(request, response);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
+            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
+            dispatcher.forward(request, response);
         }
         //se non sono un employee
         else {
