@@ -47,7 +47,7 @@
 
     <br><br>
     <h2>Skip the Login</h2>
-    <a href="homeCustomer.jsp">Click here</a>
+    <a href="homePageCustomer">Click here to enter in the website without the login</a>
 </div>
 </body>
 </html>

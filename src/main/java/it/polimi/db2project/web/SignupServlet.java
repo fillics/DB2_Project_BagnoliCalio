@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/signup")
-public class UserSignupServlet extends HttpServlet {
+public class SignupServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -24,7 +24,7 @@ public class UserSignupServlet extends HttpServlet {
     @EJB
     private EmployeeService employeeService;
 
-    public UserSignupServlet() {
+    public SignupServlet() {
         super();
     }
 
@@ -45,7 +45,7 @@ public class UserSignupServlet extends HttpServlet {
                 if (employee != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", employee);
-                    destPage = "employeePage.jsp";
+                    destPage = "homeEmployee.jsp";
                 }
                 // If the login fails, sets error message as an attribute in the request, and forwards to the login page again:
                 else {

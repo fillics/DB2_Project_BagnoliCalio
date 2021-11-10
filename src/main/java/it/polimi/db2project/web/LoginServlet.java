@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/login")
-public class UserLoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
@@ -25,7 +25,7 @@ public class UserLoginServlet extends HttpServlet {
     @EJB
     private EmployeeService employeeService;
 
-    public UserLoginServlet() {
+    public LoginServlet() {
         super();
     }
 
@@ -35,7 +35,7 @@ public class UserLoginServlet extends HttpServlet {
 
         UserEntity user = null;
         EmployeeEntity employee = null;
-        String destServlet = "index.jsp";
+        String destServlet = "login";
         try {
             employee = employeeService.checkCredentials(username, password);
         } catch (CredentialsException e) {
@@ -45,7 +45,7 @@ public class UserLoginServlet extends HttpServlet {
         if (employee != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", employee);
-            destServlet = "homePageClient";  //<------ CAMBIARE QUA IL SERVLET PER IL CUSTOMER
+            destServlet = "homePageEmployee";  //<------ CAMBIARE QUA IL SERVLET PER IL CUSTOMER
         }
         else {
             try {
@@ -62,12 +62,15 @@ public class UserLoginServlet extends HttpServlet {
                 request.setAttribute("messageLogin", message);
             }
         }
-
         response.sendRedirect(destServlet); // <---- questa è una servlet
         }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+        dispatcher.forward(req, resp);
     }
 }
+
+
+//come mettere la response nell'url della page
