@@ -11,6 +11,7 @@ import jakarta.validation.ConstraintViolationException;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class EmployeeService {
@@ -20,7 +21,45 @@ public class EmployeeService {
     public EmployeeService() {
     }
 
+
+//    public EmployeeEntity findByUsername(String usrn) {
+//        List<EmployeeEntity> listForUsrn = null;
+
+        public Optional<EmployeeEntity> findByUsername(String usrn) {
+            return em.createNamedQuery("Employee.findByUsername", EmployeeEntity.class)
+                .setParameter("username", usrn)
+                .getResultStream().findFirst();
+        }
+//        listForUsrn = em.createNamedQuery("Employee.findByUsername", EmployeeEntity.class)
+//            .getResultList();
+//
+//        if (listForUsrn.isEmpty())
+//            return null;
+//        else
+//            return listForUsrn.get(0);
+//
+//    }
+
+//    public EmployeeEntity findByEmail(String email) {
+//        List<EmployeeEntity> listForEmail = null;
+//
+//        listForEmail = em.createNamedQuery("Employee.findByEmail", EmployeeEntity.class)
+//            .getResultList();
+//
+//        if (listForEmail.isEmpty())
+//            return null;
+//        else
+//            return listForEmail.get(0);
+//    }
+
+    public Optional<EmployeeEntity> findByEmail(String email) {
+        return em.createNamedQuery("Employee.findByEmail", EmployeeEntity.class)
+            .setParameter("email", email)
+            .getResultStream().findFirst();
+    }
+
     public EmployeeEntity checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
+
         List<EmployeeEntity> eList = null;
         try {
             eList = em.createNamedQuery("Employee.checkCredentials", EmployeeEntity.class).setParameter(1, usrn).setParameter(2, pwd)
@@ -35,7 +74,6 @@ public class EmployeeService {
         throw new NonUniqueResultException("More than one user registered with same credentials");
 
     }
-
 
     public EmployeeEntity createEmployee(String username, String email, String password) throws SQLException {
         EmployeeEntity employee = new EmployeeEntity(username, email, password);
