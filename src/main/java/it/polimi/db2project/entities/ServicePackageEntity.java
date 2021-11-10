@@ -44,6 +44,10 @@ public class ServicePackageEntity implements Serializable {
     @ManyToOne @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
+    @OneToOne(mappedBy = "servicePackageAssociated", cascade = CascadeType.ALL)
+    private OrderEntity order;
+
+
     public ServicePackageEntity(){
     }
 

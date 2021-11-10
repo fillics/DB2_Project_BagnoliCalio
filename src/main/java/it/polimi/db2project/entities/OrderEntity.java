@@ -17,14 +17,14 @@ public class OrderEntity implements Serializable {
             float totalValueOrder,
             String status,
             UserEntity userOwner,
-            ServicePackageEntity servicePackage
+            ServicePackageEntity servicePackageAssociated
     ) {
         this.user_id = user_id;
         this.dateAndHour = dateAndHour;
         this.totalValueOrder = totalValueOrder;
         this.status = status;
         this.userOwner = userOwner;
-        this.servicePackage = servicePackage;
+        this.servicePackageAssociated = servicePackageAssociated;
     }
 
 
@@ -47,8 +47,8 @@ public class OrderEntity implements Serializable {
     @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
-    @OneToOne(mappedBy = "servicePackageAssociated", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ServicePackageEntity servicePackage;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private ServicePackageEntity servicePackageAssociated;
 
     public OrderEntity(){
     }
@@ -94,10 +94,10 @@ public class OrderEntity implements Serializable {
     }
 
     public ServicePackageEntity getServicePackage() {
-        return servicePackage;
+        return servicePackageAssociated;
     }
 
-    public void setServicePackage(ServicePackageEntity servicePackage) {
-        this.servicePackage = servicePackage;
+    public void setServicePackageAssociated(ServicePackageEntity servicePackage) {
+        this.servicePackageAssociated = servicePackageAssociated;
     }
 }
