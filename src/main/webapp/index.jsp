@@ -20,8 +20,6 @@
         <label for="password">Password:</label>
         <input type="password" name="password" size="30" />
         <br><br>
-        <label for="employee">I am an employee</label>
-        <input type="checkbox" id="employee" name="employee" value="employee">
 
         <br>${messageLogin}
         <br><br>

@@ -1,23 +1,22 @@
 package it.polimi.db2project.services;
 
-
-
 import it.polimi.db2project.entities.UserEntity;
 import it.polimi.db2project.exception.CredentialsException;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceException;
 import jakarta.validation.ConstraintViolationException;
 
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.List;
-
 
 @Stateless
 public class UserService {
 
     @PersistenceContext
     private EntityManager em;
-
 
     public UserService(){
     }

@@ -32,54 +32,39 @@ public class UserLoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        boolean cbState = request.getParameter( "employee" ) != null;
 
-        //entro se siamo un employee
-        if(cbState){
+        UserEntity user = null;
+        EmployeeEntity employee = null;
+        String destPage = "index.jsp";
+        try {
+            employee = employeeService.checkCredentials(username, password);
+        } catch (CredentialsException e) {
+            e.printStackTrace();
+        }
+
+        if (employee != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", employee);
+            destPage = "homeEmployee.jsp";
+        }
+        else {
             try {
-                EmployeeEntity employee = employeeService.checkCredentials(username, password);
-                String destPage = "index.jsp";
-
-                if (employee != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", employee);
-                    destPage = "homeEmployee.jsp";
-                } else {
-                    String message = "Invalid email/password";
-                    request.setAttribute("messageLogin", message);
-                }
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-                dispatcher.forward(request, response);
+                user = userService.checkCredentials(username, password);
             } catch (CredentialsException e) {
                 e.printStackTrace();
             }
-        }
-
-
-        //se non sono un employee
-        else{
-            try {
-                UserEntity user = userService.checkCredentials(username, password);
-
-                String destPage = "index.jsp";
-
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
-                    destPage = "homeCustomer.jsp";
-                } else {
-                    String message = "Invalid email/password";
-                    request.setAttribute("messageLogin", message);
-                }
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-                dispatcher.forward(request, response);
-
-            } catch (CredentialsException ex) {
-                throw new ServletException(ex);
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                destPage = "homeEmployee.jsp";
+            } else {
+                String message = "Invalid email/password";
+                request.setAttribute("messageLogin", message);
             }
         }
 
-    }
-}
+        RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
+        dispatcher.forward(request, response);
+
+        }
+ }

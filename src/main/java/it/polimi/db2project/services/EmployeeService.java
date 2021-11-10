@@ -1,7 +1,6 @@
 package it.polimi.db2project.services;
 
 import it.polimi.db2project.entities.EmployeeEntity;
-import it.polimi.db2project.entities.UserEntity;
 import it.polimi.db2project.exception.CredentialsException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -39,11 +38,11 @@ public class EmployeeService {
 
 
     public EmployeeEntity createEmployee(String username, String email, String password) throws SQLException {
-        EmployeeEntity user = new EmployeeEntity(username, email, password);
+        EmployeeEntity employee = new EmployeeEntity(username, email, password);
         try {
-            em.persist(user);
+            em.persist(employee);
             em.flush();
-            return user;
+            return employee;
         } catch (ConstraintViolationException e) {
             return null;
         }
