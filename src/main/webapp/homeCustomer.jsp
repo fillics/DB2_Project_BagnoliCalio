@@ -7,6 +7,11 @@
     <title>Telco Website</title>
 </head>
 <body>
+
+
+<p align=right>${user.username}</p>
+
+
 <div style="text-align: center">
     <h1>YOU ARE A CLIENT</h1>
     <b>${user.username} (${user.email})</b>

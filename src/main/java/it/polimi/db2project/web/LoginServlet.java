@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                destServlet = "homePageClient";
+                destServlet = "homePageCustomer";
             } else {
                 destServlet = "login?loginFailed=true";
             }
