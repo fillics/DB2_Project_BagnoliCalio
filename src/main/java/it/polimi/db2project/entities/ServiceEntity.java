@@ -24,16 +24,16 @@ public class ServiceEntity implements Serializable {
     private int numSMS;
 
     @Column(name = "feeExtraMinute")
-    private int feeExtraMinute;
+    private float feeExtraMinute;
 
     @Column(name = "feeExtraSMSs")
-    private int feeExtraSMSs;
+    private float feeExtraSMSs;
 
-    @Column(name = "numberOfGigabytes")
+    @Column(name = "numGigabytes")
     private int numberOfGigabytes;
 
     @Column(name = "feeForExtraGigabytes")
-    private int feeForExtraGigabytes;
+    private float feeForExtraGigabytes;
 
 
     //relationship definition part
@@ -49,10 +49,10 @@ public class ServiceEntity implements Serializable {
         String typeOfService,
         int numMinutes,
         int numSMS,
-        int feeExtraMinute,
-        int feeExtraSMSs,
+        float feeExtraMinute,
+        float feeExtraSMSs,
         int numberOfGigabytes,
-        int feeForExtraGigabytes
+        float feeForExtraGigabytes
     ) {
         this.service_id = service_id;
         this.typeOfService = typeOfService;
@@ -100,19 +100,19 @@ public class ServiceEntity implements Serializable {
         this.numSMS = numSMS;
     }
 
-    public int getFeeExtraMinute() {
+    public float getFeeExtraMinute() {
         return feeExtraMinute;
     }
 
-    public void setFeeExtraMinute(int feeExtraMinute) {
+    public void setFeeExtraMinute(float feeExtraMinute) {
         this.feeExtraMinute = feeExtraMinute;
     }
 
-    public int getFeeExtraSMSs() {
+    public float getFeeExtraSMSs() {
         return feeExtraSMSs;
     }
 
-    public void setFeeExtraSMSs(int feeExtraSMSs) {
+    public void setFeeExtraSMSs(float feeExtraSMSs) {
         this.feeExtraSMSs = feeExtraSMSs;
     }
 
@@ -124,11 +124,11 @@ public class ServiceEntity implements Serializable {
         this.numberOfGigabytes = numberOfGigabytes;
     }
 
-    public int getFeeForExtraGigabytes() {
+    public float getFeeForExtraGigabytes() {
         return feeForExtraGigabytes;
     }
 
-    public void setFeeForExtraGigabytes(int feeForExtraGigabytes) {
+    public void setFeeForExtraGigabytes(float feeForExtraGigabytes) {
         this.feeForExtraGigabytes = feeForExtraGigabytes;
     }
 

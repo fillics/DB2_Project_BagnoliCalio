@@ -2,6 +2,7 @@ package it.polimi.db2project.services;
 
 import it.polimi.db2project.entities.EmployeeEntity;
 import it.polimi.db2project.entities.OptionalProductEntity;
+import it.polimi.db2project.entities.ServicePackageEntity;
 import it.polimi.db2project.exception.CredentialsException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -98,6 +99,18 @@ public class EmployeeService {
             return null;
         }
     }
+
+    // TODO: 11/11/2021 COMPLETARE
+    /*public ServicePackageEntity createServicePackage(String name, float monthlyFee) throws SQLException {
+        OptionalProductEntity optionalProduct = new OptionalProductEntity(name, monthlyFee);
+        try {
+            em.persist(optionalProduct);
+            em.flush();
+            return optionalProduct;
+        } catch (ConstraintViolationException e) {
+            return null;
+        }
+    }*/
 
 
 }

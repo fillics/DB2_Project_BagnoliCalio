@@ -26,5 +26,34 @@ public class ValidityPeriodEntity implements Serializable {
 
     @OneToMany(mappedBy="validityPeriod", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
     private List<ServicePackageEntity> servicePackages;
+
+    public Long getValidityPeriod_id() {
+        return validityPeriod_id;
+    }
+
+    public void setValidityPeriod_id(Long validityPeriod_id) {
+        this.validityPeriod_id = validityPeriod_id;
+    }
+
+    public int getNumOfMonths() {
+        return numOfMonths;
+    }
+
+    public void setNumOfMonths(int numOfMonths) {
+        this.numOfMonths = numOfMonths;
+    }
+
+    public float getMonthlyFee() {
+        return monthlyFee;
+    }
+
+    public void setMonthlyFee(float monthlyFee) {
+        this.monthlyFee = monthlyFee;
+    }
+
+    @Override
+    public String toString() {
+        return numOfMonths +" months at " + monthlyFee +"€/month";
+    }
 }
 
