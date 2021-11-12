@@ -6,6 +6,12 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@NamedQuery(
+        name = "ServicePackageToSelect.findByID",
+        query = "SELECT s " +
+                "FROM ServicePackageToSelectEntity s " +
+                "WHERE s.servicePackageToSelect_id = :id"
+)
 @Table(name = "servicepackagetoselect", schema = "dbtelco")
 public class ServicePackageToSelectEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -18,8 +24,23 @@ public class ServicePackageToSelectEntity implements Serializable {
     @Column(name = "name", nullable=false)
     private String name;
 
-    //relationship definition part
+    public ServicePackageToSelectEntity(){
+    }
 
+    public ServicePackageToSelectEntity(
+            String name,
+            List<ServiceEntity> services,
+            List<OptionalProductEntity> optionalProducts,
+            List<ValidityPeriodEntity> validityPeriods
+    ) {
+        this.name = name;
+        this.services = services;
+        this.optionalProducts = optionalProducts;
+        this.validityPeriods = validityPeriods;
+    }
+
+
+    //relationship definition part
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
         name="offer",
@@ -48,20 +69,7 @@ public class ServicePackageToSelectEntity implements Serializable {
     @OneToMany(mappedBy="packageSelected", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ServicePackageEntity> servicePackages;
 
-    public ServicePackageToSelectEntity(){
-    }
 
-    public ServicePackageToSelectEntity(
-        String name,
-        List<ServiceEntity> services,
-        List<OptionalProductEntity> optionalProducts,
-        List<ValidityPeriodEntity> validityPeriods
-    ) {
-        this.name = name;
-        this.services = services;
-        this.optionalProducts = optionalProducts;
-        this.validityPeriods = validityPeriods;
-    }
 
     public Long getServicePackageToSelect_id() {
         return servicePackageToSelect_id;

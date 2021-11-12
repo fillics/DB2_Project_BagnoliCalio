@@ -26,7 +26,6 @@ public class ServicePackageEntity implements Serializable {
     private float totalValuePackage;
 
     //relationship definition part
-
     @ManyToOne @JoinColumn(name = "packageSelected")
     private ServicePackageToSelectEntity packageSelected;
 

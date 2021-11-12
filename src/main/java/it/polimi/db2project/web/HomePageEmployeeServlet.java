@@ -15,10 +15,14 @@ public class HomePageEmployeeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeEmployee.jsp");
-
-        String message = "error";
+        String message;
         if (req.getParameter("creationOptProductFailed") != null) {
-            req.setAttribute("message", message);
+            message = "Error in the creation of the optional product, please retry!";
+            req.setAttribute("messageOptProduct", message);
+        }
+        else if (req.getParameter("optProductCreated") != null) {
+            message = "Optional Product created successfully!";
+            req.setAttribute("messageOptProduct", message);
         }
         dispatcher.forward(req, resp);
     }

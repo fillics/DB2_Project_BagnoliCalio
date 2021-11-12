@@ -4,6 +4,7 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="it.polimi.db2project.entities.ServiceEntity" %>
 <%@ page import="it.polimi.db2project.entities.ValidityPeriodEntity" %>
+<%@ page import="it.polimi.db2project.entities.ServicePackageToSelectEntity" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -18,6 +19,7 @@
 <%
     try
     {
+        ArrayList<ServicePackageToSelectEntity> servicePackageToSelects = new ArrayList<>();
         ArrayList<OptionalProductEntity> optionalProducts = new ArrayList<>();
         ArrayList<ServiceEntity> services = new ArrayList<>();
         ArrayList<ValidityPeriodEntity> validityPeriods = new ArrayList<>();
@@ -32,24 +34,41 @@
         String queryOptProducts = "select * from optionalproduct";
         String queryServices = "select * from service";
         String queryValidityPeriod = "select * from validityperiod";
+        String queryServPackages = "select * from servicepackagetoselect";
 
+        Connection conn = null;
         ResultSet rsOptProduct = null;
         ResultSet rsService = null;
         ResultSet rsValPeriod = null;
-        Connection conn = null;
+        ResultSet rsServPackage = null;
         Statement stmtOptProd = null;
         Statement stmtService = null;
         Statement stmtValPeriod = null;
+        Statement stmtServPackage = null;
         try {
             conn= DriverManager.getConnection(url,username,password);
             stmtOptProd = conn.createStatement();
             stmtService = conn.createStatement();
             stmtValPeriod = conn.createStatement();
+            stmtServPackage = conn.createStatement();
             rsOptProduct = stmtOptProd.executeQuery(queryOptProducts);
             rsService = stmtService.executeQuery(queryServices);
             rsValPeriod = stmtValPeriod.executeQuery(queryValidityPeriod);
+            rsServPackage = stmtServPackage.executeQuery(queryServPackages);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+
+        // TODO: 12/11/2021 trovare il modo di impostare anche gli optional products, validity periods ecc associati
+        while(rsServPackage.next()) {
+            ServicePackageToSelectEntity servicePackageToSelect = new ServicePackageToSelectEntity();
+            try {
+                servicePackageToSelect.setServicePackageToSelect_id(rsServPackage.getLong("servicePackageToSelect_id"));
+                servicePackageToSelect.setName(rsServPackage.getString("name"));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            servicePackageToSelects.add(servicePackageToSelect);
         }
 
         while(rsOptProduct.next()) {
@@ -115,7 +134,7 @@
             <%
                 for (ServiceEntity serv: services) {
             %>
-            <input type="checkbox" name="services" value="<%=serv.getTypeOfService() %>"><%=serv.getTypeOfService() %><br>
+            <input type="checkbox" name="services" value="<%=serv.getService_id()%>"><%=serv.getTypeOfService() %><br>
             <%
                 }
             %>
@@ -128,11 +147,25 @@
             <%
                 for (OptionalProductEntity optProd: optionalProducts) {
             %>
-            <input type="checkbox" name="optionalProducts" value="<%=optProd.getName() %>"><%=optProd.getName() %><br>
+            <input type="checkbox" name="optionalProducts" value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
             <%
                 }
             %>
         </fieldset>
+
+
+        <fieldset>
+            <legend>Choose one or more validity periods associated to this service package</legend>
+            <%
+                for (ValidityPeriodEntity valPer: validityPeriods) {
+            %>
+            <input type="checkbox" name="validityPeriods" value="<%=valPer.getValidityPeriod_id() %>"><%=valPer.toString() %><br>
+            <%
+                }
+            %>
+        </fieldset>
+
+        <%-- CON QUESTO SCEGLIAMO SOLO UN VALIDITY PERIOD
 
         <label for="validityPeriod">Choose a validity period:</label>
         <select name="validityPeriod" id="validityPeriod">
@@ -143,9 +176,9 @@
             <%
                 }
             %>
-        </select>
+        </select>--%>
 
-        <br>${messageLogin}
+        <br>${messageServicePackage}
         <br><br>
         <button type="submit">CREATE</button>
     </form>
@@ -164,14 +197,33 @@
         <br><br>
 
         <label for="monthlyFee">Monthly Fee:</label>
-        <input id="monthlyFee" type="number" name="monthlyFee" step="0.01" min="0" required/>
+        <input id="monthlyFee" type="number" name="monthlyFee" step="0.10" min="0" required/>
 
         <br><br>
 
-        <br>${messageOptProduct}
+        <br>${messageOptProduct}<br>
         <button type="submit">CREATE</button>
     </form>
 </div>
+
+<div style="text-align: center">
+    <table border="2">
+        <tr>
+            <td>Name Service Package to Select</td>
+
+        </tr>
+        <%
+            for (ServicePackageToSelectEntity servicePackageToSelectEntity: servicePackageToSelects) {
+        %>
+        <tr>
+            <td><%=servicePackageToSelectEntity.getName() %></td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
+</div>
+
 
 <div style="text-align: center">
     <table border="2">
@@ -188,24 +240,21 @@
         </tr>
         <%
             }
-
         %>
     </table>
-    <%
-            rsOptProduct.close();
-            rsService.close();
-            rsValPeriod.close();
-            stmtOptProd.close();
-            stmtService.close();
-            stmtValPeriod.close();
-            conn.close();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    %>
 </div>
-<p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
-
+<%
+    rsOptProduct.close();
+    rsService.close();
+    rsValPeriod.close();
+    stmtOptProd.close();
+    stmtService.close();
+    stmtValPeriod.close();
+    conn.close();
+    }
+    catch(Exception e) {
+    e.printStackTrace();
+    }
+%>
 </body>
 </html>

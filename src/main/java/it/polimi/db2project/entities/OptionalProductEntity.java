@@ -6,6 +6,12 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@NamedQuery(
+        name = "OptionalProduct.findByID",
+        query = "SELECT o " +
+                "FROM OptionalProductEntity o " +
+                "WHERE o.optionalProduct_id = :optionalProduct_id"
+)
 @Table(name = "optionalproduct", schema = "dbtelco")
 public class OptionalProductEntity implements Serializable {
 
@@ -20,12 +26,12 @@ public class OptionalProductEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-
-    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
+// TODO: 12/11/2021 mi dà errore
+    /*@ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
     private List<ServicePackageEntity> servicePackages;
 
     @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
-    private List<ServicePackageEntity> servicePackagesToSelect;
+    private List<ServicePackageEntity> servicePackagesToSelect;*/
 
     public OptionalProductEntity(){
     }
@@ -63,7 +69,7 @@ public class OptionalProductEntity implements Serializable {
         this.monthlyFee = monthlyFee;
     }
 
-    public List<ServicePackageEntity> getServicePackages() {
+    /*public List<ServicePackageEntity> getServicePackages() {
         return servicePackages;
     }
 
@@ -77,6 +83,6 @@ public class OptionalProductEntity implements Serializable {
 
     public void setServicePackagesToSelect(List<ServicePackageEntity> servicePackagesToSelect) {
         this.servicePackagesToSelect = servicePackagesToSelect;
-    }
+    }*/
 
 }

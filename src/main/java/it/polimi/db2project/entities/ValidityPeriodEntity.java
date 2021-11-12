@@ -6,6 +6,12 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@NamedQuery(
+        name = "ValidityPeriod.findByID",
+        query = "SELECT v " +
+                "FROM ValidityPeriodEntity v " +
+                "WHERE v.validityPeriod_id = :validityPeriod_id"
+)
 @Table(name = "validityperiod", schema = "dbtelco")
 public class ValidityPeriodEntity implements Serializable {
 
@@ -20,12 +26,12 @@ public class ValidityPeriodEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-
-    @ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER)
+// TODO: 12/11/2021 mi dà errore 
+    /*@ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
     @OneToMany(mappedBy="validityPeriod", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
-    private List<ServicePackageEntity> servicePackages;
+    private List<ServicePackageEntity> servicePackages;*/
 
     public Long getValidityPeriod_id() {
         return validityPeriod_id;

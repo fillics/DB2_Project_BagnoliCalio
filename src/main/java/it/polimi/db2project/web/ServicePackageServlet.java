@@ -1,6 +1,9 @@
 package it.polimi.db2project.web;
 
 import it.polimi.db2project.entities.OptionalProductEntity;
+import it.polimi.db2project.entities.ServiceEntity;
+import it.polimi.db2project.entities.ServicePackageToSelectEntity;
+import it.polimi.db2project.entities.ValidityPeriodEntity;
 import it.polimi.db2project.services.EmployeeService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
@@ -12,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.function.ToDoubleBiFunction;
+import java.util.ArrayList;
 
 @WebServlet("/servicePackage")
 public class ServicePackageServlet extends HttpServlet {
@@ -20,25 +23,43 @@ public class ServicePackageServlet extends HttpServlet {
     private EmployeeService employeeService;
 
 
-    // TODO: 11/11/2021 SISTEMARE 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String monthlyFee = request.getParameter("monthlyFee");
+        String nameServPackage = request.getParameter("nameServPackage");
+        String[] services = request.getParameterValues("services");
+        String[] optionalProducts = request.getParameterValues("optionalProducts");
+        String[] validityPeriods = request.getParameterValues("validityPeriods");
 
-        OptionalProductEntity optionalProduct = null;
+        ServicePackageToSelectEntity servicePackageToSelect = null;
         String destServlet;
+
+
+
+        ArrayList<ServiceEntity> serviceEntities = new ArrayList<>();
+        ArrayList<OptionalProductEntity> optionalProductEntities = new ArrayList<>();
+        ArrayList<ValidityPeriodEntity> validityPeriodEntities = new ArrayList<>();
+
+        for (String service : services) {
+            serviceEntities.add(employeeService.findByServiceID(Long.parseLong(service)).get());
+        }
+        for (String optionalProduct : optionalProducts) {
+            optionalProductEntities.add(employeeService.findByOptProdID(Long.parseLong(optionalProduct)).get());
+        }
+        for (String validityPeriod : validityPeriods) {
+            validityPeriodEntities.add(employeeService.findByValPeriodID(Long.parseLong(validityPeriod)).get());
+        }
+
         try {
-            optionalProduct = employeeService.createOptionalProduct(name, Float.parseFloat(monthlyFee));
+            servicePackageToSelect = employeeService.createServicePackage(nameServPackage, serviceEntities, optionalProductEntities, validityPeriodEntities);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if (optionalProduct != null) {
+        if (servicePackageToSelect != null) {
             destServlet = "homePageEmployee";
         }
         else
         {
-            destServlet = "homePageEmployee?creationOptProductFailed=true";
+            destServlet = "homePageEmployee?creationServPackageFailed=true";
         }
 
         response.sendRedirect(destServlet); // <---- questa è una servlet

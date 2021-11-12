@@ -35,7 +35,7 @@ public class OptionalProductServlet extends HttpServlet {
         }
 
         if (optionalProduct != null) {
-            destServlet = "homePageEmployee";
+            destServlet = "homePageEmployee?optProductCreated=true";
         }
         else
         {
@@ -49,10 +49,6 @@ public class OptionalProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeEmployee.jsp");
-        String message = "Error in the creation of the optional product";
-        if (req.getParameter("creationOptProductFailed") != null) {
-            req.setAttribute("messageOptProduct", message);
-        }
         dispatcher.forward(req, resp);
     }
 }

@@ -1,8 +1,6 @@
 package it.polimi.db2project.services;
 
-import it.polimi.db2project.entities.EmployeeEntity;
-import it.polimi.db2project.entities.OptionalProductEntity;
-import it.polimi.db2project.entities.ServicePackageEntity;
+import it.polimi.db2project.entities.*;
 import it.polimi.db2project.exception.CredentialsException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -10,8 +8,10 @@ import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,17 +100,35 @@ public class EmployeeService {
         }
     }
 
-    // TODO: 11/11/2021 COMPLETARE
-    /*public ServicePackageEntity createServicePackage(String name, float monthlyFee) throws SQLException {
-        OptionalProductEntity optionalProduct = new OptionalProductEntity(name, monthlyFee);
+
+    public ServicePackageToSelectEntity createServicePackage(String name, ArrayList<ServiceEntity> services, List<OptionalProductEntity> optionalProducts, List<ValidityPeriodEntity> validityPeriods) throws SQLException {
+        ServicePackageToSelectEntity servicePackageToSelect = new ServicePackageToSelectEntity(name, services, optionalProducts, validityPeriods);
         try {
-            em.persist(optionalProduct);
+            em.persist(servicePackageToSelect);
             em.flush();
-            return optionalProduct;
+            return servicePackageToSelect;
         } catch (ConstraintViolationException e) {
             return null;
         }
-    }*/
+    }
 
+
+    public Optional<ServiceEntity> findByServiceID(Long service_id) {
+        return em.createNamedQuery("Service.findByID", ServiceEntity.class)
+                .setParameter("service_id", service_id)
+                .getResultStream().findFirst();
+    }
+
+    public Optional<OptionalProductEntity> findByOptProdID(Long optionalProduct_id) {
+        return em.createNamedQuery("OptionalProduct.findByID", OptionalProductEntity.class)
+                .setParameter("optionalProduct_id", optionalProduct_id)
+                .getResultStream().findFirst();
+    }
+
+    public Optional<ValidityPeriodEntity> findByValPeriodID(Long validityPeriod_id) {
+        return em.createNamedQuery("ValidityPeriod.findByID", ValidityPeriodEntity.class)
+                .setParameter("validityPeriod_id", validityPeriod_id)
+                .getResultStream().findFirst();
+    }
 
 }
