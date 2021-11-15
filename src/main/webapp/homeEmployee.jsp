@@ -17,35 +17,6 @@
 <body>
 
 
-<%
-    try
-    {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-//        Connection conn = null;
-//        ResultSet rsOptProduct = null;
-//        ResultSet rsService = null;
-//        ResultSet rsValPeriod = null;
-//        ResultSet rsServPackage = null;
-//        Statement stmtOptProd = null;
-//        Statement stmtService = null;
-//        Statement stmtValPeriod = null;
-//        Statement stmtServPackage = null;
-//        try {
-//            stmtOptProd = conn.createStatement();
-//            stmtService = conn.createStatement();
-//            stmtValPeriod = conn.createStatement();
-//            stmtServPackage = conn.createStatement();
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-%>
-
 
 <div style="text-align: center">
 
@@ -188,18 +159,6 @@
         %>
     </table>
 </div>
-<%
-//    rsOptProduct.close();
-//    rsService.close();
-//    rsValPeriod.close();
-//    stmtOptProd.close();
-//    stmtService.close();
-//    stmtValPeriod.close();
-//    conn.close();
-    }
-    catch(Exception e) {
-    e.printStackTrace();
-    }
-%>
+
 </body>
 </html>

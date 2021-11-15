@@ -77,6 +77,11 @@ public class UserService {
         }
     }
 
+    public List<ServicePackageToSelectEntity> findAllServicePackageToSelect(){
+        return em.createNamedQuery("ServicePackageToSelect.findAll", ServicePackageToSelectEntity.class).getResultList();
+    }
+
+
     public Optional<ServicePackageToSelectEntity> findByServicePackageToSelectID(Long servicePackageToSelect_id) {
         return em.createNamedQuery("ServicePackageToSelect.findByID", ServicePackageToSelectEntity.class)
             .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
@@ -96,4 +101,7 @@ public class UserService {
     }
 
 
+    public List<ServiceEntity> findAllService() {
+        return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
+    }
 }

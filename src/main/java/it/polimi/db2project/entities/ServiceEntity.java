@@ -42,8 +42,8 @@ public class ServiceEntity implements Serializable {
     @Column(name = "feeExtraSMSs")
     private float feeExtraSMSs;
 
-    @Column(name = "numberOfGigabytes")
-    private int numberOfGigabytes;
+    @Column(name = "numGigabytes")
+    private int numGigabytes;
 
     @Column(name = "feeForExtraGigabytes")
     private float feeForExtraGigabytes;
@@ -51,7 +51,7 @@ public class ServiceEntity implements Serializable {
 
     //relationship definition part
 
-    // TODO: 12/11/2021 mi dà errore
+
     @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
@@ -65,7 +65,7 @@ public class ServiceEntity implements Serializable {
         int numSMS,
         float feeExtraMinute,
         float feeExtraSMSs,
-        int numberOfGigabytes,
+        int numGigabytes,
         float feeForExtraGigabytes
     ) {
         this.service_id = service_id;
@@ -74,7 +74,7 @@ public class ServiceEntity implements Serializable {
         this.numSMS = numSMS;
         this.feeExtraMinute = feeExtraMinute;
         this.feeExtraSMSs = feeExtraSMSs;
-        this.numberOfGigabytes = numberOfGigabytes;
+        this.numGigabytes = numGigabytes;
         this.feeForExtraGigabytes = feeForExtraGigabytes;
     }
 
@@ -130,12 +130,12 @@ public class ServiceEntity implements Serializable {
         this.feeExtraSMSs = feeExtraSMSs;
     }
 
-    public int getNumberOfGigabytes() {
-        return numberOfGigabytes;
+    public int getNumGigabytes() {
+        return numGigabytes;
     }
 
-    public void setNumberOfGigabytes(int numberOfGigabytes) {
-        this.numberOfGigabytes = numberOfGigabytes;
+    public void setNumGigabytes(int numGigabytes) {
+        this.numGigabytes = numGigabytes;
     }
 
     public float getFeeForExtraGigabytes() {
@@ -154,7 +154,8 @@ public class ServiceEntity implements Serializable {
         this.servicePackagesToSelect = servicePackagesToSelect;
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return typeOfService;
+    }
 }

@@ -1,6 +1,10 @@
 package it.polimi.db2project.web;
 
+import it.polimi.db2project.entities.OptionalProductEntity;
 import it.polimi.db2project.entities.ServiceEntity;
+import it.polimi.db2project.entities.ServicePackageToSelectEntity;
+import it.polimi.db2project.entities.ValidityPeriodEntity;
+import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,13 +14,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/homePageCustomer")
 public class HomePageCustomerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @EJB
-    ServiceEntity serviceEntity;
+    UserService userService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,6 +30,13 @@ public class HomePageCustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
+        List<ServicePackageToSelectEntity> servicePackagesToSelect = userService.findAllServicePackageToSelect();
+        List<ServiceEntity> services = userService.findAllService();
+
+        req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
+        req.setAttribute("services", services);
 
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeCustomer.jsp");
