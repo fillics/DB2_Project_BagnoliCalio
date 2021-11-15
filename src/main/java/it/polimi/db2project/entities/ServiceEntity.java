@@ -44,9 +44,9 @@ public class ServiceEntity implements Serializable {
 
     //relationship definition part
 
-    // TODO: 12/11/2021 mi dà errore 
-    /*@ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
-    private List<ServicePackageToSelectEntity> servicePackagesToSelect;*/
+    // TODO: 12/11/2021 mi dà errore
+    @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
+    private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
     public ServiceEntity(){
     }
@@ -139,11 +139,11 @@ public class ServiceEntity implements Serializable {
         this.feeForExtraGigabytes = feeForExtraGigabytes;
     }
 
-    /*public List<ServicePackageToSelectEntity> getServicePackagesToSelect() {
+    public List<ServicePackageToSelectEntity> getServicePackagesToSelect() {
         return servicePackagesToSelect;
     }
 
     public void setServicePackagesToSelect(List<ServicePackageToSelectEntity> servicePackagesToSelect) {
         this.servicePackagesToSelect = servicePackagesToSelect;
-    }*/
+    }
 }

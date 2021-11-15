@@ -47,7 +47,8 @@ public class OrderEntity implements Serializable {
     @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
+    @JoinColumn(name = "servicePackageAssociated")
     private ServicePackageEntity servicePackageAssociated;
 
     public OrderEntity(){

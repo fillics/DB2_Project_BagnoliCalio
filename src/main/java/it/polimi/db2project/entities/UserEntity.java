@@ -30,15 +30,15 @@ public class UserEntity implements Serializable {
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ServicePackageEntity> servicePackages = new ArrayList<>();
+    private List<ServicePackageEntity> servicePackages;
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderEntity> orders = new ArrayList<>();
+    private List<OrderEntity> orders;
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AlertEntity> alerts = new ArrayList<>();
+    private List<AlertEntity> alerts;
 
 
     public UserEntity() {

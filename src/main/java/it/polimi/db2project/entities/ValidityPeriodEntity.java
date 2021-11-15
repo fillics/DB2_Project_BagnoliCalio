@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+
+//GIA VISTA
 @Entity
 @NamedQuery(
         name = "ValidityPeriod.findByID",
@@ -26,12 +28,12 @@ public class ValidityPeriodEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-// TODO: 12/11/2021 mi dà errore 
-    /*@ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
+
     @OneToMany(mappedBy="validityPeriod", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
-    private List<ServicePackageEntity> servicePackages;*/
+    private List<ServicePackageEntity> servicePackages;
 
     public Long getValidityPeriod_id() {
         return validityPeriod_id;

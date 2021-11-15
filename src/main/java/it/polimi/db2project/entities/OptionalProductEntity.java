@@ -26,12 +26,12 @@ public class OptionalProductEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-// TODO: 12/11/2021 mi dà errore
-    /*@ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
+// gia controllato
+    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
     private List<ServicePackageEntity> servicePackages;
 
     @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
-    private List<ServicePackageEntity> servicePackagesToSelect;*/
+    private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
     public OptionalProductEntity(){
     }
@@ -69,7 +69,7 @@ public class OptionalProductEntity implements Serializable {
         this.monthlyFee = monthlyFee;
     }
 
-    /*public List<ServicePackageEntity> getServicePackages() {
+    public List<ServicePackageEntity> getServicePackages() {
         return servicePackages;
     }
 
@@ -77,12 +77,11 @@ public class OptionalProductEntity implements Serializable {
         this.servicePackages = servicePackages;
     }
 
-    public List<ServicePackageEntity> getServicePackagesToSelect() {
+    public List<ServicePackageToSelectEntity> getServicePackagesToSelect() {
         return servicePackagesToSelect;
     }
 
-    public void setServicePackagesToSelect(List<ServicePackageEntity> servicePackagesToSelect) {
+    public void setServicePackagesToSelect(List<ServicePackageToSelectEntity> servicePackagesToSelect) {
         this.servicePackagesToSelect = servicePackagesToSelect;
-    }*/
-
+    }
 }
