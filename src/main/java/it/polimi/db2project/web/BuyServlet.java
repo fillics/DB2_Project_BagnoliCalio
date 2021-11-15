@@ -20,21 +20,58 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
-@WebServlet("/servicePackage")
-public class ServicePackageServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+// TODO: 15/11/2021 TUTTO SBAGLIAYTOO
+@WebServlet("/BuyServlet")
+public class BuyServlet extends HttpServlet {
     @EJB
     private UserService userService;
 
-
+/*
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nameServPackage = request.getParameter("servicePackageToSelect");
 
         ServicePackageEntity servicePackage = null;
-        String destServlet = null;
+        String destServlet;
+
+        ArrayList<OptionalProductEntity> optionalProductEntities = new ArrayList<>();
 
         Optional<ServicePackageToSelectEntity> servicePackageEntity = userService.findByServicePackageToSelectID(Long.parseLong(nameServPackage));
 
+        for (String optionalProduct : optionalProducts) {
+            optionalProductEntities.add(userService.findByOptProdID(Long.parseLong(optionalProduct)).get());
+        }
+
+        DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        Date startDate = null;
+        try {
+            startDate = format.parse(startDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        LocalDate localDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year  = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day   = localDate.getDayOfMonth();
+
+        if (servicePackageEntity.get().getValidityPeriods())
+
+
+            try {
+                servicePackage = userService.createServicePackage(
+                        startDate,
+
+                ;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        if (servicePackageToSelect != null) {
+            destServlet = "homePageEmployee";
+        }
+        else
+        {
+            destServlet = "homePageEmployee?creationServPackageFailed=true";
+        }
 
         response.sendRedirect(destServlet);
     }
@@ -44,5 +81,5 @@ public class ServicePackageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeCustomer.jsp");
         dispatcher.forward(req, resp);
-    }
+    }*/
 }

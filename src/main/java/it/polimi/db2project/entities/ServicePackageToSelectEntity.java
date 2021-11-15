@@ -109,4 +109,9 @@ public class ServicePackageToSelectEntity implements Serializable {
     public void setValidityPeriods(List<ValidityPeriodEntity> validityPeriods) {
         this.validityPeriods = validityPeriods;
     }
+
+    @Override
+    public String toString() {
+        return name + " includes "+services;
+    }
 }

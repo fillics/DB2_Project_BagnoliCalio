@@ -16,11 +16,11 @@
 </head>
 <body>
 
+
 <%
     try
     {
         ArrayList<ServicePackageToSelectEntity> servicePackageToSelects = new ArrayList<>();
-        ArrayList<OptionalProductEntity> optionalProducts = new ArrayList<>();
         ArrayList<ServiceEntity> services = new ArrayList<>();
         ArrayList<ValidityPeriodEntity> validityPeriods = new ArrayList<>();
         try {
@@ -31,7 +31,6 @@
         String url="jdbc:mysql://localhost:3306/dbtelco";
         String username="admin";
         String password="admin";
-        String queryOptProducts = "select * from optionalproduct";
         String queryServices = "select * from service";
         String queryValidityPeriod = "select * from validityperiod";
         String queryServPackages = "select * from servicepackagetoselect";
@@ -51,7 +50,6 @@
             stmtService = conn.createStatement();
             stmtValPeriod = conn.createStatement();
             stmtServPackage = conn.createStatement();
-            rsOptProduct = stmtOptProd.executeQuery(queryOptProducts);
             rsService = stmtService.executeQuery(queryServices);
             rsValPeriod = stmtValPeriod.executeQuery(queryValidityPeriod);
             rsServPackage = stmtServPackage.executeQuery(queryServPackages);
@@ -71,17 +69,7 @@
             servicePackageToSelects.add(servicePackageToSelect);
         }
 
-        while(rsOptProduct.next()) {
-            OptionalProductEntity optionalProduct = new OptionalProductEntity();
-            try {
-                optionalProduct.setOptionalProduct_id(rsOptProduct.getLong("optionalProduct_id"));
-                optionalProduct.setName(rsOptProduct.getString("name"));
-                optionalProduct.setMonthlyFee(rsOptProduct.getFloat("monthlyFee"));
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            optionalProducts.add(optionalProduct);
-        }
+
         while(rsService.next()) {
             ServiceEntity service = new ServiceEntity();
             try {
@@ -142,7 +130,7 @@
 
             <br><br>
 
-        <fieldset>
+        <%--<fieldset>
             <legend>Choose one or more optional products</legend>
             <%
                 for (OptionalProductEntity optProd: optionalProducts) {
@@ -151,7 +139,7 @@
             <%
                 }
             %>
-        </fieldset>
+        </fieldset>--%>
 
 
         <fieldset>
@@ -232,7 +220,10 @@
             <td>Monthly Fee</td>
         </tr>
         <%
-                for (OptionalProductEntity optProd: optionalProducts) {
+            List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
+            request.getAttribute("optionalProducts");
+
+            for (OptionalProductEntity optProd: optionalProducts) {
         %>
         <tr>
             <td><%=optProd.getName() %></td>

@@ -8,12 +8,12 @@ import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Valid;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Stateless
 public class EmployeeService {
@@ -59,6 +59,7 @@ public class EmployeeService {
             .setParameter("email", email)
             .getResultStream().findFirst();
     }
+
 
     public EmployeeEntity checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 
@@ -111,6 +112,12 @@ public class EmployeeService {
             return null;
         }
     }
+
+
+    public List<OptionalProductEntity> findAllOptProd(){
+        return em.createNamedQuery("OptionalProduct.findAll", OptionalProductEntity.class).getResultList();
+    }
+
 
 
     public Optional<ServiceEntity> findByServiceID(Long service_id) {

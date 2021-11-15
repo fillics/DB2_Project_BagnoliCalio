@@ -146,4 +146,8 @@ public class ServiceEntity implements Serializable {
     public void setServicePackagesToSelect(List<ServicePackageToSelectEntity> servicePackagesToSelect) {
         this.servicePackagesToSelect = servicePackagesToSelect;
     }
+
+
+
+
 }

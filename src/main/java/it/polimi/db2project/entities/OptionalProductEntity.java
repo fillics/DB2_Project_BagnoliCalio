@@ -3,6 +3,7 @@ package it.polimi.db2project.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 @Entity
@@ -12,6 +13,12 @@ import java.io.Serializable;
                 "FROM OptionalProductEntity o " +
                 "WHERE o.optionalProduct_id = :optionalProduct_id"
 )
+@NamedQuery(
+        name = "OptionalProduct.findAll",
+        query = "SELECT o " +
+                "FROM OptionalProductEntity o "
+)
+
 @Table(name = "optionalproduct", schema = "dbtelco")
 public class OptionalProductEntity implements Serializable {
 
