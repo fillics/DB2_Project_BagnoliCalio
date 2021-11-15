@@ -20,89 +20,35 @@
 <%
     try
     {
-        ArrayList<ServicePackageToSelectEntity> servicePackageToSelects = new ArrayList<>();
-        ArrayList<ServiceEntity> services = new ArrayList<>();
-        ArrayList<ValidityPeriodEntity> validityPeriods = new ArrayList<>();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        String url="jdbc:mysql://localhost:3306/dbtelco";
-        String username="admin";
-        String password="admin";
-        String queryServices = "select * from service";
-        String queryValidityPeriod = "select * from validityperiod";
-        String queryServPackages = "select * from servicepackagetoselect";
-
-        Connection conn = null;
-        ResultSet rsOptProduct = null;
-        ResultSet rsService = null;
-        ResultSet rsValPeriod = null;
-        ResultSet rsServPackage = null;
-        Statement stmtOptProd = null;
-        Statement stmtService = null;
-        Statement stmtValPeriod = null;
-        Statement stmtServPackage = null;
-        try {
-            conn= DriverManager.getConnection(url,username,password);
-            stmtOptProd = conn.createStatement();
-            stmtService = conn.createStatement();
-            stmtValPeriod = conn.createStatement();
-            stmtServPackage = conn.createStatement();
-            rsService = stmtService.executeQuery(queryServices);
-            rsValPeriod = stmtValPeriod.executeQuery(queryValidityPeriod);
-            rsServPackage = stmtServPackage.executeQuery(queryServPackages);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        // TODO: 12/11/2021 trovare il modo di impostare anche gli optional products, validity periods ecc associati
-        while(rsServPackage.next()) {
-            ServicePackageToSelectEntity servicePackageToSelect = new ServicePackageToSelectEntity();
-            try {
-                servicePackageToSelect.setServicePackageToSelect_id(rsServPackage.getLong("servicePackageToSelect_id"));
-                servicePackageToSelect.setName(rsServPackage.getString("name"));
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            servicePackageToSelects.add(servicePackageToSelect);
-        }
 
 
-        while(rsService.next()) {
-            ServiceEntity service = new ServiceEntity();
-            try {
-                service.setService_id(rsService.getLong("service_id"));
-                service.setTypeOfService(rsService.getString("typeOfService"));
-                service.setNumMinutes(rsService.getInt("numMinutes"));
-                service.setNumSMS(rsService.getInt("numSMS"));
-                service.setFeeExtraMinute(rsService.getFloat("feeExtraMinute"));
-                service.setFeeExtraSMSs(rsService.getFloat("feeExtraSMSs"));
-                service.setNumberOfGigabytes(rsService.getInt("numGigabytes"));
-                service.setFeeForExtraGigabytes(rsService.getFloat("feeForExtraGigabytes"));
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            services.add(service);
-        }
-        while(rsValPeriod.next()) {
-            ValidityPeriodEntity validityPeriod = new ValidityPeriodEntity();
-            try {
-                validityPeriod.setValidityPeriod_id(rsValPeriod.getLong("validityPeriod_id"));
-                validityPeriod.setNumOfMonths(rsValPeriod.getInt("numOfMonths"));
-                validityPeriod.setMonthlyFee(rsValPeriod.getFloat("monthlyFee"));
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            validityPeriods.add(validityPeriod);
-        }
+//        Connection conn = null;
+//        ResultSet rsOptProduct = null;
+//        ResultSet rsService = null;
+//        ResultSet rsValPeriod = null;
+//        ResultSet rsServPackage = null;
+//        Statement stmtOptProd = null;
+//        Statement stmtService = null;
+//        Statement stmtValPeriod = null;
+//        Statement stmtServPackage = null;
+//        try {
+//            stmtOptProd = conn.createStatement();
+//            stmtService = conn.createStatement();
+//            stmtValPeriod = conn.createStatement();
+//            stmtServPackage = conn.createStatement();
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
 %>
 
 
 <div style="text-align: center">
+
 
     <p align=right>Username of the employee: ${user.username}</p>
     <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
@@ -120,9 +66,12 @@
         <fieldset>
             <legend>Choose one or more services</legend>
             <%
+                List<ServiceEntity> services = (List<ServiceEntity>)
+                request.getAttribute("services");
                 for (ServiceEntity serv: services) {
             %>
-            <input type="checkbox" name="services" value="<%=serv.getService_id()%>"><%=serv.getTypeOfService() %><br>
+            <input type="checkbox" name="services"
+                   value="<%=serv.getService_id()%>"><%=serv.getTypeOfService() %><br>
             <%
                 }
             %>
@@ -130,24 +79,30 @@
 
             <br><br>
 
-        <%--<fieldset>
+        <fieldset>
             <legend>Choose one or more optional products</legend>
             <%
+                List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
+                request.getAttribute("optionalProducts");
                 for (OptionalProductEntity optProd: optionalProducts) {
             %>
-            <input type="checkbox" name="optionalProducts" value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
+            <input type="checkbox" name="optionalProducts"
+                   value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
             <%
                 }
             %>
-        </fieldset>--%>
+        </fieldset>
 
 
         <fieldset>
             <legend>Choose one or more validity periods associated to this service package</legend>
             <%
+                List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
+                request.getAttribute("validityPeriods");
                 for (ValidityPeriodEntity valPer: validityPeriods) {
             %>
-            <input type="checkbox" name="validityPeriods" value="<%=valPer.getValidityPeriod_id() %>"><%=valPer.toString() %><br>
+            <input type="checkbox" name="validityPeriods"
+                   value="<%=valPer.getValidityPeriod_id() %>"><%=valPer.toString() %><br>
             <%
                 }
             %>
@@ -201,7 +156,9 @@
 
         </tr>
         <%
-            for (ServicePackageToSelectEntity servicePackageToSelectEntity: servicePackageToSelects) {
+            List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
+            request.getAttribute("servicePackagesToSelect");
+            for (ServicePackageToSelectEntity servicePackageToSelectEntity: servicePackagesToSelect) {
         %>
         <tr>
             <td><%=servicePackageToSelectEntity.getName() %></td>
@@ -220,9 +177,6 @@
             <td>Monthly Fee</td>
         </tr>
         <%
-            List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
-            request.getAttribute("optionalProducts");
-
             for (OptionalProductEntity optProd: optionalProducts) {
         %>
         <tr>
@@ -235,13 +189,13 @@
     </table>
 </div>
 <%
-    rsOptProduct.close();
-    rsService.close();
-    rsValPeriod.close();
-    stmtOptProd.close();
-    stmtService.close();
-    stmtValPeriod.close();
-    conn.close();
+//    rsOptProduct.close();
+//    rsService.close();
+//    rsValPeriod.close();
+//    stmtOptProd.close();
+//    stmtService.close();
+//    stmtValPeriod.close();
+//    conn.close();
     }
     catch(Exception e) {
     e.printStackTrace();

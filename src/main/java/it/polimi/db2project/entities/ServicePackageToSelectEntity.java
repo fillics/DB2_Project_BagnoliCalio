@@ -12,6 +12,11 @@ import java.util.List;
                 "FROM ServicePackageToSelectEntity s " +
                 "WHERE s.servicePackageToSelect_id = :id"
 )
+@NamedQuery(
+    name = "ServicePackageToSelect.findAll",
+    query = "SELECT stp " +
+        "FROM ServicePackageToSelectEntity stp "
+)
 @Table(name = "servicepackagetoselect", schema = "dbtelco")
 public class ServicePackageToSelectEntity implements Serializable {
     private static final long serialVersionUID = 1L;

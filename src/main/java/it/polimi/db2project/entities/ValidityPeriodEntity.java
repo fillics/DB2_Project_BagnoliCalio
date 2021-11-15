@@ -14,6 +14,12 @@ import java.util.List;
                 "FROM ValidityPeriodEntity v " +
                 "WHERE v.validityPeriod_id = :validityPeriod_id"
 )
+@NamedQuery(
+    name = "ValidityPeriod.findAll",
+    query = "SELECT v " +
+        "FROM ValidityPeriodEntity v "
+)
+
 @Table(name = "validityperiod", schema = "dbtelco")
 public class ValidityPeriodEntity implements Serializable {
 

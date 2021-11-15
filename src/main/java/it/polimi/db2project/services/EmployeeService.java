@@ -118,6 +118,17 @@ public class EmployeeService {
         return em.createNamedQuery("OptionalProduct.findAll", OptionalProductEntity.class).getResultList();
     }
 
+    public List<ServiceEntity> findAllServices(){
+        return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
+    }
+
+    public List<ValidityPeriodEntity> findAllValidityPeriods(){
+        return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
+    }
+
+    public List<ServicePackageToSelectEntity> findAllServicePackageToSelect(){
+        return em.createNamedQuery("ServicePackageToSelect.findAll", ServicePackageToSelectEntity.class).getResultList();
+    }
 
 
     public Optional<ServiceEntity> findByServiceID(Long service_id) {

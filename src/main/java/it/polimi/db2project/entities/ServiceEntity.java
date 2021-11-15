@@ -12,6 +12,13 @@ import java.util.List;
                 "FROM ServiceEntity s " +
                 "WHERE s.service_id = :service_id"
 )
+
+@NamedQuery(
+    name = "Service.findAll",
+    query = "SELECT o " +
+        "FROM ServiceEntity o "
+)
+
 @Table(name = "service", schema = "dbtelco")
 public class ServiceEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -35,7 +42,7 @@ public class ServiceEntity implements Serializable {
     @Column(name = "feeExtraSMSs")
     private float feeExtraSMSs;
 
-    @Column(name = "numGigabytes")
+    @Column(name = "numberOfGigabytes")
     private int numberOfGigabytes;
 
     @Column(name = "feeForExtraGigabytes")

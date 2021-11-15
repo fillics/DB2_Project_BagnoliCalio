@@ -1,6 +1,9 @@
 package it.polimi.db2project.web;
 
 import it.polimi.db2project.entities.OptionalProductEntity;
+import it.polimi.db2project.entities.ServiceEntity;
+import it.polimi.db2project.entities.ServicePackageToSelectEntity;
+import it.polimi.db2project.entities.ValidityPeriodEntity;
 import it.polimi.db2project.services.EmployeeService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
@@ -26,7 +29,14 @@ public class HomePageEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         List<OptionalProductEntity> optionalProducts = employeeService.findAllOptProd();
+        List<ServiceEntity> services = employeeService.findAllServices();
+        List<ValidityPeriodEntity> validityPeriods = employeeService.findAllValidityPeriods();
+        List<ServicePackageToSelectEntity> servicePackagesToSelect = employeeService.findAllServicePackageToSelect();
+
         req.setAttribute("optionalProducts", optionalProducts);
+        req.setAttribute("validityPeriods", validityPeriods);
+        req.setAttribute("services", services);
+        req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeEmployee.jsp");
         String message;
