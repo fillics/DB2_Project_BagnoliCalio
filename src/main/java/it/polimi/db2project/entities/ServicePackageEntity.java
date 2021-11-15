@@ -17,10 +17,10 @@ public class ServicePackageEntity implements Serializable {
     private Long servicePackage_id;
 
     @Column(name = "startDate", nullable=false)
-    private Date startDate;
+    private java.util.Date startDate;
 
     @Column(name = "endDate", nullable=false)
-    private Date endDate;
+    private java.util.Date endDate;
 
     @Column(name = "totalValuePackage", unique=true, nullable=false)
     private float totalValuePackage;
@@ -50,7 +50,15 @@ public class ServicePackageEntity implements Serializable {
     public ServicePackageEntity(){
     }
 
-    public ServicePackageEntity(Date startDate, Date endDate, float totalValuePackage, ServicePackageToSelectEntity packageSelected, ValidityPeriodEntity validityPeriod, List<OptionalProductEntity> optionalProducts, UserEntity userOwner) {
+    public ServicePackageEntity(
+        java.util.Date startDate,
+        java.util.Date endDate,
+        float totalValuePackage,
+        ServicePackageToSelectEntity packageSelected,
+        ValidityPeriodEntity validityPeriod,
+        List<OptionalProductEntity> optionalProducts,
+        UserEntity userOwner
+    ) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalValuePackage = totalValuePackage;
@@ -60,15 +68,15 @@ public class ServicePackageEntity implements Serializable {
         this.userOwner = userOwner;
     }
 
-    public Long getServicePackage_id() {
-        return servicePackage_id;
+    public Long getServicePackage_id(long servicePackage_id) {
+        return this.servicePackage_id;
     }
 
     public void setServicePackage_id(Long servicePackage_id) {
         this.servicePackage_id = servicePackage_id;
     }
 
-    public Date getStartDate() {
+    public java.util.Date getStartDate() {
         return startDate;
     }
 
@@ -76,7 +84,7 @@ public class ServicePackageEntity implements Serializable {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public java.util.Date getEndDate() {
         return endDate;
     }
 

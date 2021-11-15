@@ -1,10 +1,8 @@
 package it.polimi.db2project.web;
 
-import it.polimi.db2project.entities.OptionalProductEntity;
-import it.polimi.db2project.entities.ServiceEntity;
-import it.polimi.db2project.entities.ServicePackageToSelectEntity;
-import it.polimi.db2project.entities.ValidityPeriodEntity;
+import it.polimi.db2project.entities.*;
 import it.polimi.db2project.services.EmployeeService;
+import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -15,41 +13,55 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @WebServlet("/servicePackage")
 public class ServicePackageServlet extends HttpServlet {
     @EJB
-    private EmployeeService employeeService;
+    private UserService userService;
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nameServPackage = request.getParameter("nameServPackage");
-        String[] services = request.getParameterValues("services");
+        String nameServPackage = request.getParameter("servicePackageToSelect");
         String[] optionalProducts = request.getParameterValues("optionalProducts");
-        String[] validityPeriods = request.getParameterValues("validityPeriods");
+        String startDateStr = request.getParameter("startDate");
 
-        ServicePackageToSelectEntity servicePackageToSelect = null;
+        ServicePackageEntity servicePackage = null;
         String destServlet;
 
-
-
-        ArrayList<ServiceEntity> serviceEntities = new ArrayList<>();
         ArrayList<OptionalProductEntity> optionalProductEntities = new ArrayList<>();
-        ArrayList<ValidityPeriodEntity> validityPeriodEntities = new ArrayList<>();
 
-        for (String service : services) {
-            serviceEntities.add(employeeService.findByServiceID(Long.parseLong(service)).get());
-        }
+        Optional<ServicePackageToSelectEntity> servicePackageEntity = userService.findByServicePackageToSelectID(Long.parseLong(nameServPackage));
+
         for (String optionalProduct : optionalProducts) {
-            optionalProductEntities.add(employeeService.findByOptProdID(Long.parseLong(optionalProduct)).get());
+            optionalProductEntities.add(userService.findByOptProdID(Long.parseLong(optionalProduct)).get());
         }
-        for (String validityPeriod : validityPeriods) {
-            validityPeriodEntities.add(employeeService.findByValPeriodID(Long.parseLong(validityPeriod)).get());
+
+        DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+        Date startDate = null;
+        try {
+            startDate = format.parse(startDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        LocalDate localDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int year  = localDate.getYear();
+        int month = localDate.getMonthValue();
+        int day   = localDate.getDayOfMonth();
+
+        if (servicePackageEntity.get().getValidityPeriods())
+
 
         try {
-            servicePackageToSelect = employeeService.createServicePackage(nameServPackage, serviceEntities, optionalProductEntities, validityPeriodEntities);
+            servicePackage = userService.createServicePackage(
+                startDate,
+
+                ;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,13 +74,13 @@ public class ServicePackageServlet extends HttpServlet {
             destServlet = "homePageEmployee?creationServPackageFailed=true";
         }
 
-        response.sendRedirect(destServlet); // <---- questa è una servlet
+        response.sendRedirect(destServlet);
     }
-    
-    
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("homeEmployee.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("homeCustomer.jsp");
         dispatcher.forward(req, resp);
     }
 }
