@@ -70,7 +70,6 @@ public class ServicePackageToSelectEntity implements Serializable {
     private List<ServicePackageEntity> servicePackages;
 
 
-
     public Long getServicePackageToSelect_id() {
         return servicePackageToSelect_id;
     }

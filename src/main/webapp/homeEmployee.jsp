@@ -122,7 +122,7 @@
     <h1>EMPLOYEE PAGE</h1>
     <br>
     <h2>Creating Service Package</h2>
-    <form action="servicePackage" method="post">
+    <form action="servicePackageToSelect" method="post">
 
         <%--@declare id="nameservpackage"--%>
         <label for="nameServPackage">Name Service Package:</label>
