@@ -35,9 +35,10 @@
                 request.getAttribute("servicePackagesToSelect");
                 List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
                 request.getAttribute("validityPeriods");
+                List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
+                request.getAttribute("optionalProducts");
                 for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
             %>
-
             <option value="<%=servicePackageToSelect.getServicePackageToSelect_id()%>"><%=servicePackageToSelect.getName() %></option>
             <%
                 }
@@ -49,10 +50,10 @@
         <br><br>
 
         <%
-            if(validityPeriods!=null){
-
+            if(validityPeriods!=null && optionalProducts!= null){
         %>
 
+        <form action="servicePackage" method="post">
         <label for="valPeriod">Choose a validity period:</label>
         <select name="valPeriod" id="valPeriod">
             <%
@@ -66,7 +67,47 @@
         </select>
         <br><br>
 
-        <button type="submit">SELECT VALIDITY PERIOD</button>
+        <div style="text-align: center">
+            <table style="border:2px solid black;margin-left:auto;margin-right:auto;" >
+                <tr>
+                    <td>Name Optional Product</td>
+                    <td>Monthly Fee</td>
+                </tr>
+                <%
+                    for (OptionalProductEntity optProd: optionalProducts) {
+                %>
+                <tr>
+                    <td><%=optProd.getName() %></td>
+                    <td><%=optProd.getMonthlyFee() %></td>
+                </tr>
+                <%
+                    }
+                %>
+            </table>
+        </div>
+        <br><br>
+
+        <fieldset>
+            <legend>Choose one or more optional products</legend>
+            <%
+                for (OptionalProductEntity optProd: optionalProducts) {
+            %>
+            <input type="checkbox" name="optProducts"
+                   value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
+            <%
+                }
+            %>
+        </fieldset>
+        <br><br>
+
+        <form>
+            <label>Choose the start date:
+                <input type="date" name="startDate">
+            </label>
+        </form>
+        <br><br>
+
+        <button type="confirm">CONFIRM</button>
 
         <%
             }
@@ -74,7 +115,6 @@
 
     </form>
 </div>
-
 
 </body>
 </html>

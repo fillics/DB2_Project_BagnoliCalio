@@ -7,16 +7,27 @@ import java.util.List;
 
 
 @Entity
-@NamedQuery(
-        name = "OptionalProduct.findByID",
-        query = "SELECT o " +
+@NamedQueries(
+    {
+        @NamedQuery(
+            name = "OptionalProduct.findByID",
+            query = "SELECT o " +
                 "FROM OptionalProductEntity o " +
                 "WHERE o.optionalProduct_id = :optionalProduct_id"
-)
-@NamedQuery(
-        name = "OptionalProduct.findAll",
-        query = "SELECT o " +
+        ),
+        @NamedQuery(
+            name = "OptionalProduct.findAll",
+            query = "SELECT o " +
                 "FROM OptionalProductEntity o "
+        ),
+        @NamedQuery(
+            name = "OptionalProduct.findOptProdOfService",
+            query = "SELECT o " +
+                "FROM OptionalProductEntity o " +
+                "JOIN o.servicePackagesToSelect s " +
+                "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id "
+        )
+    }
 )
 
 @Table(name = "optionalproduct", schema = "dbtelco")

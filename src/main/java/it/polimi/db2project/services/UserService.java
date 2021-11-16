@@ -107,6 +107,12 @@ public class UserService {
                 .getResultList();
     }
 
+    public List<OptionalProductEntity> findOptProdOfService(Long servicePackageToSelect_id){
+        return em.createNamedQuery("OptionalProduct.findOptProdOfService", OptionalProductEntity.class)
+            .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+            .getResultList();
+    }
+
     public List<ServiceEntity> findAllService() {
         return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
     }

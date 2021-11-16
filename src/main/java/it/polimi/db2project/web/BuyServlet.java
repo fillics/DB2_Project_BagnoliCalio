@@ -27,6 +27,7 @@ public class BuyServlet extends HttpServlet {
     private UserService userService;
 
     private List<ValidityPeriodEntity> validityPeriods;
+    private List<OptionalProductEntity> optionalProducts;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String srvPackage = request.getParameter("srvPackage");
@@ -37,8 +38,7 @@ public class BuyServlet extends HttpServlet {
         //servicePackageToSelect = userService.findByServicePackageToSelectID(Long.parseLong(srvPackage));
 
         validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackage));
-
-        System.out.println(validityPeriods);
+        optionalProducts = userService.findOptProdOfService(Long.parseLong(srvPackage));
 
         response.sendRedirect(destServlet);
     }
@@ -50,6 +50,7 @@ public class BuyServlet extends HttpServlet {
 
         req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
         req.setAttribute("validityPeriods", validityPeriods);
+        req.setAttribute("optionalProducts", optionalProducts);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("buyPage.jsp");
         dispatcher.forward(req, resp);

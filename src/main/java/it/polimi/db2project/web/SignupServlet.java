@@ -30,7 +30,7 @@ public class SignupServlet extends HttpServlet {
     }
 
 
-
+    //destServlet = "signup?signupFailed=true"; FIL DEVI SPIEGARMI QUESTE COSE QUA BACI BACI
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
