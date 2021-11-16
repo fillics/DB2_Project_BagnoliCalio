@@ -101,7 +101,18 @@ public class UserService {
     }
 
 
+    public List<ValidityPeriodEntity> findValPeriodsOfService(Long servicePackageToSelect_id){
+        return em.createNamedQuery("ValidityPeriod.findValPeriodsByServPackage", ValidityPeriodEntity.class)
+                .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+                .getResultList();
+    }
+
     public List<ServiceEntity> findAllService() {
         return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
+    }
+
+    // TODO: 16/11/2021 metodo in comune con employee service 
+    public List<ValidityPeriodEntity> findAllValidityPeriods(){
+        return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
     }
 }

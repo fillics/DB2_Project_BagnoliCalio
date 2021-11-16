@@ -8,18 +8,29 @@ import java.util.List;
 
 //GIA VISTA
 @Entity
-@NamedQuery(
-        name = "ValidityPeriod.findByID",
-        query = "SELECT v " +
-                "FROM ValidityPeriodEntity v " +
-                "WHERE v.validityPeriod_id = :validityPeriod_id"
-)
-@NamedQuery(
-    name = "ValidityPeriod.findAll",
-    query = "SELECT v " +
-        "FROM ValidityPeriodEntity v "
-)
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "ValidityPeriod.findByID",
+                        query = "SELECT v " +
+                                "FROM ValidityPeriodEntity v " +
+                                "WHERE v.validityPeriod_id = :validityPeriod_id"
+                ),
+                @NamedQuery(
+                        name = "ValidityPeriod.findAll",
+                        query = "SELECT v " +
+                                "FROM ValidityPeriodEntity v "
+                ),
 
+                @NamedQuery(
+                        name = "ValidityPeriod.findValPeriodsByServPackage",
+                        query = "SELECT v " +
+                                "FROM ValidityPeriodEntity v " +
+                                "JOIN v.servicePackagesToSelect s " +
+                                "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id "
+                )
+        }
+)
 @Table(name = "validityperiod", schema = "dbtelco")
 public class ValidityPeriodEntity implements Serializable {
 

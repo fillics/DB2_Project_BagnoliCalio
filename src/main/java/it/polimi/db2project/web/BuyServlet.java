@@ -20,58 +20,25 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
-// TODO: 15/11/2021 TUTTO SBAGLIAYTOO
-@WebServlet("/BuyServlet")
+@WebServlet("/buyPage")
 public class BuyServlet extends HttpServlet {
+
     @EJB
     private UserService userService;
 
-/*
+    private List<ValidityPeriodEntity> validityPeriods;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nameServPackage = request.getParameter("servicePackageToSelect");
+        String srvPackage = request.getParameter("srvPackage");
 
-        ServicePackageEntity servicePackage = null;
-        String destServlet;
+        Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
+        String destServlet = "buyPage";
 
-        ArrayList<OptionalProductEntity> optionalProductEntities = new ArrayList<>();
+        //servicePackageToSelect = userService.findByServicePackageToSelectID(Long.parseLong(srvPackage));
 
-        Optional<ServicePackageToSelectEntity> servicePackageEntity = userService.findByServicePackageToSelectID(Long.parseLong(nameServPackage));
+        validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackage));
 
-        for (String optionalProduct : optionalProducts) {
-            optionalProductEntities.add(userService.findByOptProdID(Long.parseLong(optionalProduct)).get());
-        }
-
-        DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
-        Date startDate = null;
-        try {
-            startDate = format.parse(startDateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        LocalDate localDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        int year  = localDate.getYear();
-        int month = localDate.getMonthValue();
-        int day   = localDate.getDayOfMonth();
-
-        if (servicePackageEntity.get().getValidityPeriods())
-
-
-            try {
-                servicePackage = userService.createServicePackage(
-                        startDate,
-
-                ;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        if (servicePackageToSelect != null) {
-            destServlet = "homePageEmployee";
-        }
-        else
-        {
-            destServlet = "homePageEmployee?creationServPackageFailed=true";
-        }
+        System.out.println(validityPeriods);
 
         response.sendRedirect(destServlet);
     }
@@ -79,7 +46,12 @@ public class BuyServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("homeCustomer.jsp");
+        List<ServicePackageToSelectEntity> servicePackagesToSelect = userService.findAllServicePackageToSelect();
+
+        req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
+        req.setAttribute("validityPeriods", validityPeriods);
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("buyPage.jsp");
         dispatcher.forward(req, resp);
-    }*/
+    }
 }
