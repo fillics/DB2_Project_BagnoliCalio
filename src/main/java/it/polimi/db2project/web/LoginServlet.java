@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 
         if (employee != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", employee);
+            session.setAttribute("employee", employee);
             destServlet = "homePageEmployee";
         }
         else {

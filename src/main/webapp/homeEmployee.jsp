@@ -21,11 +21,16 @@
 <div style="text-align: center">
 
 
-    <p align=right>Username of the employee: ${user.username}</p>
+    <p align=right>Username of the employee: ${employee.username}</p>
+    <p align=right>ID of the employee: ${employee.employee_id}</p>
     <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
 
     <h1>EMPLOYEE PAGE</h1>
     <br>
+
+    <form action="salesReportPage">
+        <button style="height:100px;width:250px" value="${employee.employee_id}" type="submit">GO TO THE SALES REPORT PAGE</button>
+    </form>
     <h2>Creating Service Package</h2>
     <form action="servicePackageToSelect" method="post">
 
@@ -121,10 +126,10 @@
 </div>
 
 <div style="text-align: center">
-    <table border="2">
+    <h3>Service Packages created</h3>
+    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
         <tr>
-            <td>Name Service Package to Select</td>
-
+            <td>Name Service Package</td>
         </tr>
         <%
             List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
@@ -142,7 +147,8 @@
 
 
 <div style="text-align: center">
-    <table border="2">
+    <h3>Optional Products created</h3>
+    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
         <tr>
             <td>Name Optional Product</td>
             <td>Monthly Fee</td>
