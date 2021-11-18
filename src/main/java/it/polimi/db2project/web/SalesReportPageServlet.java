@@ -2,7 +2,6 @@ package it.polimi.db2project.web;
 
 
 import it.polimi.db2project.entities.*;
-import it.polimi.db2project.exception.CredentialsException;
 import it.polimi.db2project.services.EmployeeService;
 import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
@@ -12,10 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,20 +24,26 @@ public class SalesReportPageServlet extends HttpServlet {
     @EJB
     private UserService userService;
 
-    private List<ValidityPeriodEntity> validityPeriods;
+    private List<ValidityPeriodEntity> validityPeriods = null;
+    private List<OptionalProductEntity> optionalProducts = null;
+    private List<OrderEntity> orders = null;
+    private int avgNumOptProductsWithServPackage;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String id = request.getParameter("bottone");
-        System.out.println(id);
         String srvPackage = request.getParameter("srvPackage");
         String srvPackageWithValPeriod = request.getParameter("srvPackageWithValPeriod");
+        String srvPackageWithOptProducts = request.getParameter("srvPackageWithOptProducts");
+        String avgNumOptProductsWithServPackage = request.getParameter("avgNumOptProductsWithServPackage");
 
         Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
         String destServlet = "salesReportPage";
 
         if(srvPackageWithValPeriod!=null){
-            validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackage));
+            validityPeriods = employeeService.findValPeriodsOfServicePackage(Long.parseLong(srvPackageWithValPeriod));
+        }
+        if(srvPackageWithOptProducts!=null){
+            optionalProducts = employeeService.findOptProdOfServicePackage(Long.parseLong(srvPackageWithOptProducts));
         }
 
         response.sendRedirect(destServlet);
@@ -53,6 +56,9 @@ public class SalesReportPageServlet extends HttpServlet {
         List<ServicePackageToSelectEntity> servicePackagesToSelect = employeeService.findAllServicePackageToSelect();
         req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
         req.setAttribute("validityPeriods", validityPeriods);
+        req.setAttribute("optionalProducts", optionalProducts);
+        req.setAttribute("avgNumOptProductsWithServPackage", avgNumOptProductsWithServPackage);
+        req.setAttribute("orders", orders);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("salesReportPage.jsp");
         dispatcher.forward(req, resp);

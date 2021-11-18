@@ -6,8 +6,11 @@
     <meta charset="utf-8">
     <title>Telco Website</title>
 </head>
+
+<style><%@include file="css/style.css"%></style>
+
 <body>
-<div style="text-align: center">
+<div class="login">
     <h1>LOGIN</h1>
     <form action="login" method="post">
         <%--@declare id="password"--%><%--@declare id="email"--%>
@@ -25,7 +28,8 @@
         <br><br>
         <button type="submit">LOGIN</button>
     </form>
-
+</div>
+<div class="signup">
     <h1>REGISTRATION</h1>
     <form action="signup" method="post">
         <%--@declare id="password"--%><%--@declare id="email"--%>
@@ -44,10 +48,14 @@
         <br><br>
         <button type="submit">SIGN UP</button>
     </form>
+</div>
 
+<div style="text-align: center">
     <br><br>
     <h2>Skip the Login</h2>
     <a href="homePageCustomer">Click here to enter in the website without the login</a>
 </div>
+
+
 </body>
 </html>

@@ -52,7 +52,7 @@ public class SignupServlet extends HttpServlet {
                     if (employee != null) {
                         HttpSession session = request.getSession();
                         session.setAttribute("user", employee);
-                        destServlet = "homePageEmployee";
+                        destServlet = "signup?signupDone=true";
                     }
                     else {
                         destServlet = "signup?signupError=true"; //settiamo il parametro signupError = true, così poi nella get verifichiamo se quel parametro è true
@@ -72,7 +72,7 @@ public class SignupServlet extends HttpServlet {
                 if (user != null) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    destServlet = "homePageCustomer";
+                    destServlet = "signup?signupDone=true";
                 }
                 else {
                     destServlet = "signup?signupError=true";
@@ -83,7 +83,7 @@ public class SignupServlet extends HttpServlet {
             }
         }
 
-        response.sendRedirect(destServlet); // <---- questa è una servlet
+        response.sendRedirect(destServlet);
 
 
     }
@@ -98,6 +98,10 @@ public class SignupServlet extends HttpServlet {
         }
         else if (req.getParameter("signupError") != null) {
             message = "Registration failed. Retry!";
+            req.setAttribute("messageSignUp", message);
+        }
+        else if (req.getParameter("signupDone") != null) {
+            message = "Registration completed. Now you can log in!";
             req.setAttribute("messageSignUp", message);
         }
         dispatcher.forward(req, resp);

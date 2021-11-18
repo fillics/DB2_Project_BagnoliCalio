@@ -1,4 +1,16 @@
-.test{
-    height:200px;
-    width:500px;
+body {
+    background-color: #86c5da;
+}
+
+h1
+{
+    color: black;
+}
+
+.login{
+    text-align: center;
+}
+
+.signup{
+    text-align: center;
 }

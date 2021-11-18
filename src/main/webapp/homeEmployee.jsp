@@ -12,24 +12,34 @@
 <head>
     <meta charset="utf-8">
     <title>Telco Website</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
+
+<style><%@include file="css/style.css"%></style>
+
 <body>
 
-
+<%
+    List<ServiceEntity> services = (List<ServiceEntity>)
+            request.getAttribute("services");
+    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
+            request.getAttribute("optionalProducts");
+    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
+            request.getAttribute("validityPeriods");
+    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
+            request.getAttribute("servicePackagesToSelect");
+%>
 
 <div style="text-align: center">
 
 
     <p align=right>Username of the employee: ${employee.username}</p>
-    <p align=right>ID of the employee: ${employee.employee_id}</p>
     <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
 
     <h1>EMPLOYEE PAGE</h1>
     <br>
 
     <form action="salesReportPage">
-        <button style="height:100px;width:250px" value="${employee.employee_id}" type="submit">GO TO THE SALES REPORT PAGE</button>
+        <button style="height:75px;width:250px" type="submit">GO TO THE SALES REPORT PAGE</button>
     </form>
     <h2>Creating Service Package</h2>
     <form action="servicePackageToSelect" method="post">
@@ -42,8 +52,6 @@
         <fieldset>
             <legend>Choose one or more services</legend>
             <%
-                List<ServiceEntity> services = (List<ServiceEntity>)
-                request.getAttribute("services");
                 for (ServiceEntity serv: services) {
             %>
             <input type="checkbox" name="services"
@@ -58,8 +66,7 @@
         <fieldset>
             <legend>Choose one or more optional products</legend>
             <%
-                List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
-                request.getAttribute("optionalProducts");
+
                 for (OptionalProductEntity optProd: optionalProducts) {
             %>
             <input type="checkbox" name="optionalProducts"
@@ -69,12 +76,12 @@
             %>
         </fieldset>
 
+            <br><br>
 
         <fieldset>
             <legend>Choose one or more validity periods associated to this service package</legend>
             <%
-                List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
-                request.getAttribute("validityPeriods");
+
                 for (ValidityPeriodEntity valPer: validityPeriods) {
             %>
             <input type="checkbox" name="validityPeriods"
@@ -84,24 +91,10 @@
             %>
         </fieldset>
 
-        <%-- CON QUESTO SCEGLIAMO SOLO UN VALIDITY PERIOD
-
-        <label for="validityPeriod">Choose a validity period:</label>
-        <select name="validityPeriod" id="validityPeriod">
-            <%
-                for (ValidityPeriodEntity valPer: validityPeriods) {
-            %>
-            <option value="<%=valPer.toString() %>"><%=valPer.toString() %></option>
-            <%
-                }
-            %>
-        </select>--%>
-
         <br>${messageServicePackage}
         <br><br>
         <button type="submit">CREATE</button>
     </form>
-
 
 
     <br><br>
@@ -132,8 +125,6 @@
             <td>Name Service Package</td>
         </tr>
         <%
-            List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-            request.getAttribute("servicePackagesToSelect");
             for (ServicePackageToSelectEntity servicePackageToSelectEntity: servicePackagesToSelect) {
         %>
         <tr>
