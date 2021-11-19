@@ -10,6 +10,14 @@ import java.util.Objects;
 @Entity
 @Table(name = "user", schema = "dbtelco")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM UserEntity r  WHERE r.username = ?1 and r.password = ?2")
+
+@NamedQuery(
+    name = "User.findByID",
+    query = "SELECT u " +
+        "FROM UserEntity u " +
+        "WHERE u.user_id = :id"
+)
+
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +58,7 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
-    public Long getUserId() {
+    public Long getUser_id() {
         return user_id;
     }
 
@@ -106,26 +114,4 @@ public class UserEntity implements Serializable {
         this.alerts = alerts;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserEntity that = (UserEntity) o;
-
-        if (!Objects.equals(user_id, that.user_id)) return false;
-        if (!Objects.equals(username, that.username)) return false;
-        if (!Objects.equals(password, that.password)) return false;
-        if (!Objects.equals(email, that.email)) return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = user_id != null ? user_id.hashCode() : 0;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
-    }
 }

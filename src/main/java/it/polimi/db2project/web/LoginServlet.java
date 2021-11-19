@@ -53,11 +53,18 @@ public class LoginServlet extends HttpServlet {
             } catch (CredentialsException e) {
                 e.printStackTrace();
             }
-            if (user != null) {
+            if (user != null && !userService.isTheUserWantsToBuyAndHeIsNotLogged()) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 destServlet = "homePageCustomer";
-            } else {
+            }
+            else if (user!= null && userService.isTheUserWantsToBuyAndHeIsNotLogged()) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                userService.setTheUserWantsToBuyAndHeIsNotLogged(false);
+                destServlet = "servicePackage";
+            }
+            else {
                 destServlet = "login?loginFailed=true";
             }
         }

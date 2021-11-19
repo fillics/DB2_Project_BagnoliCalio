@@ -107,7 +107,7 @@
         </form>
         <br><br>
 
-        <button type="confirm">CONFIRM</button>
+        <button name ="bottonUser" value="${user.user_id}" type="submit">CONFIRM</button>
 
         <%
             }

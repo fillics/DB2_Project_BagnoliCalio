@@ -23,6 +23,30 @@ public class UserService {
     public UserService(){
     }
 
+    boolean theUserWantsToBuyAndHeIsNotLogged = false;
+
+    public boolean isTheUserWantsToBuyAndHeIsNotLogged() {
+        return theUserWantsToBuyAndHeIsNotLogged;
+    }
+
+    public void setTheUserWantsToBuyAndHeIsNotLogged(boolean theUserWantsToBuyAndHeIsNotLogged) {
+        this.theUserWantsToBuyAndHeIsNotLogged = theUserWantsToBuyAndHeIsNotLogged;
+    }
+
+
+    // function to call the external service
+    boolean itIsTrue = true;
+    public Boolean callExternalService(){
+        if (itIsTrue == true){
+            itIsTrue = false;
+            return itIsTrue;
+        }
+        else{
+            itIsTrue = true;
+            return itIsTrue;
+        }
+    }
+
     public UserEntity checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
         List<UserEntity> uList = null;
         try {
@@ -81,6 +105,12 @@ public class UserService {
         return em.createNamedQuery("ServicePackageToSelect.findAll", ServicePackageToSelectEntity.class).getResultList();
     }
 
+
+    public Optional<UserEntity> findByUserID(Long user_id){
+        return em.createNamedQuery("User.findByID", UserEntity.class)
+            .setParameter("user_id", user_id)
+            .getResultStream().findFirst();
+    }
 
     public Optional<ServicePackageToSelectEntity> findByServicePackageToSelectID(Long servicePackageToSelect_id) {
         return em.createNamedQuery("ServicePackageToSelect.findByID", ServicePackageToSelectEntity.class)

@@ -30,13 +30,13 @@ public class BuyServlet extends HttpServlet {
     private List<OptionalProductEntity> optionalProducts;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String srvPackage = request.getParameter("srvPackage");
 
         Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
         String destServlet = "buyPage";
 
         //servicePackageToSelect = userService.findByServicePackageToSelectID(Long.parseLong(srvPackage));
-
         validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackage));
         optionalProducts = userService.findOptProdOfService(Long.parseLong(srvPackage));
 
