@@ -149,4 +149,20 @@ public class EmployeeService {
                 .getResultStream().findFirst();
     }
 
+    public List<ValidityPeriodEntity> findValPeriodsOfServicePackage(Long servicePackageToSelect_id){
+        return em.createNamedQuery("ValidityPeriod.findValPeriodsByServPackage", ValidityPeriodEntity.class)
+                .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+                .getResultList();
+    }
+
+
+
+    public List<OptionalProductEntity> findOptProdOfServicePackage(Long servicePackageToSelect_id){
+        return em.createNamedQuery("OptionalProduct.findOptProdOfService", OptionalProductEntity.class)
+                .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+                .getResultList();
+    }
+
+
+
 }
