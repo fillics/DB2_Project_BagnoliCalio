@@ -27,7 +27,6 @@
     <form action="buyPage" method="post">
 
         <br><br>
-
         <label for="srvPackage">Choose a service package to buy:</label>
         <select name="srvPackage" id="srvPackage">
             <%
@@ -46,14 +45,13 @@
         </select>
         <br><br>
 
-        <button type="submit">SELECT SERVICE PACKAGE</button>
+        <button type="submit" name = "button1" value="${user.user_id}">SELECT SERVICE PACKAGE</button>
         <br><br>
 
         <%
             if(validityPeriods!=null && optionalProducts!= null){
         %>
 
-        <form action="servicePackage" method="post">
         <label for="valPeriod">Choose a validity period:</label>
         <select name="valPeriod" id="valPeriod">
             <%
@@ -107,7 +105,7 @@
         </form>
         <br><br>
 
-        <button name ="bottonUser" value="${user.user_id}" type="submit">CONFIRM</button>
+        <button type="submit" name ="button2" value="${user.user_id}">CONFIRM</button>
 
         <%
             }

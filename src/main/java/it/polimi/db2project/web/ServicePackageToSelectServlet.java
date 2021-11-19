@@ -32,7 +32,6 @@ public class ServicePackageToSelectServlet extends HttpServlet {
         ServicePackageToSelectEntity servicePackageToSelect = null;
         String destServlet;
 
-
         ArrayList<ServiceEntity> serviceEntities = new ArrayList<>();
         ArrayList<OptionalProductEntity> optionalProductEntities = new ArrayList<>();
         ArrayList<ValidityPeriodEntity> validityPeriodEntities = new ArrayList<>();
