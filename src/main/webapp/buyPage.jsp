@@ -46,8 +46,11 @@
         <br><br>
 
         <button type="submit" name = "button1" value="${user.user_id}">SELECT SERVICE PACKAGE</button>
-        <br><br>
 
+        <br><br>
+        </form>
+
+        <form action="buyPage" method="post">
         <%
             if(validityPeriods!=null && optionalProducts!= null){
         %>

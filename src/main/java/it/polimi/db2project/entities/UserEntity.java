@@ -15,7 +15,7 @@ import java.util.Objects;
     name = "User.findByID",
     query = "SELECT u " +
         "FROM UserEntity u " +
-        "WHERE u.user_id = :id"
+        "WHERE u.user_id = : user_id"
 )
 
 public class UserEntity implements Serializable {

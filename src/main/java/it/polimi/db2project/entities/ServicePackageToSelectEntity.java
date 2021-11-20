@@ -10,7 +10,7 @@ import java.util.List;
         name = "ServicePackageToSelect.findByID",
         query = "SELECT s " +
                 "FROM ServicePackageToSelectEntity s " +
-                "WHERE s.servicePackageToSelect_id = :id"
+                "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id"
 )
 @NamedQuery(
     name = "ServicePackageToSelect.findAll",
