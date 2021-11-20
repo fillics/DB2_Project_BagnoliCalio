@@ -102,7 +102,12 @@ public class EmployeeService {
     }
 
 
-    public ServicePackageToSelectEntity createServicePackageToSelect(String name, ArrayList<ServiceEntity> services, List<OptionalProductEntity> optionalProducts, List<ValidityPeriodEntity> validityPeriods) throws SQLException {
+    public ServicePackageToSelectEntity createServicePackageToSelect(
+        String name,
+        ArrayList<ServiceEntity> services,
+        List<OptionalProductEntity> optionalProducts,
+        List<ValidityPeriodEntity> validityPeriods
+    ) throws SQLException {
         ServicePackageToSelectEntity servicePackageToSelect = new ServicePackageToSelectEntity(name, services, optionalProducts, validityPeriods);
         try {
             em.persist(servicePackageToSelect);

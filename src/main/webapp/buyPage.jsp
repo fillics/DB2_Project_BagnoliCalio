@@ -101,11 +101,9 @@
         </fieldset>
         <br><br>
 
-        <form>
             <label>Choose the start date:
                 <input type="date" name="startDate">
             </label>
-        </form>
         <br><br>
 
         <button type="submit" name ="button2" value="${user.user_id}">CONFIRM</button>

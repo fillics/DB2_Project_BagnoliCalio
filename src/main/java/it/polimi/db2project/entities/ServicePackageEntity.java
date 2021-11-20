@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,11 +17,19 @@ public class ServicePackageEntity implements Serializable {
     @Column(name = "servicePackage_id", nullable = false)
     private Long servicePackage_id;
 
-    @Column(name = "startDate", nullable=false)
+//    @Temporal(name = "startDate", nullable=false)
+//    private Date startDate;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "startDate")
     private java.util.Date startDate;
 
-    @Column(name = "endDate", nullable=false)
+    @Temporal(TemporalType.DATE)
+    @Column(name = "endDate")
     private java.util.Date endDate;
+
+//    @Column(name = "endDate", nullable=false)
+//    private Date endDate;
 
     @Column(name = "totalValuePackage", unique=true, nullable=false)
     private float totalValuePackage;
@@ -51,13 +60,13 @@ public class ServicePackageEntity implements Serializable {
     }
 
     public ServicePackageEntity(
+        ServicePackageToSelectEntity packageSelected,
+        ValidityPeriodEntity validityPeriod,
+        UserEntity userOwner,
         java.util.Date startDate,
         java.util.Date endDate,
         float totalValuePackage,
-        ServicePackageToSelectEntity packageSelected,
-        ValidityPeriodEntity validityPeriod,
-        List<OptionalProductEntity> optionalProducts,
-        UserEntity userOwner
+        List<OptionalProductEntity> optionalProducts
     ) {
         this.startDate = startDate;
         this.endDate = endDate;
