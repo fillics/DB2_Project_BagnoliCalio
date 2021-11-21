@@ -48,6 +48,10 @@ public class HomePageEmployeeServlet extends HttpServlet {
             message = "Optional Product created successfully!";
             req.setAttribute("messageOptProduct", message);
         }
+        else if (req.getParameter("servPackageCreated") != null) {
+            message = "Service Package to select created successfully!";
+            req.setAttribute("messageServicePackage", message);
+        }
         dispatcher.forward(req, resp);
     }
 }

@@ -53,14 +53,14 @@ public class ServicePackageToSelectServlet extends HttpServlet {
         }
 
         if (servicePackageToSelect != null) {
-            destServlet = "homePageEmployee";
+            destServlet = "homePageEmployee?servPackageCreated=true";
         }
         else
         {
             destServlet = "homePageEmployee?creationServPackageFailed=true";
         }
 
-        response.sendRedirect(destServlet); // <---- questa è una servlet
+        response.sendRedirect(destServlet);
     }
     
     

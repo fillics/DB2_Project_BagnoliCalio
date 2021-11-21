@@ -31,14 +31,9 @@ public class BuyServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String aaa = request.getParameter("button2");
-        System.out.println(aaa);
-
         if (request.getParameter("button1") != null) {
-            System.out.println("SONO ENTRATA 1");
 
             String srvPackage = request.getParameter("srvPackage");
-            System.out.println(srvPackage);
 
             Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
             String destServlet = "buyPage";

@@ -1,10 +1,9 @@
 <%@ page import="java.util.List" %>
-<%@ page import="it.polimi.db2project.entities.OptionalProductEntity" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="it.polimi.db2project.entities.ServiceEntity" %>
-<%@ page import="it.polimi.db2project.entities.ValidityPeriodEntity" %>
-<%@ page import="it.polimi.db2project.entities.ServicePackageToSelectEntity" %>
+<%@ page session="true" %>
+<%@ page import="it.polimi.db2project.services.EmployeeService" %>
+<%@ page import="it.polimi.db2project.entities.*" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -27,6 +26,9 @@
             request.getAttribute("validityPeriods");
     List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
             request.getAttribute("servicePackagesToSelect");
+
+
+
 %>
 
 <div style="text-align: center">

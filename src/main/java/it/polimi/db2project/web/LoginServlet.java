@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                 destServlet = "login?loginFailed=true";
             }
         }
-        response.sendRedirect(destServlet); // <---- questa è una servlet
+        response.sendRedirect(destServlet);
         }
 
     @Override

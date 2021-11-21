@@ -12,11 +12,42 @@
     <meta charset="utf-8">
     <title>Telco Website</title>
 </head>
+
+<style><%@include file="css/style.css"%></style>
+
 <body>
 
+<%
+    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
+    request.getAttribute("servicePackagesToSelect");
 
+    UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+    String userUsername = null;
+    try {
+        userUsername = user.getUsername();
+    }catch (Exception e){
+        e.printStackTrace();
+    }
+
+
+%>
+
+<%
+    if(userUsername!=null){
+
+%>
 <p align=right>Username of the user: ${user.username}</p>
 <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
+<%
+    }
+    else{
+
+%>
+<p align=right><a href="${pageContext.request.contextPath}/login">Login</a></p>
+<%
+    }
+%>
+
 <form action="buyPage">
 
 <div style="text-align: center">
@@ -27,8 +58,6 @@
     <br>
 
     <%
-        List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-        request.getAttribute("servicePackagesToSelect");
         for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
     %>
     <div style="text-align: center">

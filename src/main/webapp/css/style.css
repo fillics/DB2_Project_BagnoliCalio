@@ -14,3 +14,7 @@ h1
 .signup{
     text-align: center;
 }
+
+.navbar{
+  alignment: right;
+}
