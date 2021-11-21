@@ -10,6 +10,7 @@ import jakarta.persistence.PersistenceException;
 import jakarta.validation.ConstraintViolationException;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -76,22 +77,24 @@ public class UserService {
     }
 
     public ServicePackageEntity createServicePackage(
-        Date startDate,
+        java.util.Date startDate,
         Date endDate,
         float totalValuePackage,
         ServicePackageToSelectEntity servicePackageToSelect,
         ValidityPeriodEntity validityPeriod,
-        List<OptionalProductEntity> optionalProducts,
+        ArrayList<OptionalProductEntity> optionalProducts,
         UserEntity userOwner
     ) throws SQLException {
         ServicePackageEntity servicePackage = new ServicePackageEntity(
+            servicePackageToSelect,
+            validityPeriod,
+            userOwner,
             startDate,
             endDate,
             totalValuePackage,
-            servicePackageToSelect,
-            validityPeriod,
-            optionalProducts,
-            userOwner);
+            optionalProducts);
+
+
         try {
             em.persist(servicePackage);
             em.flush();

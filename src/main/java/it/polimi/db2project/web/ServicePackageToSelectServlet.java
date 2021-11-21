@@ -47,7 +47,12 @@ public class ServicePackageToSelectServlet extends HttpServlet {
         }
 
         try {
-            servicePackageToSelect = employeeService.createServicePackageToSelect(nameServPackage, serviceEntities, optionalProductEntities, validityPeriodEntities);
+            servicePackageToSelect = employeeService.createServicePackageToSelect(
+                nameServPackage,
+                serviceEntities,
+                optionalProductEntities,
+                validityPeriodEntities
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
