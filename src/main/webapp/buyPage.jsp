@@ -101,10 +101,9 @@
         </fieldset>
         <br><br>
 
-
-            <label>Choose the start date:
-                <input type="date" name="startDate">
-            </label>
+        <label>Choose the start date:
+            <input type="date" name="startDate" required>
+        </label>
 
         <br><br>
 

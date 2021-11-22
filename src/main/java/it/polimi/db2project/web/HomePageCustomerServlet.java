@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,14 +24,9 @@ public class HomePageCustomerServlet extends HttpServlet {
     @EJB
     UserService userService;
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 
         List<ServicePackageToSelectEntity> servicePackagesToSelect = userService.findAllServicePackageToSelect();
         List<ServiceEntity> services = userService.findAllService();

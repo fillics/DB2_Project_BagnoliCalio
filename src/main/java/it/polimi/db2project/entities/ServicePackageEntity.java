@@ -22,6 +22,12 @@ import java.util.List;
         "WHERE s.packageSelected = : servicePackageToSelect_id AND s.validityPeriod =: validityPeriod_id "
 )
 
+@NamedQuery(
+        name = "ServicePackage.findServicePackageOfUser",
+        query = "SELECT s " +
+                "FROM ServicePackageEntity s " +
+                "WHERE s.userOwner = : user_id"
+)
 
 @Table(name = "servicepackage", schema = "dbtelco")
 public class ServicePackageEntity implements Serializable {
@@ -32,19 +38,14 @@ public class ServicePackageEntity implements Serializable {
     @Column(name = "servicePackage_id", nullable = false)
     private Long servicePackage_id;
 
-//    @Temporal(name = "startDate", nullable=false)
-//    private Date startDate;
-
     @Temporal(TemporalType.DATE)
     @Column(name = "startDate")
-    private java.util.Date startDate;
+    private Date startDate;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "endDate")
-    private java.util.Date endDate;
+    private Date endDate;
 
-//    @Column(name = "endDate", nullable=false)
-//    private Date endDate;
 
     @Column(name = "totalValuePackage", unique=true, nullable=false)
     private float totalValuePackage;
@@ -78,8 +79,8 @@ public class ServicePackageEntity implements Serializable {
         ServicePackageToSelectEntity packageSelected,
         ValidityPeriodEntity validityPeriod,
         UserEntity userOwner,
-        java.util.Date startDate,
-        java.util.Date endDate,
+        java.sql.Date startDate,
+        java.sql.Date endDate,
         float totalValuePackage,
         List<OptionalProductEntity> optionalProducts
     ) {
@@ -100,7 +101,7 @@ public class ServicePackageEntity implements Serializable {
         this.servicePackage_id = servicePackage_id;
     }
 
-    public java.util.Date getStartDate() {
+    public java.sql.Date getStartDate() {
         return startDate;
     }
 
@@ -108,7 +109,7 @@ public class ServicePackageEntity implements Serializable {
         this.startDate = startDate;
     }
 
-    public java.util.Date getEndDate() {
+    public java.sql.Date getEndDate() {
         return endDate;
     }
 

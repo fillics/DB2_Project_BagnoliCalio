@@ -76,24 +76,13 @@ public class UserService {
         }
     }
 
-    public ServicePackageEntity createServicePackage(
-        java.util.Date startDate,
-        Date endDate,
-        float totalValuePackage,
-        ServicePackageToSelectEntity servicePackageToSelect,
-        ValidityPeriodEntity validityPeriod,
-        ArrayList<OptionalProductEntity> optionalProducts,
-        UserEntity userOwner
-    ) throws SQLException {
-        ServicePackageEntity servicePackage = new ServicePackageEntity(
-            servicePackageToSelect,
-            validityPeriod,
-            userOwner,
-            startDate,
-            endDate,
-            totalValuePackage,
-            optionalProducts);
-
+    public ServicePackageEntity createServicePackage(java.sql.Date startDate, java.sql.Date endDate, float totalValuePackage,
+                                                     ServicePackageToSelectEntity servicePackageToSelect,
+                                                     ValidityPeriodEntity validityPeriod,
+                                                     ArrayList<OptionalProductEntity> optionalProducts,
+                                                     UserEntity userOwner) throws SQLException {
+        ServicePackageEntity servicePackage = new ServicePackageEntity(servicePackageToSelect, validityPeriod,
+                userOwner, startDate, endDate, totalValuePackage, optionalProducts);
 
         try {
             em.persist(servicePackage);
@@ -108,6 +97,11 @@ public class UserService {
         return em.createNamedQuery("ServicePackageToSelect.findAll", ServicePackageToSelectEntity.class).getResultList();
     }
 
+    public List<ServicePackageEntity> findServPackageUser(Long user_id){
+        return em.createNamedQuery("ServicePackage.findServicePackageOfUser", ServicePackageEntity.class)
+                .setParameter("user_id", user_id)
+                .getResultList();
+    }
 
     public Optional<UserEntity> findByUserID(Long user_id){
         return em.createNamedQuery("User.findByID", UserEntity.class)
@@ -141,7 +135,7 @@ public class UserService {
     }
 
     public List<OptionalProductEntity> findOptProdOfService(Long servicePackageToSelect_id){
-        return em.createNamedQuery("OptionalProduct.findOptProdOfService", OptionalProductEntity.class)
+        return em.createNamedQuery("OptionalProduct.findOptProdOfServicePackageToSelect", OptionalProductEntity.class)
             .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
             .getResultList();
     }

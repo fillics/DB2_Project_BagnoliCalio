@@ -1,13 +1,7 @@
 <%@ page import="it.polimi.db2project.entities.ServicePackageEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="it.polimi.db2project.entities.ServiceEntity" %>
-<%@ page import="it.polimi.db2project.entities.OptionalProductEntity" %><%--
-  Created by IntelliJ IDEA.
-  User: nataliabagnoli
-  Date: 19/11/21
-  Time: 12:55
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="it.polimi.db2project.entities.OptionalProductEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -16,6 +10,11 @@
   <title>Telco Website</title>
 </head>
 <body>
+
+<%
+  ServicePackageEntity servicePackage = (ServicePackageEntity)
+          request.getAttribute("servicePackage");
+%>
 
 <p align=right>Username of the user: ${user.username}</p>
 <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
@@ -26,10 +25,7 @@
     <br>
     <h2>Details of the chosen service package</h2>
 
-      <%
-        ServicePackageEntity servicePackage =(ServicePackageEntity)
-        request.getAttribute("servicePackage");
-       %>
+
     <div style="text-align: center">
       <table style="border:2px solid black;margin-left:auto;margin-right:auto;" >
         <tr>
