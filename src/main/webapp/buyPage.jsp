@@ -15,6 +15,14 @@
 </head>
 <body>
 
+<%
+    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
+            request.getAttribute("servicePackagesToSelect");
+    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
+            request.getAttribute("validityPeriods");
+    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
+            request.getAttribute("optionalProducts");
+%>
 
 <div style="text-align: center">
 
@@ -30,12 +38,6 @@
         <label for="srvPackage">Choose a service package to buy:</label>
         <select name="srvPackage" id="srvPackage">
             <%
-                List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-                request.getAttribute("servicePackagesToSelect");
-                List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
-                request.getAttribute("validityPeriods");
-                List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
-                request.getAttribute("optionalProducts");
                 for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
             %>
             <option value="<%=servicePackageToSelect.getServicePackageToSelect_id()%>"><%=servicePackageToSelect.getName() %></option>

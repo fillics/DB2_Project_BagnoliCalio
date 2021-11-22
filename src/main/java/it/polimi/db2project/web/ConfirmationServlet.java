@@ -25,7 +25,6 @@ public class ConfirmationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String userID = (String) req.getSession(false).getAttribute("userID");
-        System.out.println("UserID: "+userID);
 
         List<ServicePackageEntity> servicePackage = userService.findServPackageUser(Long.parseLong(userID));
 

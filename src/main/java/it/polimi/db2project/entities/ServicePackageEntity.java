@@ -26,7 +26,7 @@ import java.util.List;
         name = "ServicePackage.findServicePackageOfUser",
         query = "SELECT s " +
                 "FROM ServicePackageEntity s " +
-                "WHERE s.userOwner = : user_id"
+                "WHERE s.userOwner = : user"
 )
 
 @Table(name = "servicepackage", schema = "dbtelco")

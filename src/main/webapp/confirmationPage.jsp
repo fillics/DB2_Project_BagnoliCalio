@@ -30,71 +30,41 @@
       <table style="border:2px solid black;margin-left:auto;margin-right:auto;" >
         <tr>
           <td>Package Selected</td>
+          <td>Type of services</td>
+          <td>Optional products</td>
+          <td>Start date of subscription</td>
+          <td>End date of subscription</td>
+          <td>Total price to be pre-paid</td>
         </tr>
 
         <tr>
           <td><%=servicePackage.getPackageSelected().getName()%></td>
-        </tr>
-
-        <br><br>
-
-        <tr>
-          <td>Type of services</td>
-        </tr>
-        <%
+          <%
             for (ServiceEntity service: servicePackage.getPackageSelected().getServices()) {
-        %>
-        <tr>
+          %>
           <td><%=service.getTypeOfService()%></td>
-        </tr>
-        <%
-          }
-        %>
-
-        <br><br>
-
-        <tr>
-          <td>Optional products</td>
-        </tr>
-        <%
-          for (OptionalProductEntity optProduct: servicePackage.getOptionalProducts()) {
-        %>
-        <tr>
+          <%
+            }
+          %>
+          <%
+            if(servicePackage.getOptionalProducts()!=null){
+              for (OptionalProductEntity optProduct: servicePackage.getOptionalProducts()) {
+          %>
           <td><%=optProduct.getName()%></td>
-        </tr>
-        <%
-          }
-        %>
-
-        <br><br>
-
-        <tr>
-          <td>Start date of subscription</td>
-        </tr>
-        <tr>
+          <%
+              }
+            }
+          %>
           <td><%=servicePackage.getStartDate()%></td>
-        </tr>
-
-        <br><br>
-
-        <tr>
-          <td>End date of subscription</td>
-        </tr>
-        <tr>
           <td><%=servicePackage.getEndDate()%></td>
-        </tr>
-
-        <br><br>
-
-        <tr>
-          <td>Total price to be pre-paid</td>
-        </tr>
-        <tr>
           <td><%=servicePackage.getTotalValuePackage()%></td>
+
         </tr>
 
+      </table>
+    </div>
+  </div>
     <br><br>
-
     <button style="height:150px;width:200px" type="submit">BUY</button>
 </form>
 </div>

@@ -73,7 +73,6 @@
                 <td>Fee Extra GB</td>
             </tr>
             <%
-
                 for (ServiceEntity service: servicePackageToSelect.getServices()) {
             %>
             <tr>

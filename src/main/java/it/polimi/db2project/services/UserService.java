@@ -38,13 +38,13 @@ public class UserService {
     // function to call the external service
     boolean itIsTrue = true;
     public Boolean callExternalService(){
-        if (itIsTrue == true){
+        if (itIsTrue){
             itIsTrue = false;
-            return itIsTrue;
+            return false;
         }
         else{
             itIsTrue = true;
-            return itIsTrue;
+            return true;
         }
     }
 
@@ -98,8 +98,9 @@ public class UserService {
     }
 
     public List<ServicePackageEntity> findServPackageUser(Long user_id){
+        Optional<UserEntity> userEntity = findByUserID(user_id);
         return em.createNamedQuery("ServicePackage.findServicePackageOfUser", ServicePackageEntity.class)
-                .setParameter("user_id", user_id)
+                .setParameter("user", userEntity.get())
                 .getResultList();
     }
 
