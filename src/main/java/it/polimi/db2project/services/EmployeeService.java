@@ -162,12 +162,36 @@ public class EmployeeService {
 
 
 
-    public List<OptionalProductEntity> findOptProdOfServicePackage(Long servicePackageToSelect_id){
-        return em.createNamedQuery("OptionalProduct.findOptProdOfService", OptionalProductEntity.class)
+    public List<OptionalProductEntity> findOptProdOfServicePackageToSelect(Long servicePackageToSelect_id){
+        return em.createNamedQuery("OptionalProduct.findOptProdOfServicePackageToSelect", OptionalProductEntity.class)
                 .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
                 .getResultList();
     }
 
+    public List<ServicePackageEntity> findServicePackageThatContainServicePackageToSelect (Long servicePackageToSelect_id){
+        return em.createNamedQuery("ServicePackage.findServicePackageThatContainServicePackageToSelect", ServicePackageEntity.class)
+            .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+            .getResultList();
+    }
 
+    public List<ServicePackageEntity> findServicePackageThatContainServicePackageToSelectAndValPeriod (
+        Long servicePackageToSelect_id,
+        Long validityPeriod_id
+    ){
+        return em.createNamedQuery(
+            "ServicePackage.findServicePackageThatContainServicePackageToSelectAndValPeriod",
+                ServicePackageEntity.class
+        )
+            .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+            .setParameter("validityPeriod_id", validityPeriod_id)
+            .getResultList();
+    }
+
+
+    public List<OptionalProductEntity> findOptProdOfServicePackage (Long servicePackage_id){
+        return em.createNamedQuery("OptionalProduct.findOptProdOfServicePackage", OptionalProductEntity.class)
+            .setParameter("servicePackage_id", servicePackage_id)
+            .getResultList();
+    }
 
 }

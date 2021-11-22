@@ -8,6 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQuery(
+    name = "ServicePackage.findServicePackageThatContainServicePackageToSelect",
+    query = "SELECT s " +
+        "FROM ServicePackageEntity s " +
+        "WHERE s.packageSelected = : servicePackageToSelect_id "
+)
+
+@NamedQuery(
+    name = "ServicePackage.findServicePackageThatContainServicePackageToSelectAndValPeriod",
+    query = "SELECT s " +
+        "FROM ServicePackageEntity s " +
+        "WHERE s.packageSelected = : servicePackageToSelect_id AND s.validityPeriod =: validityPeriod_id "
+)
+
+
 @Table(name = "servicepackage", schema = "dbtelco")
 public class ServicePackageEntity implements Serializable {
     private static final long serialVersionUID = 1L;

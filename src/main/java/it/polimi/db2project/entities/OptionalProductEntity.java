@@ -20,12 +20,21 @@ import java.util.List;
             query = "SELECT o " +
                 "FROM OptionalProductEntity o "
         ),
+
         @NamedQuery(
-            name = "OptionalProduct.findOptProdOfService",
+            name = "OptionalProduct.findOptProdOfServicePackageToSelect",
             query = "SELECT o " +
                 "FROM OptionalProductEntity o " +
                 "JOIN o.servicePackagesToSelect s " +
                 "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id "
+        ),
+
+        @NamedQuery(
+            name = "OptionalProduct.findOptProdOfServicePackage",
+            query = "SELECT o " +
+                "FROM OptionalProductEntity o " +
+                "JOIN o.servicePackages s " +
+                "WHERE s.servicePackage_id = :servicePackage_id "
         )
     }
 )

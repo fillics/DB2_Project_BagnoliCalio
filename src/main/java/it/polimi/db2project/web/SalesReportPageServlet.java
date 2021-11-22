@@ -43,7 +43,7 @@ public class SalesReportPageServlet extends HttpServlet {
             validityPeriods = employeeService.findValPeriodsOfServicePackage(Long.parseLong(srvPackageWithValPeriod));
         }
         if(srvPackageWithOptProducts!=null){
-            optionalProducts = employeeService.findOptProdOfServicePackage(Long.parseLong(srvPackageWithOptProducts));
+            optionalProducts = employeeService.findOptProdOfServicePackageToSelect(Long.parseLong(srvPackageWithOptProducts));
         }
 
         response.sendRedirect(destServlet);
