@@ -93,6 +93,23 @@ public class ServicePackageEntity implements Serializable {
         this.userOwner = userOwner;
     }
 
+    //PROVA PER IL PERSISTENCE
+    public ServicePackageEntity(
+            ServicePackageToSelectEntity packageSelected,
+            ValidityPeriodEntity validityPeriod,
+            java.sql.Date startDate,
+            java.sql.Date endDate,
+            float totalValuePackage,
+            List<OptionalProductEntity> optionalProducts
+    ) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalValuePackage = totalValuePackage;
+        this.packageSelected = packageSelected;
+        this.validityPeriod = validityPeriod;
+        this.optionalProducts = optionalProducts;
+    }
+
     public Long getServicePackage_id(long servicePackage_id) {
         return this.servicePackage_id;
     }

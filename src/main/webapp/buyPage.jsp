@@ -13,21 +13,47 @@
     <title>Telco Website</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css" />
 </head>
+
+<style><%@include file="css/style.css"%></style>
+
 <body>
 
 <%
     List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-            request.getAttribute("servicePackagesToSelect");
+    request.getAttribute("servicePackagesToSelect");
     List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
             request.getAttribute("validityPeriods");
     List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
-            request.getAttribute("optionalProducts");
+    request.getAttribute("optionalProducts");
+    String packageSelected = (String) request.getAttribute("packageSelected");
+
+    UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+    String userUsername = null;
+    try {
+        userUsername = user.getUsername();
+    }catch (Exception e){
+        e.printStackTrace();
+    }
+
+%>
+
+<%
+    if(userUsername!=null){
+
+%>
+<p align=right>Username of the user: ${user.username}</p>
+<p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
+<%
+}
+else{
+
+%>
+<p align=right><a href="${pageContext.request.contextPath}/login">Login</a></p>
+<%
+    }
 %>
 
 <div style="text-align: center">
-
-    <p align=right>Username of the user: ${user.username}</p>
-    <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
 
     <h1>BUY PAGE</h1>
     <br>
@@ -47,7 +73,7 @@
         </select>
         <br><br>
 
-        <button type="submit" name = "button1" value="${user.user_id}">SELECT SERVICE PACKAGE</button>
+        <button type="submit" name = "servPackageBtn">SELECT SERVICE PACKAGE</button>
 
         <br><br>
         </form>
@@ -57,6 +83,7 @@
             if(validityPeriods!=null && optionalProducts!= null){
         %>
 
+            <h4>Package selected: <%=packageSelected%></h4>
         <label for="valPeriod">Choose a validity period:</label>
         <select name="valPeriod" id="valPeriod">
             <%
@@ -69,6 +96,10 @@
             %>
         </select>
         <br><br>
+
+        <%
+            if(optionalProducts.size()!= 0){
+        %>
 
         <div style="text-align: center">
             <table style="border:2px solid black;margin-left:auto;margin-right:auto;" >
@@ -85,6 +116,7 @@
                 </tr>
                 <%
                     }
+                    }
                 %>
             </table>
         </div>
@@ -99,6 +131,7 @@
                    value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
             <%
                 }
+
             %>
         </fieldset>
         <br><br>
@@ -109,13 +142,11 @@
 
         <br><br>
 
-        <button type="submit" name ="button2" value="${user.user_id}">CONFIRM</button>
-
-        <%
-            }
-        %>
-
-    </form>
+        <button type="submit" name ="confirmBtn">CONFIRM</button>
+            <%
+                }
+            %>
+        </form>
 </div>
 
 </body>

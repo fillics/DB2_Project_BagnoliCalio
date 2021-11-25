@@ -10,10 +10,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @WebServlet("/confirmationPage")
 public class ConfirmationServlet extends HttpServlet {
@@ -22,15 +20,55 @@ public class ConfirmationServlet extends HttpServlet {
     private UserService userService;
 
     @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String loggedInStr = req.getParameter("button");
+        Boolean loggedIn;
+        System.out.println("loggedIn: "+loggedInStr);
+        if(loggedInStr.equals("true")) loggedIn=true;
+        else loggedIn=false;
+        String destServlet;
+
+
+        if (loggedIn){
+            destServlet = "serviceActivationSchedule";
+
+        }
+        else{
+            destServlet = "confirmationPage?loginNeeded=true";
+
+        }
+
+
+
+            /*try {
+            servicePackage = userService.createServicePackage(
+                sqlStartDate,
+                sqlEndDate,
+                totalValue,
+                servicePackageToSelect,
+                validityPeriod,
+                optionalProducts,
+                userOwner
+                            );
+
+        } catch (SQLException e) {
+        e.printStackTrace();
+        }*/
+
+
+        resp.sendRedirect(destServlet);
+
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String userID = (String) req.getSession(false).getAttribute("userID");
 
-        List<ServicePackageEntity> servicePackage = userService.findServPackageUser(Long.parseLong(userID));
-
-        req.setAttribute("servicePackage", servicePackage.get(servicePackage.size()-1));
+        ServicePackageEntity servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");
+        req.setAttribute("servicePackage", servicePackage);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("confirmationPage.jsp");
+
         dispatcher.forward(req, resp);
     }
 }

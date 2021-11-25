@@ -35,28 +35,26 @@ public class BuyServlet extends HttpServlet {
     String srvPackageToSelect;
     String destServlet = null;
     ServicePackageEntity servicePackage = null;
+    String packageSelected = null;
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String userID = request.getParameter("button2");
-        if (request.getParameter("button1") != null) {
+        HttpSession session = request.getSession();
+
+        if (request.getParameter("servPackageBtn")!=null) {
 
             srvPackageToSelect = request.getParameter("srvPackage");
 
-            Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
             destServlet = "buyPage";
 
-            //servicePackageToSelect = userService.findByServicePackageToSelectID(Long.parseLong(srvPackage));
+            packageSelected = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get().getName();
+
             validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackageToSelect));
             optionalProducts = userService.findOptProdOfService(Long.parseLong(srvPackageToSelect));
-
-            response.sendRedirect(destServlet);
         }
 
-        else if (userID != null){
-            HttpSession session = request.getSession();
-            session.setAttribute("userID", userID);
-            String user_id = request.getParameter("button2");
+        if (request.getParameter("confirmBtn") != null){
 
             String valPeriod = request.getParameter("valPeriod");
 
@@ -67,10 +65,7 @@ public class BuyServlet extends HttpServlet {
             LocalDate endDate = null;
             java.sql.Date sqlStartDate = null;
             java.sql.Date sqlEndDate = null;
-            String destServlet;
 
-            //userOwner
-            UserEntity userOwner = userService.findByUserID(Long.parseLong(user_id)).get();
 
             //service package to select
             ServicePackageToSelectEntity servicePackageToSelect = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get();
@@ -102,24 +97,19 @@ public class BuyServlet extends HttpServlet {
             sqlStartDate = java.sql.Date.valueOf(startDate);
             sqlEndDate = java.sql.Date.valueOf(endDate);
 
-            try {
-                servicePackage = userService.createServicePackage(
-                    sqlStartDate,
-                    sqlEndDate,
-                    totalValue,
-                    servicePackageToSelect,
-                    validityPeriod,
-                    optionalProducts,
-                    userOwner
-                );
+            servicePackage = new ServicePackageEntity(servicePackageToSelect,
+                                                        validityPeriod,
+                                                        sqlStartDate,
+                                                        sqlEndDate,
+                                                        totalValue,
+                                                        optionalProducts);
 
-                } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            session.setAttribute("servicePackage", servicePackage);
+
+
             destServlet = "confirmationPage";
-            response.sendRedirect(destServlet);
         }
-
+        response.sendRedirect(destServlet);
     }
 
 
@@ -131,6 +121,8 @@ public class BuyServlet extends HttpServlet {
         req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
         req.setAttribute("validityPeriods", validityPeriods);
         req.setAttribute("optionalProducts", optionalProducts);
+        req.setAttribute("packageSelected", packageSelected);
+
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("buyPage.jsp");
         dispatcher.forward(req, resp);

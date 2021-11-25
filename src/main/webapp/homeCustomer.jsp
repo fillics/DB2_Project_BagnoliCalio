@@ -62,7 +62,7 @@
     %>
     <div style="text-align: center">
         <h3>Service Package Name: <%=servicePackageToSelect.getName() %></h3>
-        <table style="border:2px solid black;margin-left:auto;margin-right:auto;" >
+        <table class="table">
             <tr>
                 <td>Name Service</td>
                 <td>Number of Minutes</td>
