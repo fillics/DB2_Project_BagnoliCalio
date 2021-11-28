@@ -1,3 +1,4 @@
+<%@ page import="it.polimi.db2project.entities.ServicePackageEntity" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -8,6 +9,11 @@
 </head>
 
 <style><%@include file="css/style.css"%></style>
+
+<%
+    ServicePackageEntity servicePackage = (ServicePackageEntity) request.getSession().getAttribute("servicePackage");
+
+%>
 
 <body>
 <div class="login">
@@ -50,12 +56,18 @@
     </form>
 </div>
 
+<%
+    if(servicePackage==null){
+
+%>
 <div style="text-align: center">
     <br><br>
     <h2 href="homePageCustomer">Skip the Login</h2>
     <a href="homePageCustomer">Click here to enter in the website without the login</a>
 </div>
-
+<%
+    }
+%>
 
 </body>
 </html>

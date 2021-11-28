@@ -1,6 +1,7 @@
 package it.polimi.db2project.web;
 
 import it.polimi.db2project.entities.EmployeeEntity;
+import it.polimi.db2project.entities.ServicePackageEntity;
 import it.polimi.db2project.entities.UserEntity;
 import it.polimi.db2project.exception.CredentialsException;
 import it.polimi.db2project.services.EmployeeService;
@@ -28,12 +29,11 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
         super();
     }
+    ServicePackageEntity servicePackage;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         HttpSession session = request.getSession();
         String destServlet;
-
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -58,26 +58,27 @@ public class LoginServlet extends HttpServlet {
             } catch (CredentialsException e) {
                 e.printStackTrace();
             }
-            if (user != null && !userService.isTheUserWantsToBuyAndHeIsNotLogged()) {
+            if(user!=null){
+                if(servicePackage==null){
+                    destServlet = "homePageCustomer";
+                }
+                else{
+                    destServlet = "confirmationPage";
+                }
                 session.setAttribute("user", user);
-                destServlet = "homePageCustomer";
-            }
-            else if (user!= null && userService.isTheUserWantsToBuyAndHeIsNotLogged()) {
-                session.setAttribute("user", user);
-                userService.setTheUserWantsToBuyAndHeIsNotLogged(false);
-                destServlet = "servicePackage";
             }
             else {
                 destServlet = "login?loginFailed=true";
             }
         }
 
-
         response.sendRedirect(destServlet);
         }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
         String message = "Invalid email/password";

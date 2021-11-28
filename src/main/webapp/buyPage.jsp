@@ -96,11 +96,10 @@ else{
         </select>
         <br><br>
 
+        <div style="text-align: center">
         <%
             if(optionalProducts.size()!= 0){
         %>
-
-        <div style="text-align: center">
             <table style="border:2px solid black;margin-left:auto;margin-right:auto;" >
                 <tr>
                     <td>Name Optional Product</td>
@@ -118,10 +117,14 @@ else{
                     }
                 %>
             </table>
-        </div>
+
         <br><br>
 
-        <fieldset>
+        <%
+            if(optionalProducts.size()!= 0){
+        %>
+
+            <fieldset>
             <legend>Choose one or more optional products</legend>
             <%
                 for (OptionalProductEntity optProd: optionalProducts) {
@@ -129,8 +132,8 @@ else{
             <input type="checkbox" name="optProducts"
                    value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
             <%
+                    }
                 }
-
             %>
         </fieldset>
         <br><br>
@@ -146,6 +149,8 @@ else{
                 }
             %>
         </form>
+</div>
+
 </div>
 
 </body>
