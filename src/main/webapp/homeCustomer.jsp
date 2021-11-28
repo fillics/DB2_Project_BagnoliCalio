@@ -21,18 +21,12 @@
     List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
     request.getAttribute("servicePackagesToSelect");
 
-    UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+    UserEntity user = null;
     String userUsername = null;
-    try {
+    if((UserEntity) request.getSession().getAttribute("user")!=null){
+        user = (UserEntity) request.getSession().getAttribute("user");
         userUsername = user.getUsername();
-    }catch (Exception e){
-        e.printStackTrace();
     }
-
-
-%>
-
-<%
     if(userUsername!=null){
 
 %>

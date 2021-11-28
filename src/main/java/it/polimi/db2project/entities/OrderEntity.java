@@ -12,17 +12,13 @@ public class OrderEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public OrderEntity(
-            Long user_id,
             Timestamp dateAndHour,
             float totalValueOrder,
-            String status,
             UserEntity userOwner,
             ServicePackageEntity servicePackageAssociated
     ) {
-        this.user_id = user_id;
         this.dateAndHour = dateAndHour;
         this.totalValueOrder = totalValueOrder;
-        this.status = status;
         this.userOwner = userOwner;
         this.servicePackageAssociated = servicePackageAssociated;
     }

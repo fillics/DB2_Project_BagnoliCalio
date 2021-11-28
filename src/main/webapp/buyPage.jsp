@@ -27,12 +27,11 @@
     request.getAttribute("optionalProducts");
     String packageSelected = (String) request.getAttribute("packageSelected");
 
-    UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+    UserEntity user = null;
     String userUsername = null;
-    try {
+    if(request.getSession().getAttribute("user")!=null){
+        user = (UserEntity) request.getSession().getAttribute("user");
         userUsername = user.getUsername();
-    }catch (Exception e){
-        e.printStackTrace();
     }
 
 %>

@@ -106,7 +106,6 @@ public class BuyServlet extends HttpServlet {
 
             session.setAttribute("servicePackage", servicePackage);
 
-
             destServlet = "confirmationPage";
         }
         response.sendRedirect(destServlet);

@@ -75,7 +75,7 @@ public class ServicePackageEntity implements Serializable {
     public ServicePackageEntity(){
     }
 
-    public ServicePackageEntity(
+    /*public ServicePackageEntity(
         ServicePackageToSelectEntity packageSelected,
         ValidityPeriodEntity validityPeriod,
         UserEntity userOwner,
@@ -91,7 +91,7 @@ public class ServicePackageEntity implements Serializable {
         this.validityPeriod = validityPeriod;
         this.optionalProducts = optionalProducts;
         this.userOwner = userOwner;
-    }
+    }*/
 
     //PROVA PER IL PERSISTENCE
     public ServicePackageEntity(

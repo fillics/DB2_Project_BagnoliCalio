@@ -10,6 +10,8 @@ import jakarta.persistence.PersistenceException;
 import jakarta.validation.ConstraintViolationException;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,13 +78,14 @@ public class UserService {
         }
     }
 
-    public ServicePackageEntity createServicePackage(java.sql.Date startDate, java.sql.Date endDate, float totalValuePackage,
+    /*public ServicePackageEntity createServicePackage(java.sql.Date startDate, java.sql.Date endDate, float totalValuePackage,
                                                      ServicePackageToSelectEntity servicePackageToSelect,
                                                      ValidityPeriodEntity validityPeriod,
                                                      ArrayList<OptionalProductEntity> optionalProducts,
                                                      UserEntity userOwner) throws SQLException {
         ServicePackageEntity servicePackage = new ServicePackageEntity(servicePackageToSelect, validityPeriod,
-                userOwner, startDate, endDate, totalValuePackage, optionalProducts);
+                startDate, endDate, totalValuePackage, optionalProducts);
+        servicePackage.setUserOwner(userOwner);
 
         try {
             em.persist(servicePackage);
@@ -90,6 +93,17 @@ public class UserService {
             return servicePackage;
         } catch (ConstraintViolationException e) {
             return null;
+        }
+    }*/
+
+    public void createServicePackage(ServicePackageEntity servicePackage, UserEntity userOwner) throws SQLException {
+
+        servicePackage.setUserOwner(userOwner);
+
+        try {
+            em.persist(servicePackage);
+            em.flush();
+        } catch (ConstraintViolationException ignored) {
         }
     }
 
@@ -148,5 +162,14 @@ public class UserService {
     // TODO: 16/11/2021 metodo in comune con employee service 
     public List<ValidityPeriodEntity> findAllValidityPeriods(){
         return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
+    }
+
+    public void createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage){
+        OrderEntity order = new OrderEntity(now, servicePackage.getTotalValuePackage(), userOwner, servicePackage);
+        try {
+            em.persist(order);
+            em.flush();
+        } catch (ConstraintViolationException ignored) {
+        }
     }
 }

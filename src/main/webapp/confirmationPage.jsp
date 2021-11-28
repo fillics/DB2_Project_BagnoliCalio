@@ -17,19 +17,17 @@
 <body>
 
 <%
-  Boolean loggedIn = false;
   ServicePackageEntity servicePackage = (ServicePackageEntity)
   request.getAttribute("servicePackage");
 
-  UserEntity user = (UserEntity) request.getSession().getAttribute("user");
+  UserEntity user = null;
   String userUsername = null;
-  try {
+  if(request.getSession().getAttribute("user")!=null){
+    user = (UserEntity) request.getSession().getAttribute("user");
     userUsername = user.getUsername();
-    loggedIn=true;
-  }catch (Exception e){
-    e.printStackTrace();
   }
-  if(!loggedIn){
+
+  if(userUsername!=null){
 %>
 <p align=right>Username of the user: ${user.username}</p>
 <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
@@ -55,7 +53,7 @@ else{
         <td>Type of services</td>
         <%
           if(servicePackage.getOptionalProducts()!=null){
-            for (OptionalProductEntity optProduct: servicePackage.getOptionalProducts()) {
+            for (int i = 0; i < servicePackage.getOptionalProducts().size(); i++) {
         %>
         <td>Optional products</td>
         <%
@@ -101,17 +99,17 @@ else{
 <div style="text-align: center">
 
   <%
-    if(loggedIn){
+    if(userUsername!=null){
   %>
   <form action="confirmationPage" method="post">
-    <button class="button" value=<%=loggedIn%>type="submit">BUY</button>
+    <button class="button" type="submit">BUY</button>
   </form>
   <%
     }
     else{
   %>
-  <form action="login" method="post">
-    <button class="button" value=<%=loggedIn%>type="submit">LOGIN/SIGNUP</button>
+  <form action="login" method="get">
+    <button class="button" type="submit">LOGIN/SIGNUP</button>
   </form>
   <%
     }

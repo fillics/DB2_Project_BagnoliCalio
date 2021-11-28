@@ -30,12 +30,17 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        String destServlet;
+
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         UserEntity user = null;
         EmployeeEntity employee = null;
-        String destServlet;
+
         try {
             employee = employeeService.checkCredentials(username, password);
         } catch (CredentialsException e) {
@@ -43,7 +48,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (employee != null) {
-            HttpSession session = request.getSession();
+
             session.setAttribute("employee", employee);
             destServlet = "homePageEmployee";
         }
@@ -54,12 +59,10 @@ public class LoginServlet extends HttpServlet {
                 e.printStackTrace();
             }
             if (user != null && !userService.isTheUserWantsToBuyAndHeIsNotLogged()) {
-                HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 destServlet = "homePageCustomer";
             }
             else if (user!= null && userService.isTheUserWantsToBuyAndHeIsNotLogged()) {
-                HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 userService.setTheUserWantsToBuyAndHeIsNotLogged(false);
                 destServlet = "servicePackage";
@@ -68,6 +71,8 @@ public class LoginServlet extends HttpServlet {
                 destServlet = "login?loginFailed=true";
             }
         }
+
+
         response.sendRedirect(destServlet);
         }
 
