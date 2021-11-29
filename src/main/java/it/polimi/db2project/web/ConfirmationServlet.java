@@ -1,5 +1,6 @@
 package it.polimi.db2project.web;
 
+import it.polimi.db2project.entities.OrderEntity;
 import it.polimi.db2project.entities.ServicePackageEntity;
 import it.polimi.db2project.entities.ServicePackageToSelectEntity;
 import it.polimi.db2project.entities.UserEntity;
@@ -28,17 +29,7 @@ public class ConfirmationServlet extends HttpServlet {
 
     ServicePackageEntity servicePackage;
 
-    public boolean randomPayment(){
-        Random rd = new Random();
-        return rd.nextBoolean();
-    }
 
-    /**
-     * Method that returns the value that it is passed as parameter (for testing purpose=)
-     */
-    public boolean calledPayment(Boolean result){
-        return result;
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,11 +45,12 @@ public class ConfirmationServlet extends HttpServlet {
             throwables.printStackTrace();
         }
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        OrderEntity order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage);
 
-        userService.createOrder(timestamp, user, servicePackage);
+        order.setValid(userService.callExternalService());
+
+
         destServlet = "confirmationPage";
-
 
         resp.sendRedirect(destServlet);
 

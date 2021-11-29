@@ -42,7 +42,8 @@ public class SignupServlet extends HttpServlet {
         //se sono un employee
         if(isEmployee) {
             EmployeeEntity employee;
-            if (employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent()) {
+            if (employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent() ||
+                    userService.findByUsername(username).isPresent() || userService.findByEmail(email).isPresent() ) {
                 destServlet = "signup?signupFailed=true";
             }
             else {
@@ -64,7 +65,8 @@ public class SignupServlet extends HttpServlet {
         //se non sono un employee
         else {
             UserEntity user;
-            if (userService.findByUsername(username).isPresent() || userService.findByEmail(email).isPresent()) {
+            if (userService.findByUsername(username).isPresent() || userService.findByEmail(email).isPresent() ||
+                    employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent()) {
                 destServlet = "signup?signupFailed=true";
             }
             else {

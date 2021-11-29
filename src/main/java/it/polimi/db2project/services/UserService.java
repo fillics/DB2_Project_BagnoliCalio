@@ -42,11 +42,11 @@ public class UserService {
     public Boolean callExternalService(){
         if (itIsTrue){
             itIsTrue = false;
-            return false;
+            return true;
         }
         else{
             itIsTrue = true;
-            return true;
+            return false;
         }
     }
 
@@ -176,12 +176,14 @@ public class UserService {
         return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
     }
 
-    public void createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage){
+    public OrderEntity createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage){
         OrderEntity order = new OrderEntity(now, servicePackage.getTotalValuePackage(), userOwner, servicePackage);
         try {
             em.persist(order);
             em.flush();
+            return order;
         } catch (ConstraintViolationException ignored) {
+            return null;
         }
     }
 }

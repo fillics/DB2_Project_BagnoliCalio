@@ -27,7 +27,7 @@ public class OrderEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
-    private Long user_id;
+    private Long order_id;
 
     @Column(name = "dateAndHour", nullable=false)
     private Timestamp dateAndHour;
@@ -35,8 +35,8 @@ public class OrderEntity implements Serializable {
     @Column(name = "totalValueOrder", nullable=false)
     private float totalValueOrder;
 
-    @Column(name = "status", nullable=false)
-    private String status;
+    @Column(name = "isValid")
+    private boolean isValid;
 
     //relationship definition part
     @ManyToOne (cascade = CascadeType.ALL, optional = false)
@@ -50,12 +50,12 @@ public class OrderEntity implements Serializable {
     public OrderEntity(){
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getOrder_id() {
+        return order_id;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
     }
 
     public Timestamp getDateAndHour() {
@@ -74,12 +74,12 @@ public class OrderEntity implements Serializable {
         this.totalValueOrder = totalValueOrder;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean isValid() {
+        return isValid;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 
     public UserEntity getUserOwner() {

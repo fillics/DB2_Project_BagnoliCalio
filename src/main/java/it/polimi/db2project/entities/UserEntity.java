@@ -51,6 +51,9 @@ public class UserEntity implements Serializable {
     @Column(name = "email", unique=true, nullable=false)
     private String email;
 
+    @Column(name = "isInsolvent")
+    private boolean isInsolvent;
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ServicePackageEntity> servicePackages;
@@ -129,4 +132,11 @@ public class UserEntity implements Serializable {
         this.alerts = alerts;
     }
 
+    public boolean getInsolvent() {
+        return isInsolvent;
+    }
+
+    public void setInsolvent(boolean insolvent) {
+        isInsolvent = insolvent;
+    }
 }
