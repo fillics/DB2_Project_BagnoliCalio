@@ -66,20 +66,24 @@ public class SignupServlet extends HttpServlet {
         //se non sono un employee
         else {
             UserEntity user;
-            try {
-                user = userService.createUser(username, email, password);
+            if (userService.findByUsername(username).isPresent() || userService.findByEmail(email).isPresent()) {
+                destServlet = "signup?signupFailed=true";
+            }
+            else {
+                try {
+                    user = userService.createUser(username, email, password);
 
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
-                    destServlet = "signup?signupDone=true";
-                }
-                else {
-                    destServlet = "signup?signupError=true";
-                }
+                    if (user != null) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user", user);
+                        destServlet = "signup?signupDone=true";
+                    } else {
+                        destServlet = "signup?signupError=true";
+                    }
 
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
 
@@ -108,4 +112,3 @@ public class SignupServlet extends HttpServlet {
     }
 
 }
-
