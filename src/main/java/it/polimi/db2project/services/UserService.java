@@ -54,7 +54,7 @@ public class UserService {
         List<UserEntity> uList = null;
         try {
             uList = em.createNamedQuery("User.checkCredentials", UserEntity.class).setParameter(1, usrn).setParameter(2, pwd)
-                    .getResultList();
+                .getResultList();
         } catch (PersistenceException e) {
             throw new CredentialsException("Could not verify credentials");
         }
@@ -76,6 +76,18 @@ public class UserService {
         } catch (ConstraintViolationException e) {
             return null;
         }
+    }
+
+    public Optional<UserEntity> findByUsername(String usrn) {
+        return em.createNamedQuery("User.findByUsername", UserEntity.class)
+            .setParameter("username", usrn)
+            .getResultStream().findFirst();
+    }
+
+    public Optional<UserEntity> findByEmail(String email) {
+        return em.createNamedQuery("User.findByEmail", UserEntity.class)
+            .setParameter("email", email)
+            .getResultStream().findFirst();
     }
 
     /*public ServicePackageEntity createServicePackage(java.sql.Date startDate, java.sql.Date endDate, float totalValuePackage,
@@ -114,8 +126,8 @@ public class UserService {
     public List<ServicePackageEntity> findServPackageUser(Long user_id){
         Optional<UserEntity> userEntity = findByUserID(user_id);
         return em.createNamedQuery("ServicePackage.findServicePackageOfUser", ServicePackageEntity.class)
-                .setParameter("user", userEntity.get())
-                .getResultList();
+            .setParameter("user", userEntity.get())
+            .getResultList();
     }
 
     public Optional<UserEntity> findByUserID(Long user_id){
@@ -145,8 +157,8 @@ public class UserService {
 
     public List<ValidityPeriodEntity> findValPeriodsOfService(Long servicePackageToSelect_id){
         return em.createNamedQuery("ValidityPeriod.findValPeriodsByServPackage", ValidityPeriodEntity.class)
-                .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
-                .getResultList();
+            .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+            .getResultList();
     }
 
     public List<OptionalProductEntity> findOptProdOfService(Long servicePackageToSelect_id){
@@ -159,7 +171,7 @@ public class UserService {
         return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
     }
 
-    // TODO: 16/11/2021 metodo in comune con employee service 
+    // TODO: 16/11/2021 metodo in comune con employee service
     public List<ValidityPeriodEntity> findAllValidityPeriods(){
         return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
     }

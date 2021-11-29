@@ -28,7 +28,6 @@
             request.getAttribute("servicePackagesToSelect");
 
 
-
 %>
 
 <div style="text-align: center">
