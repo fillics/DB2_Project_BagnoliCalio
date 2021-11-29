@@ -184,4 +184,10 @@ public class UserService {
         } catch (ConstraintViolationException ignored) {
         }
     }
+
+    public void updateOrder (OrderEntity order, boolean isValid){
+        OrderEntity orderEntity = em.find(OrderEntity.class, order.getOrder_id());
+        orderEntity.setValid(isValid);
+        em.merge(orderEntity);
+    }
 }

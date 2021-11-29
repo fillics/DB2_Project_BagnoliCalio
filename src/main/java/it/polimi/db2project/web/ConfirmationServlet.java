@@ -28,18 +28,6 @@ public class ConfirmationServlet extends HttpServlet {
 
     ServicePackageEntity servicePackage;
 
-    public boolean randomPayment(){
-        Random rd = new Random();
-        return rd.nextBoolean();
-    }
-
-    /**
-     * Method that returns the value that it is passed as parameter (for testing purpose=)
-     */
-    public boolean calledPayment(Boolean result){
-        return result;
-    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
