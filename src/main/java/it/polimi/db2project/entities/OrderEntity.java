@@ -54,7 +54,7 @@ public class OrderEntity implements Serializable {
         return order_id;
     }
 
-    public void setOrder_id(Long order_id) {
+    public void setOrder_id(Long user_id) {
         this.order_id = order_id;
     }
 
@@ -74,14 +74,6 @@ public class OrderEntity implements Serializable {
         this.totalValueOrder = totalValueOrder;
     }
 
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public void setValid(boolean valid) {
-        isValid = valid;
-    }
-
     public UserEntity getUserOwner() {
         return userOwner;
     }
@@ -96,5 +88,12 @@ public class OrderEntity implements Serializable {
 
     public void setServicePackageAssociated(ServicePackageEntity servicePackage) {
         this.servicePackageAssociated = servicePackageAssociated;
+    }
+    public boolean isValid() {
+        return isValid;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
     }
 }
