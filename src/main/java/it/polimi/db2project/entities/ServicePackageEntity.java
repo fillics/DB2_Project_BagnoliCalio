@@ -75,25 +75,6 @@ public class ServicePackageEntity implements Serializable {
     public ServicePackageEntity(){
     }
 
-    /*public ServicePackageEntity(
-        ServicePackageToSelectEntity packageSelected,
-        ValidityPeriodEntity validityPeriod,
-        UserEntity userOwner,
-        java.sql.Date startDate,
-        java.sql.Date endDate,
-        float totalValuePackage,
-        List<OptionalProductEntity> optionalProducts
-    ) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.totalValuePackage = totalValuePackage;
-        this.packageSelected = packageSelected;
-        this.validityPeriod = validityPeriod;
-        this.optionalProducts = optionalProducts;
-        this.userOwner = userOwner;
-    }*/
-
-    //PROVA PER IL PERSISTENCE
     public ServicePackageEntity(
             ServicePackageToSelectEntity packageSelected,
             ValidityPeriodEntity validityPeriod,

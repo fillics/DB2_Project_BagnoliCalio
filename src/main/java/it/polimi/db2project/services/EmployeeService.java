@@ -160,6 +160,12 @@ public class EmployeeService {
                 .getResultList();
     }
 
+    public Optional<ServicePackageToSelectEntity> findByServicePackageToSelectID(Long servicePackageToSelect_id) {
+        return em.createNamedQuery("ServicePackageToSelect.findByID", ServicePackageToSelectEntity.class)
+                .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+                .getResultStream().findFirst();
+    }
+
 
 
     public List<OptionalProductEntity> findOptProdOfServicePackageToSelect(Long servicePackageToSelect_id){
@@ -169,10 +175,13 @@ public class EmployeeService {
     }
 
     public List<ServicePackageEntity> findServicePackageThatContainServicePackageToSelect (Long servicePackageToSelect_id){
+        Optional<ServicePackageToSelectEntity> servicePackageEntity = findByServicePackageToSelectID(servicePackageToSelect_id);
         return em.createNamedQuery("ServicePackage.findServicePackageThatContainServicePackageToSelect", ServicePackageEntity.class)
-            .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+            .setParameter("servicePackageToSelect_id", servicePackageEntity.get())
             .getResultList();
     }
+
+
 
     public List<ServicePackageEntity> findServicePackageThatContainServicePackageToSelectAndValPeriod (
         Long servicePackageToSelect_id,

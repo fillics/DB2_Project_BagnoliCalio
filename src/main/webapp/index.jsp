@@ -58,11 +58,10 @@
 
 <%
     if(servicePackage==null){
-
 %>
 <div style="text-align: center">
     <br><br>
-    <h2 href="homePageCustomer">Skip the Login</h2>
+    <h>Skip the Login</h>
     <a href="homePageCustomer">Click here to enter in the website without the login</a>
 </div>
 <%

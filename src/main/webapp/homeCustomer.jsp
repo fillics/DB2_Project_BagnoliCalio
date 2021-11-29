@@ -23,7 +23,7 @@
 
     UserEntity user = null;
     String userUsername = null;
-    if((UserEntity) request.getSession().getAttribute("user")!=null){
+    if(request.getSession().getAttribute("user")!=null){
         user = (UserEntity) request.getSession().getAttribute("user");
         userUsername = user.getUsername();
     }

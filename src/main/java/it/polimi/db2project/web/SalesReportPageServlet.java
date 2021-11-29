@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,13 @@ public class SalesReportPageServlet extends HttpServlet {
         Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
         String destServlet = "salesReportPage";
 
+        servicePackageToSelect = employeeService.findByServicePackageToSelectID(Long.parseLong(srvPackage));
+
+        int numTotPurchaseXPackage = employeeService.findServicePackageThatContainServicePackageToSelect(servicePackageToSelect.get().getServicePackageToSelect_id()).size();
+
+        request.setAttribute("numTotPurchaseXPackage", numTotPurchaseXPackage);
+
+
         if(srvPackageWithValPeriod!=null){
             validityPeriods = employeeService.findValPeriodsOfServicePackage(Long.parseLong(srvPackageWithValPeriod));
         }
@@ -55,6 +63,19 @@ public class SalesReportPageServlet extends HttpServlet {
 
         List<ServicePackageToSelectEntity> servicePackagesToSelect = employeeService.findAllServicePackageToSelect();
         req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
+
+        //FIRST QUERY
+        ArrayList<Integer> purchasePerPackage = new ArrayList<>();
+        for (ServicePackageToSelectEntity servicePackageToSelectEntity: servicePackagesToSelect){
+            purchasePerPackage.add(employeeService.findServicePackageThatContainServicePackageToSelect(servicePackageToSelectEntity.getServicePackageToSelect_id()).size());
+        }
+        req.setAttribute("purchasePerPackage", purchasePerPackage);
+
+        //SECOND QUERY
+        ArrayList<Integer> purchasePerPackageAndValPeriod = new ArrayList<>();
+
+
+
         req.setAttribute("validityPeriods", validityPeriods);
         req.setAttribute("optionalProducts", optionalProducts);
         req.setAttribute("avgNumOptProductsWithServPackage", avgNumOptProductsWithServPackage);

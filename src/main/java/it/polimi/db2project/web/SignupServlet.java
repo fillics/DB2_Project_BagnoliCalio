@@ -41,7 +41,7 @@ public class SignupServlet extends HttpServlet {
 
         //se sono un employee
         if(isEmployee) {
-            EmployeeEntity employee = null;
+            EmployeeEntity employee;
             if (employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent()) {
                 destServlet = "signup?signupFailed=true";
             }
@@ -50,12 +50,10 @@ public class SignupServlet extends HttpServlet {
                     employee = employeeService.createEmployee(username, email, password);
 
                     if (employee != null) {
-                        HttpSession session = request.getSession();
-                        session.setAttribute("user", employee);
                         destServlet = "signup?signupDone=true";
                     }
                     else {
-                        destServlet = "signup?signupError=true"; //settiamo il parametro signupError = true, così poi nella get verifichiamo se quel parametro è true
+                        destServlet = "signup?signupError=true";
                     }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

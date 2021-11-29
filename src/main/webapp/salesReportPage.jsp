@@ -25,9 +25,11 @@
     request.getAttribute("avgNumOptProductsWithServPackage");
 
     List<AlertEntity> alerts = (List<AlertEntity>)
-            request.getAttribute("alerts");
+    request.getAttribute("alerts");
     List<OrderEntity> orders = (List<OrderEntity>)
-            request.getAttribute("orders");
+    request.getAttribute("orders");
+
+    ArrayList<Integer> purchasePerPackage = (ArrayList<Integer>) request.getAttribute("purchasePerPackage");
 
 
 %>
@@ -44,7 +46,30 @@
 <br>
 <div>
     <h3>Number of total purchases per package</h3>
-    <form action="salesReportPage" method="post">
+    <div style="text-align: center">
+
+    <table class="table">
+        <tr>
+            <td>Name Service Package</td>
+            <td>Total Purchases</td>
+        </tr>
+        <%
+            int i =0;
+            for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
+
+        %>
+        <tr>
+            <td><%=servicePackageToSelect.getName() %></td>
+            <td><%=purchasePerPackage.get(i) %></td>
+        </tr>
+        <%
+                i++;
+            }
+        %>
+    </table>
+    </div>
+
+        <form action="salesReportPage" method="post">
 
         <label for="srvPackage">Choose a service package:</label>
         <select name="srvPackage" id="srvPackage">
@@ -57,8 +82,9 @@
             %>
         </select>
         <br><br>
-        <button name="bottone" value="${employee.employee_id}" type="submit">SELECT SERVICE PACKAGE</button>
+        <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
     </form>
+
 </div>
 
 <br><br>
