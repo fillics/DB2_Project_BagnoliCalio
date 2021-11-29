@@ -36,6 +36,7 @@ public class ConfirmationServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
+        String result = req.getParameter("result");
 
         String destServlet;
 
@@ -47,8 +48,14 @@ public class ConfirmationServlet extends HttpServlet {
 
         OrderEntity order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage);
 
-        order.setValid(userService.callExternalService());
+        boolean isValid = false;
+        if (result.equals("success")) isValid=true;
+        else if(result.equals("fail")) isValid=false;
+        else if(result.equals("random")) isValid=userService.randomPayment();
 
+        userService.updateOrder(order, isValid);
+
+        userService.setUserInsolvent(user, !isValid);
 
         destServlet = "confirmationPage";
 
@@ -59,7 +66,13 @@ public class ConfirmationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");
+        String rejectedOrderID = req.getParameter("rejectedOrder");
+        if(rejectedOrderID!=null){
+            servicePackage = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get().getServicePackage();
+        }
+        else{
+            servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");
+        }
         req.setAttribute("servicePackage", servicePackage);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("confirmationPage.jsp");

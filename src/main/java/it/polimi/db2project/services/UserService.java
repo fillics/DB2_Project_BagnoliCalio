@@ -12,10 +12,7 @@ import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Stateless
 public class UserService {
@@ -48,6 +45,10 @@ public class UserService {
             itIsTrue = true;
             return false;
         }
+    }
+    public boolean randomPayment(){
+        Random rd = new Random();
+        return rd.nextBoolean();
     }
 
     public UserEntity checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
@@ -154,6 +155,12 @@ public class UserService {
             .getResultStream().findFirst();
     }
 
+    public Optional<OrderEntity> findOrderByID(Long order_id) {
+        return em.createNamedQuery("Order.findByID", OrderEntity.class)
+            .setParameter("order_id", order_id)
+            .getResultStream().findFirst();
+    }
+
 
     public List<ValidityPeriodEntity> findValPeriodsOfService(Long servicePackageToSelect_id){
         return em.createNamedQuery("ValidityPeriod.findValPeriodsByServPackage", ValidityPeriodEntity.class)
@@ -191,5 +198,11 @@ public class UserService {
         OrderEntity orderEntity = em.find(OrderEntity.class, order.getOrder_id());
         orderEntity.setValid(isValid);
         em.merge(orderEntity);
+    }
+
+    public void setUserInsolvent(UserEntity user, boolean isInsolvent){
+        UserEntity userEntity = em.find(UserEntity.class, user.getUser_id());
+        userEntity.setInsolvent(isInsolvent);
+        em.merge(userEntity);
     }
 }

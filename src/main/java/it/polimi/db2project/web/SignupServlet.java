@@ -74,8 +74,6 @@ public class SignupServlet extends HttpServlet {
                     user = userService.createUser(username, email, password);
 
                     if (user != null) {
-                        HttpSession session = request.getSession();
-                        session.setAttribute("user", user);
                         destServlet = "signup?signupDone=true";
                     } else {
                         destServlet = "signup?signupError=true";

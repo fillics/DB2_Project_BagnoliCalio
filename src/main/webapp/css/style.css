@@ -31,3 +31,8 @@ h1
     width:150px;
     background-color: cadetblue;
 }
+
+.inner
+{
+    display: inline-block;
+}

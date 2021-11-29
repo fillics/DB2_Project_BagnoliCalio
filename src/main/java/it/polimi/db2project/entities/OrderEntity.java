@@ -7,6 +7,14 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
+@NamedQuery(
+        name = "Order.findByID",
+        query = "SELECT o " +
+                "FROM OrderEntity o " +
+                "WHERE o.order_id = :order_id"
+)
+
+
 @Table(name = "order", schema = "dbtelco")
 public class OrderEntity implements Serializable {
     private static final long serialVersionUID = 1L;

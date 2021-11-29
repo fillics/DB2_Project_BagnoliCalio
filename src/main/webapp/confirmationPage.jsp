@@ -101,9 +101,20 @@ else{
   <%
     if(userUsername!=null){
   %>
-  <form action="confirmationPage" method="post">
-    <button class="button" type="submit">BUY</button>
-  </form>
+  <div class="inner">
+    <form action="confirmationPage" method="post">
+      <button class="button" name="result" value="success" type="submit">BUY (billing accepted)</button>
+    </form>
+
+    <form action="confirmationPage" method="post">
+      <button class="button" name="result" value="fail" type="submit">BUY (billing rejected)</button>
+    </form>
+
+    <form action="confirmationPage" method="post">
+      <button class="button" name="result" value="random" type="submit">BUY (random billing status)</button>
+    </form>
+  </div>
+
   <%
     }
     else{

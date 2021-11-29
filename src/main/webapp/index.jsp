@@ -61,7 +61,7 @@
 %>
 <div style="text-align: center">
     <br><br>
-    <h>Skip the Login</h>
+    <h2>Skip the Login</h2>
     <a href="homePageCustomer">Click here to enter in the website without the login</a>
 </div>
 <%

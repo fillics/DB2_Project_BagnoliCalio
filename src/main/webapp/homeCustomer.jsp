@@ -27,7 +27,10 @@
         user = (UserEntity) request.getSession().getAttribute("user");
         userUsername = user.getUsername();
     }
-    if(userUsername!=null){
+    List<OrderEntity> rejectedOrders = null;
+    if(userUsername!=null && user.getInsolvent()){
+            rejectedOrders = (List<OrderEntity>)
+            request.getAttribute("rejectedOrders");
 
 %>
 <p align=right>Username of the user: ${user.username}</p>
@@ -35,20 +38,48 @@
 <%
     }
     else{
-
 %>
 <p align=right><a href="${pageContext.request.contextPath}/login">Login</a></p>
 <%
     }
 %>
 
-<form action="buyPage">
-
 <div style="text-align: center">
     <h1>HOME PAGE</h1>
+    <%
+        if(userUsername!=null && user.getInsolvent()) {
+    %>
+    <br>
+    <h2>You are an insolvent user: list of rejected orders</h2>
+    <br>
+        <%
+        for (OrderEntity order: rejectedOrders) {
+        %>
+        <div style="text-align: center">
+            <h3>ID rejected order: <%=order.getOrder_id() %></h3>
+            <table class="table">
+                <tr>
+                    <td>Date and Hour</td>
+                    <td>Name Service Package</td>
+                    <td>Total Value Order</td>
+                </tr>
+                <tr>
+                    <td><%=order.getDateAndHour() %></td>
+                    <td><%=order.getServicePackage().getPackageSelected().getName() %></td>
+                    <td><%=order.getTotalValueOrder() %></td>
+                </tr>
+            </table>
+            <form action="confirmationPage" method="get">
+                <button class="button" name="rejectedOrder" value="<%=order.getOrder_id()%>" type="submit">PAY AGAIN</button>
+            </form>
+        </div>
+            <%
+                 }
+            }
+            %>
+
     <br>
     <h2>List of Service Package available</h2>
-
     <br>
 
     <%
@@ -88,8 +119,8 @@
     %>
 
     <br><br>
-
-    <button style="height:150px;width:200px" type="submit">GO TO THE BUY PAGE</button>
+    <form action="buyPage">
+    <button class="button" type="submit">GO TO THE BUY PAGE</button>
     </form>
     </div>
 
