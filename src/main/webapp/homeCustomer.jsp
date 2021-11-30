@@ -29,8 +29,7 @@
     }
     List<OrderEntity> rejectedOrders = null;
     if(userUsername!=null && user.getInsolvent()){
-            rejectedOrders = (List<OrderEntity>)
-            request.getAttribute("rejectedOrders");
+            rejectedOrders = (List<OrderEntity>) request.getSession().getAttribute("rejectedOrders");
 
 %>
 <p align=right>Username of the user: ${user.username}</p>

@@ -13,6 +13,13 @@ import java.sql.Timestamp;
                 "FROM OrderEntity o " +
                 "WHERE o.order_id = :order_id"
 )
+@NamedQuery(
+        name = "Order.findRejectedOrdersOfUser",
+        query = "SELECT o " +
+                "FROM OrderEntity o " +
+                "WHERE o.userOwner = :user AND " +
+                "o.isValid=false"
+)
 
 
 @Table(name = "order", schema = "dbtelco")

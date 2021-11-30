@@ -205,4 +205,11 @@ public class UserService {
         userEntity.setInsolvent(isInsolvent);
         em.merge(userEntity);
     }
+
+    public List<OrderEntity> findRejectedOrdersByUser(Long user_id){
+        UserEntity user = findByUserID(user_id).get();
+        return em.createNamedQuery("Order.findRejectedOrdersOfUser", OrderEntity.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
 }

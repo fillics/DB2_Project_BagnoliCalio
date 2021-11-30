@@ -48,7 +48,6 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (employee != null) {
-
             session.setAttribute("employee", employee);
             destServlet = "homePageEmployee";
         }
@@ -61,6 +60,10 @@ public class LoginServlet extends HttpServlet {
             if(user!=null){
                 if(servicePackage==null){
                     destServlet = "homePageCustomer";
+                    if(user.getInsolvent()){
+                        System.out.println(userService.findRejectedOrdersByUser(user.getUser_id()));
+                        session.setAttribute("rejectedOrders", userService.findRejectedOrdersByUser(user.getUser_id()));
+                    }
                 }
                 else{
                     destServlet = "confirmationPage";

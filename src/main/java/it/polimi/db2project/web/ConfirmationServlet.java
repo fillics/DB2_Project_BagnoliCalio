@@ -28,7 +28,8 @@ public class ConfirmationServlet extends HttpServlet {
     private UserService userService;
 
     ServicePackageEntity servicePackage;
-
+    boolean creatingPackage = true;
+    String rejectedOrderID;
 
 
     @Override
@@ -39,14 +40,19 @@ public class ConfirmationServlet extends HttpServlet {
         String result = req.getParameter("result");
 
         String destServlet;
+        OrderEntity order;
 
-        try {
-            userService.createServicePackage(servicePackage, user);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        if(creatingPackage){
+            try {
+                userService.createServicePackage(servicePackage, user);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage);
         }
-
-        OrderEntity order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage);
+        else{
+            order = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get();
+        }
 
         boolean isValid = false;
         if (result.equals("success")) isValid=true;
@@ -55,9 +61,10 @@ public class ConfirmationServlet extends HttpServlet {
 
         userService.updateOrder(order, isValid);
 
-        userService.setUserInsolvent(user, !isValid);
+        if(userService.findRejectedOrdersByUser(user.getUser_id()).size()>=1) userService.setUserInsolvent(user, true);
+        else userService.setUserInsolvent(user, false);
 
-        destServlet = "confirmationPage";
+        destServlet = "homePageCustomer";
 
         resp.sendRedirect(destServlet);
 
@@ -66,12 +73,16 @@ public class ConfirmationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String rejectedOrderID = req.getParameter("rejectedOrder");
+        rejectedOrderID = req.getParameter("rejectedOrder");
+
         if(rejectedOrderID!=null){
             servicePackage = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get().getServicePackage();
+            creatingPackage = false;
         }
         else{
             servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");
+            creatingPackage = true;
+
         }
         req.setAttribute("servicePackage", servicePackage);
 
