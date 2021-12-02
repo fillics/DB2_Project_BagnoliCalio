@@ -32,7 +32,7 @@
 
         <br>${messageLogin}
         <br><br>
-        <button type="submit">LOGIN</button>
+        <button class="buttonIndex" type="submit">LOGIN</button>
     </form>
 </div>
 <div class="signup">
@@ -52,7 +52,7 @@
         <input type="checkbox" id="employee" name="employee" value="employee">
         <br>${messageSignUp}
         <br><br>
-        <button type="submit">SIGN UP</button>
+        <button class="buttonIndex" type="submit">SIGN UP</button>
     </form>
 </div>
 

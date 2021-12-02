@@ -27,10 +27,9 @@
         user = (UserEntity) request.getSession().getAttribute("user");
         userUsername = user.getUsername();
     }
-    List<OrderEntity> rejectedOrders = null;
-    if(userUsername!=null && user.getInsolvent()){
-            rejectedOrders = (List<OrderEntity>) request.getSession().getAttribute("rejectedOrders");
+    List<OrderEntity> rejectedOrders = (List<OrderEntity>) request.getAttribute("rejectedOrders");
 
+    if(userUsername!=null){
 %>
 <p align=right>Username of the user: ${user.username}</p>
 <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
@@ -46,7 +45,7 @@
 <div style="text-align: center">
     <h1>HOME PAGE</h1>
     <%
-        if(userUsername!=null && user.getInsolvent()) {
+        if(userUsername!=null && rejectedOrders!=null && rejectedOrders.size()!=0) {
     %>
     <br>
     <h2>You are an insolvent user: list of rejected orders</h2>

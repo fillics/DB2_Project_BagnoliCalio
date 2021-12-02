@@ -32,6 +32,12 @@ h1
     background-color: cadetblue;
 }
 
+.buttonIndex{
+    height:50px;
+    width:200px;
+    background-color: cadetblue;
+}
+
 .inner
 {
     display: inline-block;

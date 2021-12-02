@@ -20,6 +20,13 @@ import java.sql.Timestamp;
                 "WHERE o.userOwner = :user AND " +
                 "o.isValid=false"
 )
+@NamedQuery(
+        name = "Order.findOrdersToActivate",
+        query = "SELECT o FROM OrderEntity o " +
+                "JOIN o.servicePackageAssociated s " +
+                "WHERE o.userOwner = :user AND " +
+                "o.isValid = true "
+)
 
 
 @Table(name = "order", schema = "dbtelco")

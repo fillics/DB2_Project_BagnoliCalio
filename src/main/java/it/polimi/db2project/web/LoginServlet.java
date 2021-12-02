@@ -31,12 +31,13 @@ public class LoginServlet extends HttpServlet {
     }
     ServicePackageEntity servicePackage;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
         String destServlet;
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
 
         UserEntity user = null;
         EmployeeEntity employee = null;
@@ -61,7 +62,6 @@ public class LoginServlet extends HttpServlet {
                 if(servicePackage==null){
                     destServlet = "homePageCustomer";
                     if(user.getInsolvent()){
-                        System.out.println(userService.findRejectedOrdersByUser(user.getUser_id()));
                         session.setAttribute("rejectedOrders", userService.findRejectedOrdersByUser(user.getUser_id()));
                     }
                 }
@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        response.sendRedirect(destServlet);
+        resp.sendRedirect(destServlet);
         }
 
     @Override

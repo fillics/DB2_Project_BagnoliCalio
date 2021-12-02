@@ -91,28 +91,9 @@ public class UserService {
             .getResultStream().findFirst();
     }
 
-    /*public ServicePackageEntity createServicePackage(java.sql.Date startDate, java.sql.Date endDate, float totalValuePackage,
-                                                     ServicePackageToSelectEntity servicePackageToSelect,
-                                                     ValidityPeriodEntity validityPeriod,
-                                                     ArrayList<OptionalProductEntity> optionalProducts,
-                                                     UserEntity userOwner) throws SQLException {
-        ServicePackageEntity servicePackage = new ServicePackageEntity(servicePackageToSelect, validityPeriod,
-                startDate, endDate, totalValuePackage, optionalProducts);
-        servicePackage.setUserOwner(userOwner);
-
-        try {
-            em.persist(servicePackage);
-            em.flush();
-            return servicePackage;
-        } catch (ConstraintViolationException e) {
-            return null;
-        }
-    }*/
 
     public void createServicePackage(ServicePackageEntity servicePackage, UserEntity userOwner) throws SQLException {
-
         servicePackage.setUserOwner(userOwner);
-
         try {
             em.persist(servicePackage);
             em.flush();
@@ -209,6 +190,14 @@ public class UserService {
     public List<OrderEntity> findRejectedOrdersByUser(Long user_id){
         UserEntity user = findByUserID(user_id).get();
         return em.createNamedQuery("Order.findRejectedOrdersOfUser", OrderEntity.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+    public List<OrderEntity> findOrdersToActivate(Long user_id){
+        UserEntity user = findByUserID(user_id).get();
+        Timestamp todayDate = new Timestamp(System.currentTimeMillis());
+        return em.createNamedQuery("Order.findOrdersToActivate", OrderEntity.class)
                 .setParameter("user", user)
                 .getResultList();
     }

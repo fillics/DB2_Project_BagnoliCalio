@@ -1,9 +1,6 @@
 package it.polimi.db2project.web;
 
-import it.polimi.db2project.entities.OptionalProductEntity;
-import it.polimi.db2project.entities.ServiceEntity;
-import it.polimi.db2project.entities.ServicePackageToSelectEntity;
-import it.polimi.db2project.entities.ValidityPeriodEntity;
+import it.polimi.db2project.entities.*;
 import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
@@ -28,14 +25,30 @@ public class HomePageCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        UserEntity user = null;
+        HttpSession session = req.getSession();
+
+        if(session.getAttribute("user")!=null){
+            user = (UserEntity) session.getAttribute("user");
+            List<OrderEntity> rejectedOrders = null;
+            if(user.getUsername()!=null && user.getInsolvent()) {
+                rejectedOrders = userService.findRejectedOrdersByUser(user.getUser_id());
+            }
+            req.setAttribute("rejectedOrders", rejectedOrders);
+        }
+
+
         List<ServicePackageToSelectEntity> servicePackagesToSelect = userService.findAllServicePackageToSelect();
         List<ServiceEntity> services = userService.findAllService();
 
         req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
         req.setAttribute("services", services);
 
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeCustomer.jsp");
         dispatcher.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     }
 }

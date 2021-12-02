@@ -61,10 +61,11 @@ public class ConfirmationServlet extends HttpServlet {
 
         userService.updateOrder(order, isValid);
 
+        // if the user has rejected orders we set him to insolvent
         if(userService.findRejectedOrdersByUser(user.getUser_id()).size()>=1) userService.setUserInsolvent(user, true);
         else userService.setUserInsolvent(user, false);
 
-        destServlet = "homePageCustomer";
+        destServlet = "serviceActivationSchedule";
 
         resp.sendRedirect(destServlet);
 
