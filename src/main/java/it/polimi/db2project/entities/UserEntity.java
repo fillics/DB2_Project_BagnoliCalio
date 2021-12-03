@@ -54,6 +54,9 @@ public class UserEntity implements Serializable {
     @Column(name = "isInsolvent")
     private Boolean isInsolvent;
 
+    @Column(name = "numFailedPayments")
+    private int numFailedPayments;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ServicePackageEntity> servicePackages;
 
@@ -71,6 +74,7 @@ public class UserEntity implements Serializable {
         this.username = username;
         this.email = email;
         this.password = password;
+        numFailedPayments=0;
     }
 
     public Long getUser_id() {
@@ -137,4 +141,22 @@ public class UserEntity implements Serializable {
         isInsolvent = insolvent;
     }
 
+    public int getNumFailedPayments() {
+        return numFailedPayments;
+    }
+
+    public void setNumFailedPayments(int numFailedPayments) {
+        this.numFailedPayments = numFailedPayments;
+    }
+    public void incrementFailedPayments() {
+        numFailedPayments++;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "user_id=" + user_id +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

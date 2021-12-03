@@ -24,6 +24,12 @@ h1
     margin-left:auto;
     margin-right:auto;
     background-color: azure;
+    width:750px;
+    table-layout:fixed;
+}
+
+td {
+    word-wrap:break-word;
 }
 
 .button{

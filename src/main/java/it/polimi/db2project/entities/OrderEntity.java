@@ -20,12 +20,15 @@ import java.sql.Timestamp;
                 "WHERE o.userOwner = :user AND " +
                 "o.isValid=false"
 )
+
+// TODO: 03/12/2021 mettere la data di oggi
 @NamedQuery(
         name = "Order.findOrdersToActivate",
-        query = "SELECT o FROM OrderEntity o " +
-                "JOIN o.servicePackageAssociated s " +
+        query = "SELECT o " +
+                "FROM OrderEntity o " +
                 "WHERE o.userOwner = :user AND " +
-                "o.isValid = true "
+                "o.isValid=true "
+
 )
 
 
@@ -117,5 +120,14 @@ public class OrderEntity implements Serializable {
 
     public void setValid(boolean valid) {
         isValid = valid;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderEntity{" +
+                "order_id=" + order_id +
+                ", userOwner=" + userOwner +
+                ", servicePackageAssociated=" + servicePackageAssociated +
+                '}';
     }
 }

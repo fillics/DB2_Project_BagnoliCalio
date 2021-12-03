@@ -52,6 +52,10 @@ public class HomePageEmployeeServlet extends HttpServlet {
             message = "Service Package to select created successfully!";
             req.setAttribute("messageServicePackage", message);
         }
+        else if (req.getParameter("creationServPackageFailed") != null) {
+            message = "Error in the creation of the service package, please retry!";
+            req.setAttribute("messageServicePackage", message);
+        }
         dispatcher.forward(req, resp);
     }
 }

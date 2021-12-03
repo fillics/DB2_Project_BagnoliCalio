@@ -1,9 +1,6 @@
 package it.polimi.db2project.web;
 
-import it.polimi.db2project.entities.OrderEntity;
-import it.polimi.db2project.entities.ServicePackageEntity;
-import it.polimi.db2project.entities.ServicePackageToSelectEntity;
-import it.polimi.db2project.entities.UserEntity;
+import it.polimi.db2project.entities.*;
 import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
@@ -44,7 +41,7 @@ public class ConfirmationServlet extends HttpServlet {
 
         if(creatingPackage){
             try {
-                userService.createServicePackage(servicePackage, user);
+                servicePackage = userService.createServicePackage(servicePackage, user);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -59,7 +56,16 @@ public class ConfirmationServlet extends HttpServlet {
         else if(result.equals("fail")) isValid=false;
         else if(result.equals("random")) isValid=userService.randomPayment();
 
-        userService.updateOrder(order, isValid);
+        if(!isValid) user = userService.incrementsFailedPayments(user);
+
+        order = userService.updateOrder(order, isValid);
+
+
+        if(user.getNumFailedPayments()==3){
+            AlertEntity alert = new AlertEntity(order.getTotalValueOrder(), order.getDateAndHour(), user);
+            userService.createAlert(alert);
+            userService.setNumFailedPagaments(user);
+        }
 
         // if the user has rejected orders we set him to insolvent
         if(userService.findRejectedOrdersByUser(user.getUser_id()).size()>=1) userService.setUserInsolvent(user, true);

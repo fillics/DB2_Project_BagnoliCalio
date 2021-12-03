@@ -1,8 +1,6 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="it.polimi.db2project.entities.*" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.HashSet" %>
 <%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
@@ -19,7 +17,7 @@
 
 <%
     List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-    request.getAttribute("servicePackagesToSelect");
+            request.getAttribute("servicePackagesToSelect");
 
     UserEntity user = null;
     String userUsername = null;
@@ -29,7 +27,7 @@
     }
     List<OrderEntity> rejectedOrders = (List<OrderEntity>) request.getAttribute("rejectedOrders");
 
-    if(userUsername!=null){
+    if(user!=null){
 %>
 <p align=right>Username of the user: ${user.username}</p>
 <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>

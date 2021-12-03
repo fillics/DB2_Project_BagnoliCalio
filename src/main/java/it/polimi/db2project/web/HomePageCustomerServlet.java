@@ -27,18 +27,20 @@ public class HomePageCustomerServlet extends HttpServlet {
 
         UserEntity user = null;
         HttpSession session = req.getSession();
+        List<OrderEntity> rejectedOrders = null;
 
         if(session.getAttribute("user")!=null){
             user = (UserEntity) session.getAttribute("user");
-            List<OrderEntity> rejectedOrders = null;
-            if(user.getUsername()!=null && user.getInsolvent()) {
+
+            if(user.getUsername()!=null) {
                 rejectedOrders = userService.findRejectedOrdersByUser(user.getUser_id());
             }
+
             req.setAttribute("rejectedOrders", rejectedOrders);
         }
 
-
         List<ServicePackageToSelectEntity> servicePackagesToSelect = userService.findAllServicePackageToSelect();
+
         List<ServiceEntity> services = userService.findAllService();
 
         req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);

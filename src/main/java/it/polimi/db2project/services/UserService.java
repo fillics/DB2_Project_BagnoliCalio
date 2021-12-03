@@ -79,6 +79,14 @@ public class UserService {
         }
     }
 
+    public void createAlert(AlertEntity alert){
+        try {
+            em.persist(alert);
+            em.flush();
+        } catch (ConstraintViolationException e) {
+        }
+    }
+
     public Optional<UserEntity> findByUsername(String usrn) {
         return em.createNamedQuery("User.findByUsername", UserEntity.class)
             .setParameter("username", usrn)
@@ -92,13 +100,16 @@ public class UserService {
     }
 
 
-    public void createServicePackage(ServicePackageEntity servicePackage, UserEntity userOwner) throws SQLException {
+    public ServicePackageEntity createServicePackage(ServicePackageEntity servicePackage, UserEntity userOwner) throws SQLException {
         servicePackage.setUserOwner(userOwner);
         try {
             em.persist(servicePackage);
             em.flush();
+            return servicePackage;
         } catch (ConstraintViolationException ignored) {
+            return null;
         }
+
     }
 
     public List<ServicePackageToSelectEntity> findAllServicePackageToSelect(){
@@ -175,15 +186,29 @@ public class UserService {
         }
     }
 
-    public void updateOrder (OrderEntity order, boolean isValid){
+    public OrderEntity updateOrder (OrderEntity order, boolean isValid){
         OrderEntity orderEntity = em.find(OrderEntity.class, order.getOrder_id());
         orderEntity.setValid(isValid);
         em.merge(orderEntity);
+        return orderEntity;
     }
 
     public void setUserInsolvent(UserEntity user, boolean isInsolvent){
         UserEntity userEntity = em.find(UserEntity.class, user.getUser_id());
         userEntity.setInsolvent(isInsolvent);
+        em.merge(userEntity);
+    }
+
+    public UserEntity incrementsFailedPayments(UserEntity user){
+        UserEntity userEntity = em.find(UserEntity.class, user.getUser_id());
+        userEntity.incrementFailedPayments();
+        em.merge(userEntity);
+        return userEntity;
+    }
+
+    public void setNumFailedPagaments(UserEntity user){
+        UserEntity userEntity = em.find(UserEntity.class, user.getUser_id());
+        userEntity.setNumFailedPayments(0);
         em.merge(userEntity);
     }
 
@@ -196,8 +221,14 @@ public class UserService {
 
     public List<OrderEntity> findOrdersToActivate(Long user_id){
         UserEntity user = findByUserID(user_id).get();
-        Timestamp todayDate = new Timestamp(System.currentTimeMillis());
         return em.createNamedQuery("Order.findOrdersToActivate", OrderEntity.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+    public List<AlertEntity> findAlertByUser(Long user_id){
+        UserEntity user = findByUserID(user_id).get();
+        return em.createNamedQuery("Alert.findByUser", AlertEntity.class)
                 .setParameter("user", user)
                 .getResultList();
     }

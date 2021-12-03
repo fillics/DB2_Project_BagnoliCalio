@@ -42,7 +42,7 @@ public class OptionalProductServlet extends HttpServlet {
             destServlet = "homePageEmployee?creationOptProductFailed=true";
         }
 
-        response.sendRedirect(destServlet); // <---- questa è una servlet
+        response.sendRedirect(destServlet);
     }
 
 

@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
             }
             if(user!=null){
                 if(servicePackage==null){
-                    destServlet = "homePageCustomer";
+                    destServlet = "homePageCustomer"; // TODO: 03/12/2021 CAMBIARE IN HOME PAGE CUSTOMER serviceActivationSchedule
                     if(user.getInsolvent()){
                         session.setAttribute("rejectedOrders", userService.findRejectedOrdersByUser(user.getUser_id()));
                     }

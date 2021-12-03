@@ -42,14 +42,8 @@ public class ServiceActivationScheduleServlet extends HttpServlet {
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         List<OrderEntity> ordersToActivate = userService.findOrdersToActivate(user.getUser_id());
-        System.out.println(ordersToActivate);
 
-        for (OrderEntity order: ordersToActivate
-             ) {
-            System.out.println(order.getOrder_id());
-        }
         req.setAttribute("ordersToActivate", ordersToActivate);
-
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("serviceActivationSchedule.jsp");
         dispatcher.forward(req, resp);

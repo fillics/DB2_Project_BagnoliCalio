@@ -28,42 +28,49 @@ public class ServicePackageToSelectServlet extends HttpServlet {
         String[] services = request.getParameterValues("services");
         String[] optionalProducts = request.getParameterValues("optionalProducts");
         String[] validityPeriods = request.getParameterValues("validityPeriods");
-
-        ServicePackageToSelectEntity servicePackageToSelect = null;
         String destServlet;
 
-        ArrayList<ServiceEntity> serviceEntities = new ArrayList<>();
-        ArrayList<OptionalProductEntity> optionalProductEntities = new ArrayList<>();
-        ArrayList<ValidityPeriodEntity> validityPeriodEntities = new ArrayList<>();
+        if(services!=null || validityPeriods!=null){
+            ServicePackageToSelectEntity servicePackageToSelect = null;
 
-        for (String service : services) {
-            serviceEntities.add(employeeService.findByServiceID(Long.parseLong(service)).get());
-        }
-        for (String optionalProduct : optionalProducts) {
-            optionalProductEntities.add(employeeService.findByOptProdID(Long.parseLong(optionalProduct)).get());
-        }
-        for (String validityPeriod : validityPeriods) {
-            validityPeriodEntities.add(employeeService.findByValPeriodID(Long.parseLong(validityPeriod)).get());
-        }
+            ArrayList<ServiceEntity> serviceEntities = new ArrayList<>();
+            ArrayList<OptionalProductEntity> optionalProductEntities = new ArrayList<>();
+            ArrayList<ValidityPeriodEntity> validityPeriodEntities = new ArrayList<>();
 
-        try {
-            servicePackageToSelect = employeeService.createServicePackageToSelect(
-                nameServPackage,
-                serviceEntities,
-                optionalProductEntities,
-                validityPeriodEntities
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            for (String service : services) {
+                serviceEntities.add(employeeService.findByServiceID(Long.parseLong(service)).get());
+            }
 
-        if (servicePackageToSelect != null) {
-            destServlet = "homePageEmployee?servPackageCreated=true";
+            if(optionalProducts!=null){
+                for (String optionalProduct : optionalProducts) {
+                    optionalProductEntities.add(employeeService.findByOptProdID(Long.parseLong(optionalProduct)).get());
+                }
+            }
+            for (String validityPeriod : validityPeriods) {
+                validityPeriodEntities.add(employeeService.findByValPeriodID(Long.parseLong(validityPeriod)).get());
+            }
+
+            try {
+                servicePackageToSelect = employeeService.createServicePackageToSelect(
+                        nameServPackage,
+                        serviceEntities,
+                        optionalProductEntities,
+                        validityPeriodEntities
+                );
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            if (servicePackageToSelect != null) {
+                destServlet = "homePageEmployee?servPackageCreated=true";
+            }
+            else
+            {
+                destServlet = "homePageEmployee?creationServPackageFailed=true";
+            }
+
         }
-        else
-        {
-            destServlet = "homePageEmployee?creationServPackageFailed=true";
-        }
+        else destServlet = "homePageEmployee?creationServPackageFailed=true";
 
         response.sendRedirect(destServlet);
     }
@@ -72,6 +79,7 @@ public class ServicePackageToSelectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeEmployee.jsp");
+
         dispatcher.forward(req, resp);
     }
 }

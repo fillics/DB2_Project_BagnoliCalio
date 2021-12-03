@@ -154,4 +154,13 @@ public class ServicePackageEntity implements Serializable {
     public void setUserOwner(UserEntity userOwner) {
         this.userOwner = userOwner;
     }
+
+    @Override
+    public String toString() {
+        return "ServicePackageEntity{" +
+                "servicePackage_id=" + servicePackage_id +
+                ", packageSelected=" + packageSelected +
+                ", optionalProducts=" + optionalProducts +
+                '}';
+    }
 }

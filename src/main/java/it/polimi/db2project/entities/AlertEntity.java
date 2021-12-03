@@ -6,6 +6,14 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
+
+@NamedQuery(
+        name = "Alert.findByUser",
+        query = "SELECT a " +
+                "FROM AlertEntity a " +
+                "WHERE a.userOwner = : user"
+)
+
 @Table(name = "alert", schema = "dbtelco")
 public class AlertEntity implements Serializable {
     private static final long serialVersionUID = 1L;
