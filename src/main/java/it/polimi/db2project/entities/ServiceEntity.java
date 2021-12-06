@@ -50,8 +50,6 @@ public class ServiceEntity implements Serializable {
 
 
     //relationship definition part
-
-
     @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 

@@ -46,7 +46,6 @@ public class ServicePackageEntity implements Serializable {
     @Column(name = "endDate")
     private Date endDate;
 
-
     @Column(name = "totalValuePackage", unique=true, nullable=false)
     private float totalValuePackage;
 
@@ -91,7 +90,7 @@ public class ServicePackageEntity implements Serializable {
         this.optionalProducts = optionalProducts;
     }
 
-    public Long getServicePackage_id(long servicePackage_id) {
+    public Long getServicePackage_id() {
         return this.servicePackage_id;
     }
 

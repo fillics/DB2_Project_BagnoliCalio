@@ -109,8 +109,8 @@ public class UserService {
         } catch (ConstraintViolationException ignored) {
             return null;
         }
-
     }
+
 
     public List<ServicePackageToSelectEntity> findAllServicePackageToSelect(){
         return em.createNamedQuery("ServicePackageToSelect.findAll", ServicePackageToSelectEntity.class).getResultList();

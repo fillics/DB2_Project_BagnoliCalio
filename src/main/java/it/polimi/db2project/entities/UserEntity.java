@@ -11,7 +11,6 @@ import java.util.Objects;
 @Table(name = "user", schema = "dbtelco")
 @NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM UserEntity r  WHERE r.username = ?1 and r.password = ?2")
 
-
 @NamedQuery(
     name = "User.findByUsername",
     query = "SELECT u " +

@@ -21,13 +21,13 @@ import java.sql.Timestamp;
                 "o.isValid=false"
 )
 
-// TODO: 03/12/2021 mettere la data di oggi
 @NamedQuery(
         name = "Order.findOrdersToActivate",
-        query = "SELECT o " +
-                "FROM OrderEntity o " +
+        query = "SELECT DISTINCT o FROM OrderEntity o " +
+                "JOIN o.servicePackageAssociated s " +
                 "WHERE o.userOwner = :user AND " +
-                "o.isValid=true "
+                "o.isValid=true AND " +
+                "s.startDate > CURRENT_TIMESTAMP "
 
 )
 

@@ -31,6 +31,8 @@
 
     ArrayList<Integer> purchasePerPackage = (ArrayList<Integer>) request.getAttribute("purchasePerPackage");
 
+    TotalPurchasesPerPackageEntity packageSelected = (TotalPurchasesPerPackageEntity) request.getAttribute("totPurchaseXPackage");
+
 
 %>
 <div style="text-align: center">
@@ -48,27 +50,6 @@
     <h3>Number of total purchases per package</h3>
     <div style="text-align: center">
 
-    <table class="table">
-        <tr>
-            <td>Name Service Package</td>
-            <td>Total Purchases</td>
-        </tr>
-        <%
-            int i =0;
-            for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
-
-        %>
-        <tr>
-            <td><%=servicePackageToSelect.getName() %></td>
-            <td><%=purchasePerPackage.get(i) %></td>
-        </tr>
-        <%
-                i++;
-            }
-        %>
-    </table>
-    </div>
-
         <form action="salesReportPage" method="post">
 
         <label for="srvPackage">Choose a service package:</label>
@@ -82,9 +63,16 @@
             %>
         </select>
         <br><br>
+            <%
+                if(packageSelected!=null){
+            %>
+            <p><%=packageSelected%></p>
+            <%
+                }
+            %>
         <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
     </form>
-
+</div>
 </div>
 
 <br><br>

@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="it.polimi.db2project.entities.ServiceEntity" %>
 <%@ page import="it.polimi.db2project.entities.OptionalProductEntity" %>
+<%@ page import="it.polimi.db2project.entities.UserEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,10 +13,31 @@
 
 <%
     List<OrderEntity> ordersToActivate = (List<OrderEntity>) request.getAttribute("ordersToActivate");
-
+    UserEntity user = null;
+    String userUsername = null;
+    if(request.getSession().getAttribute("user")!=null){
+        user = (UserEntity) request.getSession().getAttribute("user");
+        userUsername = user.getUsername();
+    }
 %>
 
 <body>
+
+<%
+    if(userUsername!=null){
+
+%>
+<p align=right>Username of the user: ${user.username}</p>
+<p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
+<%
+}
+else{
+
+%>
+<p align=right><a href="${pageContext.request.contextPath}/login">Login</a></p>
+<%
+    }
+%>
 
 <div style="text-align: center">
     <h1>SERVICE ACTIVATION SCHEDULE</h1>

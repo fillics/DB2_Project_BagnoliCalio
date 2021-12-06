@@ -12,8 +12,8 @@ import jakarta.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Stateless
 public class EmployeeService {
@@ -201,6 +201,32 @@ public class EmployeeService {
         return em.createNamedQuery("OptionalProduct.findOptProdOfServicePackage", OptionalProductEntity.class)
             .setParameter("servicePackage_id", servicePackage_id)
             .getResultList();
+    }
+
+    public TotalPurchasesPerPackageEntity purchasesPerPackage(Long package_id){
+        TotalPurchasesPerPackageEntity totalPurchasesPerPackageEntity = null;
+        try{
+            totalPurchasesPerPackageEntity = em.createNamedQuery("TotalPurchasesPerPackage.findByServPackage", TotalPurchasesPerPackageEntity.class)
+                    .setParameter("package_id", package_id).getResultList().stream().findFirst().get();
+        }catch (NoSuchElementException exception){
+            totalPurchasesPerPackageEntity = new TotalPurchasesPerPackageEntity(package_id, findByServicePackageToSelectID(package_id).get(), 0);
+        }
+
+        return totalPurchasesPerPackageEntity;
+    }
+
+    public TotalPurchasesPerPackageAndValPeriodEntity purchasesPerPackageAndValPeriod(Long package_id, Long valPeriod_id){
+        TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriodEntity = null;
+        try{
+            totalPurchasesPerPackageAndValPeriodEntity = em.createNamedQuery("TotalPurchasesPerPackageAndValPeriod.findByServPackageAndValPeriod", TotalPurchasesPerPackageAndValPeriodEntity.class)
+                    .setParameter("package_id", package_id)
+                    .setParameter("valPeriod_id", valPeriod_id)
+                    .getResultList().stream().findFirst().get();
+        }catch (NoSuchElementException exception){
+            totalPurchasesPerPackageAndValPeriodEntity = new TotalPurchasesPerPackageAndValPeriodEntity(package_id, findByServicePackageToSelectID(package_id).get(), valPeriod_id, findByValPeriodID(valPeriod_id).get(), 0);
+        }
+
+        return totalPurchasesPerPackageAndValPeriodEntity;
     }
 
 }
