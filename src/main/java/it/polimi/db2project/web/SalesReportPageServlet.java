@@ -2,10 +2,7 @@ package it.polimi.db2project.web;
 
 
 import it.polimi.db2project.entities.*;
-import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithOptProduct;
-import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithoutOptProduct;
-import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity;
-import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity;
+import it.polimi.db2project.entities.employeeQueries.*;
 import it.polimi.db2project.services.EmployeeService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
@@ -28,12 +25,11 @@ public class SalesReportPageServlet extends HttpServlet {
 
     private ServicePackageToSelectEntity servicePackageSelected;
     private List<ValidityPeriodEntity> validityPeriods = null;
-    private List<OrderEntity> orders = null;
-    private int avgNumOptProductsWithServPackage;
     private TotalPurchasesPerPackageEntity totPurchaseXPackage;
     private TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod;
     private SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct;
     private SalesPerPackageWithOptProduct salesPerPackageWithOptProduct;
+    private AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -48,9 +44,10 @@ public class SalesReportPageServlet extends HttpServlet {
         //third query
         String srvPackageWithOptProducts = request.getParameter("srvPackageWithOptProducts");
 
+        //forth query
+        String srvPackageAvg = request.getParameter("srvPackageAvg");
 
 
-        String avgNumOptProductsWithServPackage = request.getParameter("avgNumOptProductsWithServPackage");
 
         Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
         String destServlet = "salesReportPage";
@@ -72,8 +69,14 @@ public class SalesReportPageServlet extends HttpServlet {
         if(srvPackageWithOptProducts!=null){
             salesPerPackageWithOptProduct = employeeService.valueOfSalesWithOptProduct(Long.parseLong(srvPackageWithOptProducts));
             salesPerPackageWithoutOptProduct = employeeService.valueOfSalesWithoutOptProduct(Long.parseLong(srvPackageWithOptProducts));
+        }
+
+        //forth query
+        if(srvPackageAvg!=null){
+            avgNumOfOptProductsSoldPerPackage = employeeService.avgNumOfOptProductsSoldPerPackage(Long.parseLong(srvPackageAvg));
 
         }
+
 
         response.sendRedirect(destServlet);
     }
@@ -97,8 +100,16 @@ public class SalesReportPageServlet extends HttpServlet {
         req.setAttribute("salesPerPackageWithOptProduct", salesPerPackageWithOptProduct);
         req.setAttribute("salesPerPackageWithoutOptProduct", salesPerPackageWithoutOptProduct);
 
-        req.setAttribute("avgNumOptProductsWithServPackage", avgNumOptProductsWithServPackage);
-        req.setAttribute("orders", orders);
+        //forth query
+        req.setAttribute("avgNumOfOptProductsSoldPerPackage", avgNumOfOptProductsSoldPerPackage);
+
+        //fifth query
+        List<InsolventUsers> insolventUsers = employeeService.findAllInsolventUsers();
+        req.setAttribute("insolventUsers", insolventUsers);
+        List<SuspendedOrders> suspendedOrders = employeeService.findAllSuspendedOrders();
+        req.setAttribute("suspendedOrders", suspendedOrders);
+        List<Alerts> alerts = employeeService.findAllAlerts();
+        req.setAttribute("alerts", alerts);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("salesReportPage.jsp");
         dispatcher.forward(req, resp);

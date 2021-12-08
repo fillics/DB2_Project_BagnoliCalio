@@ -2,10 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="it.polimi.db2project.entities.*" %>
-<%@ page import="it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity" %>
-<%@ page import="it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity" %>
-<%@ page import="it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithOptProduct" %>
-<%@ page import="it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithoutOptProduct" %>
+<%@ page import="it.polimi.db2project.entities.employeeQueries.*" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -24,26 +21,24 @@
     ServicePackageToSelectEntity servicePackageSelected = (ServicePackageToSelectEntity) request.getAttribute("servicePackageSelected");
 
 
-    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>) request.getAttribute("validityPeriods");
-    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>) request.getAttribute("optionalProducts");
-
-    int avgNumOptProductsWithServPackage = 0;
-    request.getAttribute("avgNumOptProductsWithServPackage");
-
-    List<AlertEntity> alerts = (List<AlertEntity>) request.getAttribute("alerts");
-    List<OrderEntity> orders = (List<OrderEntity>) request.getAttribute("orders");
-
-    ArrayList<Integer> purchasePerPackage = (ArrayList<Integer>) request.getAttribute("purchasePerPackage");
-
     //first query
     TotalPurchasesPerPackageEntity totPurchaseXPackage = (TotalPurchasesPerPackageEntity) request.getAttribute("totPurchaseXPackage");
 
     //second query
     TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod = (TotalPurchasesPerPackageAndValPeriodEntity) request.getAttribute("totalPurchasesPerPackageAndValPeriod");
+    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>) request.getAttribute("validityPeriods");
 
     //third query
     SalesPerPackageWithOptProduct salesPerPackageWithOptProduct = (SalesPerPackageWithOptProduct) request.getAttribute("salesPerPackageWithOptProduct");
     SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct = (SalesPerPackageWithoutOptProduct) request.getAttribute("salesPerPackageWithoutOptProduct");
+
+    //forth query
+    AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage = (AvgNumOfOptProductsSoldPerPackage) request.getAttribute("avgNumOfOptProductsSoldPerPackage");
+
+    //fifth query
+    List<Alerts> alerts = (List<Alerts>) request.getAttribute("alerts");
+    List<SuspendedOrders> suspendedOrders = (List<SuspendedOrders>) request.getAttribute("suspendedOrders");
+    List<InsolventUsers> insolventUsers = (List<InsolventUsers>) request.getAttribute("insolventUsers");
 
 %>
 <div style="text-align: center">
@@ -190,8 +185,8 @@
         <form action="salesReportPage" method="post">
 
 
-            <label for="avgNumOptProductsWithServPackage">Choose a service package:</label>
-            <select name="avgNumOptProductsWithServPackage" id="avgNumOptProductsWithServPackage">
+            <label for="srvPackageAvg">Choose a service package:</label>
+            <select name="srvPackageAvg" id="srvPackageAvg">
                 <%
                     for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
                 %>
@@ -205,11 +200,10 @@
             <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
             <br><br>
             <%
-                if(salesPerPackageWithOptProduct !=null && salesPerPackageWithoutOptProduct!=null){
+                if(avgNumOfOptProductsSoldPerPackage !=null){
             %>
-            <p class="redText"><%=salesPerPackageWithOptProduct%></p>
-            <br>
-            <p class="redText"><%=salesPerPackageWithoutOptProduct%></p>
+            <p class="redText"><%=avgNumOfOptProductsSoldPerPackage%></p>
+
             <%
                 }
             %>
@@ -227,15 +221,17 @@
         <tr>
             <td>Username</td>
         </tr>
-        <%--<%
-            for (OptionalProductEntity optProd: optionalProducts) {
+        <%
+            if(insolventUsers!=null){
+            for (InsolventUsers insolventUser: insolventUsers) {
         %>
         <tr>
-
+            <td><%=insolventUser.getUser().getUsername() %></td>
         </tr>
         <%
             }
-        %>--%>
+            }
+        %>
     </table>
 
     <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
@@ -244,16 +240,18 @@
             <td>Username</td>
             <td>Date and Hour</td>
         </tr>
-       <%-- <%
-            for (OrderEntity order: orders) {
+       <%
+           if(suspendedOrders!=null){
+            for (SuspendedOrders suspendedOrder: suspendedOrders) {
         %>
         <tr>
-            <td><%=order.getUserOwner().getUsername() %></td>
-            <td><%=order.getDateAndHour() %></td>
+            <td><%=suspendedOrder.getOrder().getUserOwner().getUsername() %></td>
+            <td><%=suspendedOrder.getOrder().getDateAndHour() %></td>
         </tr>
         <%
             }
-        %>--%>
+           }
+        %>
     </table>
 
     <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
@@ -265,19 +263,21 @@
             <td>Amount</td>
             <td>Date and Time of the last rejection</td>
         </tr>
-       <%-- <%
-            for (AlertEntity alert: alerts) {
+       <%
+           if(alerts!=null){
+            for (Alerts alert: alerts) {
         %>
         <tr>
-            <td><%=alert.getUserOwner().getUserId() %></td>
-            <td><%=alert.getUserOwner().getUsername() %></td>
-            <td><%=alert.getUserOwner().getEmail() %></td>
-            <td><%=alert.getAmount() %></td>
-            <td><%=alert.getDateAndTime() %></td>
+            <td><%=alert.getAlert().getUserOwner().getUser_id()%></td>
+            <td><%=alert.getAlert().getUserOwner().getUsername()%></td>
+            <td><%=alert.getAlert().getUserOwner().getEmail() %></td>
+            <td><%=alert.getAlert().getAmount() %></td>
+            <td><%=alert.getAlert().getDateAndTime() %></td>
         </tr>
         <%
             }
-        %>--%>
+           }
+        %>
     </table>
 </div>
 

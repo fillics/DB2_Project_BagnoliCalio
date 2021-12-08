@@ -1,10 +1,7 @@
 package it.polimi.db2project.services;
 
 import it.polimi.db2project.entities.*;
-import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithOptProduct;
-import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithoutOptProduct;
-import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity;
-import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity;
+import it.polimi.db2project.entities.employeeQueries.*;
 import it.polimi.db2project.exception.CredentialsException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -259,5 +256,29 @@ public class EmployeeService {
         return salesPerPackageWithoutOptProduct;
     }
 
+    public AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage(Long package_id){
+        AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage;
+        try{
+            avgNumOfOptProductsSoldPerPackage = em.createNamedQuery("AvgNumOfOptProductsSoldPerPackage.findByServPackage", AvgNumOfOptProductsSoldPerPackage.class)
+                    .setParameter("package_id", package_id)
+                    .getResultList().stream().findFirst().get();
+        }catch (NoSuchElementException exception){
+            avgNumOfOptProductsSoldPerPackage = new AvgNumOfOptProductsSoldPerPackage(package_id, findServicePackageToSelectByID(package_id).get(), -1);
+        }
+        return avgNumOfOptProductsSoldPerPackage;
+    }
+
+
+    public List<InsolventUsers> findAllInsolventUsers(){
+        return em.createNamedQuery("InsolventUsers.findAll", InsolventUsers.class).getResultList();
+    }
+
+    public List<SuspendedOrders> findAllSuspendedOrders(){
+        return em.createNamedQuery("SuspendedOrders.findAll", SuspendedOrders.class).getResultList();
+    }
+
+    public List<Alerts> findAllAlerts(){
+        return em.createNamedQuery("Alerts.findAll", Alerts.class).getResultList();
+    }
 
 }
