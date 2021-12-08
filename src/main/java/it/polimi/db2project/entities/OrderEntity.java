@@ -14,6 +14,14 @@ import java.sql.Timestamp;
                 "WHERE o.order_id = :order_id"
 )
 @NamedQuery(
+        name = "Order.findAllOrderByUser",
+        query = "SELECT o " +
+                "FROM OrderEntity o " +
+                "WHERE o.userOwner = :user "
+)
+
+
+@NamedQuery(
         name = "Order.findRejectedOrdersOfUser",
         query = "SELECT o " +
                 "FROM OrderEntity o " +

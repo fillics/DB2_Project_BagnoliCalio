@@ -2,6 +2,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="it.polimi.db2project.entities.*" %>
+<%@ page import="it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity" %>
+<%@ page import="it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -14,24 +16,25 @@
 <body>
 
 <%
-    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-    request.getAttribute("servicePackagesToSelect");
-    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
-    request.getAttribute("validityPeriods");
-    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
-    request.getAttribute("optionalProducts");
+    //list of all service packages
+    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>) request.getAttribute("servicePackagesToSelect");
+
+    ServicePackageToSelectEntity servicePackageSelected = (ServicePackageToSelectEntity) request.getAttribute("servicePackageSelected");
+
+
+    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>) request.getAttribute("validityPeriods");
+    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>) request.getAttribute("optionalProducts");
 
     int avgNumOptProductsWithServPackage = 0;
     request.getAttribute("avgNumOptProductsWithServPackage");
 
-    List<AlertEntity> alerts = (List<AlertEntity>)
-    request.getAttribute("alerts");
-    List<OrderEntity> orders = (List<OrderEntity>)
-    request.getAttribute("orders");
+    List<AlertEntity> alerts = (List<AlertEntity>) request.getAttribute("alerts");
+    List<OrderEntity> orders = (List<OrderEntity>) request.getAttribute("orders");
 
     ArrayList<Integer> purchasePerPackage = (ArrayList<Integer>) request.getAttribute("purchasePerPackage");
 
-    TotalPurchasesPerPackageEntity packageSelected = (TotalPurchasesPerPackageEntity) request.getAttribute("totPurchaseXPackage");
+    TotalPurchasesPerPackageEntity totPurchaseXPackage = (TotalPurchasesPerPackageEntity) request.getAttribute("totPurchaseXPackage");
+    TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod = (TotalPurchasesPerPackageAndValPeriodEntity) request.getAttribute("totalPurchasesPerPackageAndValPeriod");
 
 
 %>
@@ -62,15 +65,18 @@
                 }
             %>
         </select>
-        <br><br>
+        <br>
+
+        <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
+            <br><br>
             <%
-                if(packageSelected!=null){
+                if(totPurchaseXPackage !=null){
             %>
-            <p><%=packageSelected%></p>
+            <p class="redText"><%=totPurchaseXPackage%></p>
             <%
                 }
             %>
-        <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
+
     </form>
 </div>
 </div>
@@ -80,6 +86,8 @@
 
 <div>
     <h3>Number of total purchases per package and validity period.</h3>
+    <div style="text-align: center">
+
     <form action="salesReportPage" method="post">
 
         <label for="srvPackageWithValPeriod">Choose a service package:</label>
@@ -94,13 +102,15 @@
         </select>
         <br><br>
         <button type="submit">SELECT SERVICE PACKAGE</button>
-        <br>
-
+        <br><br>
+    </form>
         <%
             if(validityPeriods!=null){
         %>
-
-        <form action="servicePackage" method="post">
+        <br>
+        <p>Package selected: <%=servicePackageSelected.getName() %></p>
+        <form action="salesReportPage" method="post">
+            <br><br>
             <label for="valPeriod">Choose a validity period:</label>
             <select name="valPeriod" id="valPeriod">
                 <%
@@ -111,13 +121,21 @@
                     }
                 %>
             </select>
+            <br><br>
+
             <button type="submit">SELECT VALIDITY PERIOD</button>
-        </form>
 
+    </form>
+        <br><br>
             <%
-                    }
+                if(totalPurchasesPerPackageAndValPeriod !=null){
             %>
-
+            <p class="redText"><%=totalPurchasesPerPackageAndValPeriod%></p>
+            <%
+                 }
+                }
+            %>
+    </div>
 </div>
 
 <br><br>
@@ -143,7 +161,7 @@
             if(optionalProducts!=null){
         %>
 
-        <form action="servicePackage" method="post">
+        <form action="salesReportPage" method="post">
             <legend>Choose one or more optional products</legend>
             <%
                 for (OptionalProductEntity optProd: optionalProducts) {
@@ -166,7 +184,7 @@
 <br><br>
 
 <div>
-    <h3>Average number of optional products sold together with each service package.</h3>
+    <h3>Average number of optional products sold together with each service package</h3>
     <form action="salesReportPage" method="post">
 
         <label for="avgNumOptProductsWithServPackage">Choose a service package:</label>

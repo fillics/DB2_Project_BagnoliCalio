@@ -1,5 +1,6 @@
-package it.polimi.db2project.entities;
+package it.polimi.db2project.entities.employeeQueries;
 
+import it.polimi.db2project.entities.ServicePackageToSelectEntity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -26,6 +27,7 @@ public class TotalPurchasesPerPackageEntity implements Serializable {
     @OneToOne
     @JoinColumn(name = "package_id")
     private ServicePackageToSelectEntity servicePackage;
+
 
     @Column(name = "totalPurchases", nullable = false)
     private int totalPurchases;

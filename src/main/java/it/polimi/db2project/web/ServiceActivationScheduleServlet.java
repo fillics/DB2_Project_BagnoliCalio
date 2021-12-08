@@ -31,7 +31,6 @@ public class ServiceActivationScheduleServlet extends HttpServlet {
         destServlet = "homePageCustomer";
         resp.sendRedirect(destServlet);
 
-
     }
 
     @Override
@@ -42,6 +41,7 @@ public class ServiceActivationScheduleServlet extends HttpServlet {
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         List<OrderEntity> ordersToActivate = userService.findOrdersToActivate(user.getUser_id());
+        System.out.println("dentro get service activation schedule: "+ordersToActivate.size());
 
         req.setAttribute("ordersToActivate", ordersToActivate);
 

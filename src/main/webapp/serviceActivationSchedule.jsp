@@ -13,6 +13,11 @@
 
 <%
     List<OrderEntity> ordersToActivate = (List<OrderEntity>) request.getAttribute("ordersToActivate");
+
+    for (OrderEntity orderEntity: ordersToActivate){
+        System.out.println(orderEntity);
+    }
+
     UserEntity user = null;
     String userUsername = null;
     if(request.getSession().getAttribute("user")!=null){
@@ -42,14 +47,14 @@ else{
 <div style="text-align: center">
     <h1>SERVICE ACTIVATION SCHEDULE</h1>
     <br>
-    <h2>Orders not yet activated</h2>
+    <h2>Orders successfully bought but not yet activated</h2>
 
     <%
         for (OrderEntity order: ordersToActivate) {
     %>
     <div style="text-align: center">
         <h3>ID order to activate: <%=order.getOrder_id() %></h3>
-        <table class="table">
+        <table class="tableGreen">
             <tr>
                 <td>Date and Hour Order</td>
                 <td>Name Service Package</td>

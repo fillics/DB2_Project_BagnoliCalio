@@ -42,13 +42,21 @@ public class ConfirmationServlet extends HttpServlet {
         if(creatingPackage){
             try {
                 servicePackage = userService.createServicePackage(servicePackage, user);
+                System.out.println("service package persistato: "+servicePackage);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage);
+            System.out.println("order appena creato: "+order);
         }
         else{
             order = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get();
+            System.out.println("dentro appena creato: "+order);
+        }
+
+
+        for (OrderEntity orderEntity: userService.findAllOrdersByUser(user.getUser_id())){
+            System.out.println(orderEntity);
         }
 
         boolean isValid = false;
@@ -59,6 +67,7 @@ public class ConfirmationServlet extends HttpServlet {
         if(!isValid) user = userService.incrementsFailedPayments(user);
 
         order = userService.updateOrder(order, isValid);
+        System.out.println("order updated: "+order);
 
 
         if(user.getNumFailedPayments()==3){
@@ -67,11 +76,24 @@ public class ConfirmationServlet extends HttpServlet {
             userService.setNumFailedPagaments(user);
         }
 
+        System.out.println("sopra tutto ok\n\n");
+        System.out.println("stampiamo rejected orders");
+
+        for (OrderEntity orderEntity: userService.findRejectedOrdersByUser(user.getUser_id())){
+            System.out.println(orderEntity);
+        }
+
         // if the user has rejected orders we set him to insolvent
         if(userService.findRejectedOrdersByUser(user.getUser_id()).size()>=1) userService.setUserInsolvent(user, true);
         else userService.setUserInsolvent(user, false);
 
-        destServlet = "serviceActivationSchedule";
+        System.out.println("\n\nstampiamo orders to activate");
+        for (OrderEntity orderEntity: userService.findOrdersToActivate(user.getUser_id())){
+            System.out.println(orderEntity);
+        }
+
+        if(userService.findOrdersToActivate(user.getUser_id()).size()!=0) destServlet = "serviceActivationSchedule";
+        else destServlet = "homePageCustomer";
 
         resp.sendRedirect(destServlet);
 
@@ -82,13 +104,18 @@ public class ConfirmationServlet extends HttpServlet {
 
         rejectedOrderID = req.getParameter("rejectedOrder");
 
+        System.out.println("rejectedOrderID: "+rejectedOrderID);
+
         if(rejectedOrderID!=null){
             servicePackage = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get().getServicePackage();
             creatingPackage = false;
+            System.out.println("service package rejected: "+servicePackage);
+
         }
         else{
             servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");
             creatingPackage = true;
+            System.out.println("service package non ancora persistato: "+servicePackage);
 
         }
         req.setAttribute("servicePackage", servicePackage);

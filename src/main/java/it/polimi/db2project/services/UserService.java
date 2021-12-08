@@ -116,6 +116,12 @@ public class UserService {
         return em.createNamedQuery("ServicePackageToSelect.findAll", ServicePackageToSelectEntity.class).getResultList();
     }
 
+    public List<OrderEntity> findAllOrdersByUser(Long user_id){
+        return em.createNamedQuery("Order.findAllOrderByUser", OrderEntity.class).
+                setParameter("user", findByUserID(user_id).get()).
+                getResultList();
+    }
+
     public List<ServicePackageEntity> findServPackageUser(Long user_id){
         Optional<UserEntity> userEntity = findByUserID(user_id);
         return em.createNamedQuery("ServicePackage.findServicePackageOfUser", ServicePackageEntity.class)

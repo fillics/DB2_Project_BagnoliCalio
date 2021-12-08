@@ -1,6 +1,8 @@
 package it.polimi.db2project.services;
 
 import it.polimi.db2project.entities.*;
+import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity;
+import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity;
 import it.polimi.db2project.exception.CredentialsException;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -160,7 +162,7 @@ public class EmployeeService {
                 .getResultList();
     }
 
-    public Optional<ServicePackageToSelectEntity> findByServicePackageToSelectID(Long servicePackageToSelect_id) {
+    public Optional<ServicePackageToSelectEntity> findServicePackageToSelectByID(Long servicePackageToSelect_id) {
         return em.createNamedQuery("ServicePackageToSelect.findByID", ServicePackageToSelectEntity.class)
                 .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
                 .getResultStream().findFirst();
@@ -175,7 +177,7 @@ public class EmployeeService {
     }
 
     public List<ServicePackageEntity> findServicePackageThatContainServicePackageToSelect (Long servicePackageToSelect_id){
-        Optional<ServicePackageToSelectEntity> servicePackageEntity = findByServicePackageToSelectID(servicePackageToSelect_id);
+        Optional<ServicePackageToSelectEntity> servicePackageEntity = findServicePackageToSelectByID(servicePackageToSelect_id);
         return em.createNamedQuery("ServicePackage.findServicePackageThatContainServicePackageToSelect", ServicePackageEntity.class)
             .setParameter("servicePackageToSelect_id", servicePackageEntity.get())
             .getResultList();
@@ -209,7 +211,7 @@ public class EmployeeService {
             totalPurchasesPerPackageEntity = em.createNamedQuery("TotalPurchasesPerPackage.findByServPackage", TotalPurchasesPerPackageEntity.class)
                     .setParameter("package_id", package_id).getResultList().stream().findFirst().get();
         }catch (NoSuchElementException exception){
-            totalPurchasesPerPackageEntity = new TotalPurchasesPerPackageEntity(package_id, findByServicePackageToSelectID(package_id).get(), 0);
+            totalPurchasesPerPackageEntity = new TotalPurchasesPerPackageEntity(package_id, findServicePackageToSelectByID(package_id).get(), 0);
         }
 
         return totalPurchasesPerPackageEntity;
@@ -223,7 +225,7 @@ public class EmployeeService {
                     .setParameter("valPeriod_id", valPeriod_id)
                     .getResultList().stream().findFirst().get();
         }catch (NoSuchElementException exception){
-            totalPurchasesPerPackageAndValPeriodEntity = new TotalPurchasesPerPackageAndValPeriodEntity(package_id, findByServicePackageToSelectID(package_id).get(), valPeriod_id, findByValPeriodID(valPeriod_id).get(), 0);
+            totalPurchasesPerPackageAndValPeriodEntity = new TotalPurchasesPerPackageAndValPeriodEntity(package_id, findServicePackageToSelectByID(package_id).get(), valPeriod_id, findByValPeriodID(valPeriod_id).get(), 0);
         }
 
         return totalPurchasesPerPackageAndValPeriodEntity;

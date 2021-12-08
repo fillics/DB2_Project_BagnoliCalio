@@ -27,6 +27,15 @@ h1
     width:750px;
     table-layout:fixed;
 }
+.tableGreen{
+    border:2px solid black;
+    margin-left:auto;
+    margin-right:auto;
+    width:750px;
+    table-layout:fixed;
+    background-color: darkseagreen;
+}
+
 
 td {
     word-wrap:break-word;
@@ -47,4 +56,9 @@ td {
 .inner
 {
     display: inline-block;
+}
+
+.redText{
+    color: black;
+    font-size: 20px;
 }

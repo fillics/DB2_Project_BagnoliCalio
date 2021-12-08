@@ -1,5 +1,7 @@
-package it.polimi.db2project.entities;
+package it.polimi.db2project.entities.employeeQueries;
 
+import it.polimi.db2project.entities.ServicePackageToSelectEntity;
+import it.polimi.db2project.entities.ValidityPeriodEntity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

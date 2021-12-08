@@ -2,6 +2,8 @@ package it.polimi.db2project.web;
 
 
 import it.polimi.db2project.entities.*;
+import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity;
+import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity;
 import it.polimi.db2project.services.EmployeeService;
 import jakarta.ejb.EJB;
 import jakarta.servlet.RequestDispatcher;
@@ -22,19 +24,26 @@ public class SalesReportPageServlet extends HttpServlet {
     private EmployeeService employeeService;
 
 
+    private ServicePackageToSelectEntity servicePackageSelected;
     private List<ValidityPeriodEntity> validityPeriods = null;
     private List<OptionalProductEntity> optionalProducts = null;
     private List<OrderEntity> orders = null;
     private int avgNumOptProductsWithServPackage;
-    TotalPurchasesPerPackageEntity totPurchaseXPackage;
-    TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod;
+    private TotalPurchasesPerPackageEntity totPurchaseXPackage;
+    private TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        //first query
         String srvPackage = request.getParameter("srvPackage");
+
+        //second query
         String srvPackageWithValPeriod = request.getParameter("srvPackageWithValPeriod");
         String valPeriod = request.getParameter("valPeriod");
 
+
+
+        //third query
         String srvPackageWithOptProducts = request.getParameter("srvPackageWithOptProducts");
         String avgNumOptProductsWithServPackage = request.getParameter("avgNumOptProductsWithServPackage");
 
@@ -43,17 +52,19 @@ public class SalesReportPageServlet extends HttpServlet {
 
 
         //first query
-        if(srvPackage!=null)
-        totPurchaseXPackage = employeeService.purchasesPerPackage(Long.parseLong(srvPackage));
+        if(srvPackage!=null) totPurchaseXPackage = employeeService.purchasesPerPackage(Long.parseLong(srvPackage));
 
-        if(valPeriod!=null){
-            totalPurchasesPerPackageAndValPeriod = employeeService.purchasesPerPackageAndValPeriod(Long.parseLong(srvPackageWithValPeriod), Long.parseLong(valPeriod));
-            System.out.println(totalPurchasesPerPackageAndValPeriod);
-        }
-
-        if(srvPackageWithValPeriod!=null){
+        //second query
+        if(srvPackageWithValPeriod!=null) {
+            servicePackageSelected = employeeService.findServicePackageToSelectByID(Long.parseLong(srvPackageWithValPeriod)).get();
             validityPeriods = employeeService.findValPeriodsOfServicePackage(Long.parseLong(srvPackageWithValPeriod));
         }
+        if(servicePackageSelected!=null && valPeriod!=null){
+            totalPurchasesPerPackageAndValPeriod = employeeService.purchasesPerPackageAndValPeriod(servicePackageSelected.getServicePackageToSelect_id(), Long.parseLong(valPeriod));
+        }
+
+
+
         if(srvPackageWithOptProducts!=null){
             optionalProducts = employeeService.findOptProdOfServicePackageToSelect(Long.parseLong(srvPackageWithOptProducts));
         }
@@ -68,10 +79,15 @@ public class SalesReportPageServlet extends HttpServlet {
         List<ServicePackageToSelectEntity> servicePackagesToSelect = employeeService.findAllServicePackageToSelect();
         req.setAttribute("servicePackagesToSelect", servicePackagesToSelect);
 
+        //first query
         req.setAttribute("totPurchaseXPackage", totPurchaseXPackage);
 
-
+        //second query
+        req.setAttribute("servicePackageSelected", servicePackageSelected);
         req.setAttribute("validityPeriods", validityPeriods);
+        req.setAttribute("totalPurchasesPerPackageAndValPeriod", totalPurchasesPerPackageAndValPeriod);
+
+
         req.setAttribute("optionalProducts", optionalProducts);
         req.setAttribute("avgNumOptProductsWithServPackage", avgNumOptProductsWithServPackage);
         req.setAttribute("orders", orders);
