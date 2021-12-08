@@ -85,7 +85,7 @@ else{
         %>
         <td><%=servicePackage.getStartDate()%></td>
         <td><%=servicePackage.getEndDate()%></td>
-        <td><%=servicePackage.getTotalValuePackage()%></td>
+        <td><%=servicePackage.getValuePackage()%></td>
 
       </tr>
 

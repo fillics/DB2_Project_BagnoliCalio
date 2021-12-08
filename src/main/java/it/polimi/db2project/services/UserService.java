@@ -11,7 +11,6 @@ import jakarta.validation.ConstraintViolationException;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Stateless
@@ -182,7 +181,13 @@ public class UserService {
     }
 
     public OrderEntity createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage){
-        OrderEntity order = new OrderEntity(now, servicePackage.getTotalValuePackage(), userOwner, servicePackage);
+        System.out.println(servicePackage.getValuePackage());
+        System.out.println(servicePackage.getTotalValueOptionalProducts());
+
+        float totalValueOrder = servicePackage.getValuePackage() + servicePackage.getTotalValueOptionalProducts();
+
+        System.out.println("totalValueOrder: "+totalValueOrder);
+        OrderEntity order = new OrderEntity(now, totalValueOrder, userOwner, servicePackage);
         try {
             em.persist(order);
             em.flush();

@@ -2,6 +2,8 @@ package it.polimi.db2project.web;
 
 
 import it.polimi.db2project.entities.*;
+import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithOptProduct;
+import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithoutOptProduct;
 import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity;
 import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity;
 import it.polimi.db2project.services.EmployeeService;
@@ -26,11 +28,12 @@ public class SalesReportPageServlet extends HttpServlet {
 
     private ServicePackageToSelectEntity servicePackageSelected;
     private List<ValidityPeriodEntity> validityPeriods = null;
-    private List<OptionalProductEntity> optionalProducts = null;
     private List<OrderEntity> orders = null;
     private int avgNumOptProductsWithServPackage;
     private TotalPurchasesPerPackageEntity totPurchaseXPackage;
     private TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod;
+    private SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct;
+    private SalesPerPackageWithOptProduct salesPerPackageWithOptProduct;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -42,9 +45,11 @@ public class SalesReportPageServlet extends HttpServlet {
         String valPeriod = request.getParameter("valPeriod");
 
 
-
         //third query
         String srvPackageWithOptProducts = request.getParameter("srvPackageWithOptProducts");
+
+
+
         String avgNumOptProductsWithServPackage = request.getParameter("avgNumOptProductsWithServPackage");
 
         Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
@@ -63,10 +68,11 @@ public class SalesReportPageServlet extends HttpServlet {
             totalPurchasesPerPackageAndValPeriod = employeeService.purchasesPerPackageAndValPeriod(servicePackageSelected.getServicePackageToSelect_id(), Long.parseLong(valPeriod));
         }
 
-
-
+        //third query
         if(srvPackageWithOptProducts!=null){
-            optionalProducts = employeeService.findOptProdOfServicePackageToSelect(Long.parseLong(srvPackageWithOptProducts));
+            salesPerPackageWithOptProduct = employeeService.valueOfSalesWithOptProduct(Long.parseLong(srvPackageWithOptProducts));
+            salesPerPackageWithoutOptProduct = employeeService.valueOfSalesWithoutOptProduct(Long.parseLong(srvPackageWithOptProducts));
+
         }
 
         response.sendRedirect(destServlet);
@@ -87,8 +93,10 @@ public class SalesReportPageServlet extends HttpServlet {
         req.setAttribute("validityPeriods", validityPeriods);
         req.setAttribute("totalPurchasesPerPackageAndValPeriod", totalPurchasesPerPackageAndValPeriod);
 
+        //third query
+        req.setAttribute("salesPerPackageWithOptProduct", salesPerPackageWithOptProduct);
+        req.setAttribute("salesPerPackageWithoutOptProduct", salesPerPackageWithoutOptProduct);
 
-        req.setAttribute("optionalProducts", optionalProducts);
         req.setAttribute("avgNumOptProductsWithServPackage", avgNumOptProductsWithServPackage);
         req.setAttribute("orders", orders);
 

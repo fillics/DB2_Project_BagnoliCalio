@@ -1,6 +1,8 @@
 package it.polimi.db2project.services;
 
 import it.polimi.db2project.entities.*;
+import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithOptProduct;
+import it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithoutOptProduct;
 import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity;
 import it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity;
 import it.polimi.db2project.exception.CredentialsException;
@@ -230,5 +232,32 @@ public class EmployeeService {
 
         return totalPurchasesPerPackageAndValPeriodEntity;
     }
+
+    public SalesPerPackageWithOptProduct valueOfSalesWithOptProduct(Long package_id){
+        SalesPerPackageWithOptProduct salesPerPackageWithOptProduct = null;
+        try{
+            salesPerPackageWithOptProduct = em.createNamedQuery("SalesPerPackageWithOptProduct.findByServPackage", SalesPerPackageWithOptProduct.class)
+                    .setParameter("package_id", package_id)
+                    .getResultList().stream().findFirst().get();
+        }catch (NoSuchElementException exception){
+            salesPerPackageWithOptProduct = new SalesPerPackageWithOptProduct(package_id, findServicePackageToSelectByID(package_id).get(), 0);
+        }
+
+        return salesPerPackageWithOptProduct;
+    }
+
+    public SalesPerPackageWithoutOptProduct valueOfSalesWithoutOptProduct(Long package_id){
+        SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct = null;
+        try{
+            salesPerPackageWithoutOptProduct = em.createNamedQuery("SalesPerPackageWithoutOptProduct.findByServPackage", SalesPerPackageWithoutOptProduct.class)
+                    .setParameter("package_id", package_id)
+                    .getResultList().stream().findFirst().get();
+        }catch (NoSuchElementException exception){
+            salesPerPackageWithoutOptProduct = new SalesPerPackageWithoutOptProduct(package_id, findServicePackageToSelectByID(package_id).get(), 0);
+        }
+
+        return salesPerPackageWithoutOptProduct;
+    }
+
 
 }

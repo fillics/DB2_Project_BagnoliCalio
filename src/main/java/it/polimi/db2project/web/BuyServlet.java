@@ -86,9 +86,8 @@ public class BuyServlet extends HttpServlet {
 
             }
 
+            float valuePackage = validityPeriod.getMonthlyFee() * validityPeriod.getNumOfMonths();
 
-            //total Value
-            float totalValue = totalValueOptProducts + (validityPeriod.getMonthlyFee() * validityPeriod.getNumOfMonths());
 
             //start date and end date
             startDate = LocalDate.parse(startDateStr);
@@ -101,7 +100,8 @@ public class BuyServlet extends HttpServlet {
                                                         validityPeriod,
                                                         sqlStartDate,
                                                         sqlEndDate,
-                                                        totalValue,
+                                                        valuePackage,
+                                                        totalValueOptProducts,
                                                         optionalProducts);
 
             session.setAttribute("servicePackage", servicePackage);

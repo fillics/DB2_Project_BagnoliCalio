@@ -4,6 +4,8 @@
 <%@ page import="it.polimi.db2project.entities.*" %>
 <%@ page import="it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageAndValPeriodEntity" %>
 <%@ page import="it.polimi.db2project.entities.employeeQueries.TotalPurchasesPerPackageEntity" %>
+<%@ page import="it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithOptProduct" %>
+<%@ page import="it.polimi.db2project.entities.employeeQueries.SalesPerPackageWithoutOptProduct" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8"%>
 <!DOCTYPE html>
@@ -33,9 +35,15 @@
 
     ArrayList<Integer> purchasePerPackage = (ArrayList<Integer>) request.getAttribute("purchasePerPackage");
 
+    //first query
     TotalPurchasesPerPackageEntity totPurchaseXPackage = (TotalPurchasesPerPackageEntity) request.getAttribute("totPurchaseXPackage");
+
+    //second query
     TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod = (TotalPurchasesPerPackageAndValPeriodEntity) request.getAttribute("totalPurchasesPerPackageAndValPeriod");
 
+    //third query
+    SalesPerPackageWithOptProduct salesPerPackageWithOptProduct = (SalesPerPackageWithOptProduct) request.getAttribute("salesPerPackageWithOptProduct");
+    SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct = (SalesPerPackageWithoutOptProduct) request.getAttribute("salesPerPackageWithoutOptProduct");
 
 %>
 <div style="text-align: center">
@@ -65,8 +73,7 @@
                 }
             %>
         </select>
-        <br>
-
+        <br><br>
         <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
             <br><br>
             <%
@@ -85,7 +92,7 @@
 
 
 <div>
-    <h3>Number of total purchases per package and validity period.</h3>
+    <h3>Number of total purchases per package and validity period</h3>
     <div style="text-align: center">
 
     <form action="salesReportPage" method="post">
@@ -142,7 +149,10 @@
 
 <div>
     <h3>Total value of sales per package with and without the optional products.</h3>
+    <div style="text-align: center">
+
     <form action="salesReportPage" method="post">
+
 
         <label for="srvPackageWithOptProducts">Choose a service package:</label>
         <select name="srvPackageWithOptProducts" id="srvPackageWithOptProducts">
@@ -155,58 +165,56 @@
             %>
         </select>
         <br><br>
-        <button type="submit">SELECT SERVICE PACKAGE</button>
 
+        <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
+        <br><br>
         <%
-            if(optionalProducts!=null){
+            if(salesPerPackageWithOptProduct !=null && salesPerPackageWithoutOptProduct!=null){
         %>
-
-        <form action="salesReportPage" method="post">
-            <legend>Choose one or more optional products</legend>
-            <%
-                for (OptionalProductEntity optProd: optionalProducts) {
-            %>
-            <input type="checkbox" name="optionalProducts"
-                   value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
-            <%
-                }
-            %>
-
-            <button type="submit">SELECT OPTIONAL PRODUCTS</button>
-
-        </form>
-
-            <%
-                }
-            %>
+        <p class="redText"><%=salesPerPackageWithOptProduct%></p>
+        <br>
+        <p class="redText"><%=salesPerPackageWithoutOptProduct%></p>
+        <%
+            }
+        %>
+    </form>
+    </div>
 </div>
 
 <br><br>
 
 <div>
     <h3>Average number of optional products sold together with each service package</h3>
-    <form action="salesReportPage" method="post">
+    <div style="text-align: center">
 
-        <label for="avgNumOptProductsWithServPackage">Choose a service package:</label>
-        <select name="avgNumOptProductsWithServPackage" id="avgNumOptProductsWithServPackage">
+        <form action="salesReportPage" method="post">
+
+
+            <label for="avgNumOptProductsWithServPackage">Choose a service package:</label>
+            <select name="avgNumOptProductsWithServPackage" id="avgNumOptProductsWithServPackage">
+                <%
+                    for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
+                %>
+                <option value="<%=servicePackageToSelect.getServicePackageToSelect_id()%>"><%=servicePackageToSelect.getName() %></option>
+                <%
+                    }
+                %>
+            </select>
+            <br><br>
+
+            <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
+            <br><br>
             <%
-                for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
+                if(salesPerPackageWithOptProduct !=null && salesPerPackageWithoutOptProduct!=null){
             %>
-            <option value="<%=servicePackageToSelect.getServicePackageToSelect_id()%>"><%=servicePackageToSelect.getName() %></option>
+            <p class="redText"><%=salesPerPackageWithOptProduct%></p>
+            <br>
+            <p class="redText"><%=salesPerPackageWithoutOptProduct%></p>
             <%
                 }
             %>
-        </select>
-        <br><br>
-        <button type="submit">SELECT SERVICE PACKAGE</button>
-    </form>
-            <%
-                if(avgNumOptProductsWithServPackage!=0){
-            %>
-
-            <%
-                }
-            %>
+        </form>
+    </div>
 
 </div>
 

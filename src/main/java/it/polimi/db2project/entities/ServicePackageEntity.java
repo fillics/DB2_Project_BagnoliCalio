@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -46,8 +45,11 @@ public class ServicePackageEntity implements Serializable {
     @Column(name = "endDate")
     private Date endDate;
 
-    @Column(name = "totalValuePackage", unique=true, nullable=false)
-    private float totalValuePackage;
+    @Column(name = "valuePackage", unique=true, nullable=false)
+    private float valuePackage;
+
+    @Column(name = "totalValueOptionalProducts", unique=true, nullable=false)
+    private float totalValueOptionalProducts;
 
     //relationship definition part
     @ManyToOne @JoinColumn(name = "packageSelected")
@@ -79,14 +81,16 @@ public class ServicePackageEntity implements Serializable {
             ValidityPeriodEntity validityPeriod,
             java.sql.Date startDate,
             java.sql.Date endDate,
-            float totalValuePackage,
+            float valuePackage,
+            float totalValueOptionalProducts,
             List<OptionalProductEntity> optionalProducts
     ) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.totalValuePackage = totalValuePackage;
+        this.valuePackage = valuePackage;
         this.packageSelected = packageSelected;
         this.validityPeriod = validityPeriod;
+        this.totalValueOptionalProducts = totalValueOptionalProducts;
         this.optionalProducts = optionalProducts;
     }
 
@@ -114,12 +118,12 @@ public class ServicePackageEntity implements Serializable {
         this.endDate = endDate;
     }
 
-    public float getTotalValuePackage() {
-        return totalValuePackage;
+    public float getValuePackage() {
+        return valuePackage;
     }
 
-    public void setTotalValuePackage(float totalValuePackage) {
-        this.totalValuePackage = totalValuePackage;
+    public void setValuePackage(float valuePackage) {
+        this.valuePackage = valuePackage;
     }
 
     public ServicePackageToSelectEntity getPackageSelected() {
@@ -152,6 +156,14 @@ public class ServicePackageEntity implements Serializable {
 
     public void setUserOwner(UserEntity userOwner) {
         this.userOwner = userOwner;
+    }
+
+    public float getTotalValueOptionalProducts() {
+        return totalValueOptionalProducts;
+    }
+
+    public void setTotalValueOptionalProducts(float totalValueOptionalProducts) {
+        this.totalValueOptionalProducts = totalValueOptionalProducts;
     }
 
     @Override
