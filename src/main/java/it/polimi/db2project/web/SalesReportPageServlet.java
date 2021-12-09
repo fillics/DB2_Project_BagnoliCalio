@@ -111,6 +111,10 @@ public class SalesReportPageServlet extends HttpServlet {
         List<Alerts> alerts = employeeService.findAllAlerts();
         req.setAttribute("alerts", alerts);
 
+        //sixth query
+        SalesPerOptProduct salesPerOptProduct = employeeService.findMax();
+        req.setAttribute("salesPerOptProduct", salesPerOptProduct);
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("salesReportPage.jsp");
         dispatcher.forward(req, resp);
     }

@@ -281,4 +281,8 @@ public class EmployeeService {
         return em.createNamedQuery("Alerts.findAll", Alerts.class).getResultList();
     }
 
+
+    public SalesPerOptProduct findMax(){
+        return em.createNamedQuery("SalesPerOptProduct.findMax", SalesPerOptProduct.class).getSingleResult();
+    }
 }

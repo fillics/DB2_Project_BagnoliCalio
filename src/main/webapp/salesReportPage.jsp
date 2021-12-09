@@ -40,6 +40,10 @@
     List<SuspendedOrders> suspendedOrders = (List<SuspendedOrders>) request.getAttribute("suspendedOrders");
     List<InsolventUsers> insolventUsers = (List<InsolventUsers>) request.getAttribute("insolventUsers");
 
+    //sixth query
+    SalesPerOptProduct salesPerOptProduct = (SalesPerOptProduct) request.getAttribute("salesPerOptProduct");
+
+
 %>
 <div style="text-align: center">
 
@@ -235,7 +239,7 @@
     </table>
 
     <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
-        <h5>SUSPENDEND ORDERS</h5>
+        <h5>SUSPENDED ORDERS</h5>
         <tr>
             <td>Username</td>
             <td>Date and Hour</td>
@@ -284,8 +288,12 @@
 <br><br>
 
 <div>
-    <h3>Best Seller Optional Product.</h3>
+    <h3>Best Seller Optional Product: the optional product with the greatest value of sales across all
+        the sold service packages.</h3>
+    <div style="text-align: center">
+        <p class="redText"><%=salesPerOptProduct %></p>
 
+    </div>
 </div>
 
 
