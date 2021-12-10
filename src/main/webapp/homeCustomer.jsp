@@ -42,7 +42,7 @@
 <div style="text-align: center">
     <h1>HOME PAGE</h1>
     <%
-        if(userUsername!=null && rejectedOrders!=null && rejectedOrders.size()!=0) {
+        if(userUsername!=null && rejectedOrders!=null && rejectedOrders.size()>0) {
     %>
     <br>
     <h2>You are an insolvent user: list of rejected orders</h2>

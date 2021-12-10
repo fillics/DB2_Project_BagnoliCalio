@@ -190,10 +190,12 @@ public class UserService {
         return userEntity;
     }
 
-    public void setNumFailedPayments(UserEntity user){
+    public UserEntity setNumFailedPayments(UserEntity user){
         UserEntity userEntity = em.find(UserEntity.class, user.getUser_id());
         userEntity.setNumFailedPayments(0);
         em.merge(userEntity);
+        return userEntity;
+
     }
 
     public List<OrderEntity> findRejectedOrdersByUser(Long user_id){

@@ -65,13 +65,11 @@ public class ConfirmationServlet extends HttpServlet {
         if(!isValid) user = userService.incrementsFailedPayments(user);
 
         order = userService.updateOrder(order, isValid);
-        System.out.println("order updated: "+order);
-
 
         if(user.getNumFailedPayments()==3){
             AlertEntity alert = new AlertEntity(order.getTotalValueOrder(), order.getDateAndHour(), user);
             userService.createAlert(alert);
-            userService.setNumFailedPayments(user);
+            user = userService.setNumFailedPayments(user);
         }
 
 
@@ -79,7 +77,7 @@ public class ConfirmationServlet extends HttpServlet {
         if(userService.findRejectedOrdersByUser(user.getUser_id()).size()>=1) userService.setUserInsolvent(user, true);
         else userService.setUserInsolvent(user, false);
         
-        if(userService.findOrdersToActivate(user.getUser_id()).size()!=0) destServlet = "serviceActivationSchedule";
+        if(userService.findOrdersToActivate(user.getUser_id()).size()>0) destServlet = "serviceActivationSchedule";
         else destServlet = "homePageCustomer";
 
         resp.sendRedirect(destServlet);
