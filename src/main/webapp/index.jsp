@@ -12,7 +12,6 @@
 
 <%
     ServicePackageEntity servicePackage = (ServicePackageEntity) request.getSession().getAttribute("servicePackage");
-
 %>
 
 <body>
@@ -22,12 +21,12 @@
         <%--@declare id="password"--%><%--@declare id="email"--%>
         <%--@declare id="username"--%>
         <label for="username">Username:</label>
-        <input name="username" size="30" />
+        <input name="username" size="30" required/>
 
         <br><br>
 
         <label for="password">Password:</label>
-        <input type="password" name="password" size="30" />
+        <input type="password" name="password" size="30" required/>
         <br><br>
 
         <br>${messageLogin}
@@ -40,13 +39,13 @@
     <form action="signup" method="post">
         <%--@declare id="password"--%><%--@declare id="email"--%>
         <label for="username">Username:</label>
-        <input name="username" size="30" />
+        <input name="username" size="30" required/>
         <br><br>
         <label for="email">Email:</label>
-        <input name="email" size="30" />
+        <input name="email" size="30" required/>
         <br><br>
         <label for="password">Password:</label>
-        <input type="password" name="password" size="30" />
+        <input type="password" name="password" size="30" required/>
         <br><br>
         <label for="employee">I am an employee</label>
         <input type="checkbox" id="employee" name="employee" value="employee">

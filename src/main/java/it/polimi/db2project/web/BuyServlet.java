@@ -14,14 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.SQLOutput;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+
 import java.util.*;
 
 @WebServlet("/buyPage")
@@ -37,13 +31,12 @@ public class BuyServlet extends HttpServlet {
     ServicePackageEntity servicePackage = null;
     String packageSelected = null;
 
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
 
         if (request.getParameter("servPackageBtn")!=null) {
-
             srvPackageToSelect = request.getParameter("srvPackage");
 
             destServlet = "buyPage";
@@ -61,21 +54,16 @@ public class BuyServlet extends HttpServlet {
             String[] optProducts = request.getParameterValues("optProducts");
             String startDateStr = request.getParameter("startDate");
 
-            LocalDate startDate = null;
-            LocalDate endDate = null;
-            java.sql.Date sqlStartDate = null;
-            java.sql.Date sqlEndDate = null;
+            LocalDate startDate, endDate;
+            java.sql.Date sqlStartDate, sqlEndDate;
 
-
-            //service package to select
             ServicePackageToSelectEntity servicePackageToSelect = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get();
 
-            //validity period
             ValidityPeriodEntity validityPeriod = userService.findByValPeriodID(Long.parseLong(valPeriod)).get();
             
-            //optional products
             ArrayList<OptionalProductEntity> optionalProducts = null;
             float totalValueOptProducts = 0;
+
             if(optProducts!=null){
                 optionalProducts = new ArrayList<>();
                 for (String optProd : optProducts) {
@@ -89,7 +77,6 @@ public class BuyServlet extends HttpServlet {
             float valuePackage = validityPeriod.getMonthlyFee() * validityPeriod.getNumOfMonths();
 
 
-            //start date and end date
             startDate = LocalDate.parse(startDateStr);
             endDate = startDate.plusMonths(validityPeriod.getNumOfMonths());
 

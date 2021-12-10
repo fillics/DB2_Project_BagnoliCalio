@@ -13,6 +13,12 @@ import java.util.List;
                 "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id"
 )
 @NamedQuery(
+        name = "ServicePackageToSelect.findByName",
+        query = "SELECT s FROM ServicePackageToSelectEntity s " +
+                "WHERE s.name = :name"
+)
+
+@NamedQuery(
     name = "ServicePackageToSelect.findAll",
     query = "SELECT stp " +
         "FROM ServicePackageToSelectEntity stp "

@@ -19,7 +19,7 @@ h1
   alignment: right;
 }
 
-.table{
+.tableAzure{
     border:2px solid black;
     margin-left:auto;
     margin-right:auto;
@@ -27,6 +27,49 @@ h1
     width:750px;
     table-layout:fixed;
 }
+.table{
+    table-layout: fixed;
+    width: 70%;
+    border-collapse: collapse;
+    border: 2px solid black;
+    margin-left: auto;
+    margin-right: auto;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.white {
+    background-color: #333;
+    color: white;
+}
+
+.theadGreen{
+    background-color: darkseagreen;
+}
+.theadGrey{
+    background-color: #cccccc;
+}
+.tbodyGreen{
+    background-color: darkseagreen;
+}
+.tbodyWhite{
+    background-color: white;
+}
+
+.theadRed{
+    background-color: red;
+    color: white;
+    font-weight: bold;
+
+}
+
+
+.theadYellow{
+    background-color: yellow;
+}
+
 .tableGreen{
     border:2px solid black;
     margin-left:auto;
@@ -35,7 +78,6 @@ h1
     table-layout:fixed;
     background-color: darkseagreen;
 }
-
 
 td {
     word-wrap:break-word;
@@ -46,6 +88,17 @@ td {
     width:150px;
     background-color: cadetblue;
 }
+.buttonGreen{
+    height:75px;
+    width:150px;
+    background-color: green;
+}
+.buttonRed{
+    height:75px;
+    width:150px;
+    background-color: red;
+    color: white;
+}
 
 .buttonIndex{
     height:50px;
@@ -55,10 +108,19 @@ td {
 
 .inner
 {
-    display: inline-block;
+    display: inline;
 }
 
-.redText{
+.cyanText{
     color: darkcyan;
     font-size: 20px;
 }
+
+.buttonEmployee{
+    background-color: firebrick;
+    color: white;
+    height:75px;
+    width:250px;
+}
+
+

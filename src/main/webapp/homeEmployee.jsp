@@ -18,20 +18,14 @@
 <body>
 
 <%
-    List<ServiceEntity> services = (List<ServiceEntity>)
-            request.getAttribute("services");
-    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
-            request.getAttribute("optionalProducts");
-    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
-            request.getAttribute("validityPeriods");
-    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-            request.getAttribute("servicePackagesToSelect");
-
+    List<ServiceEntity> services = (List<ServiceEntity>) request.getAttribute("services");
+    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>) request.getAttribute("optionalProducts");
+    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>) request.getAttribute("validityPeriods");
+    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>) request.getAttribute("servicePackagesToSelect");
 
 %>
 
 <div style="text-align: center">
-
 
     <p align=right>Username of the employee: ${employee.username}</p>
     <p align=right><a href="${pageContext.request.contextPath}/logout">Logout</a></p>
@@ -40,14 +34,14 @@
     <br>
 
     <form action="salesReportPage">
-        <button style="height:75px;width:250px" type="submit">GO TO THE SALES REPORT PAGE</button>
+        <button class="buttonEmployee" type="submit">GO TO THE SALES REPORT PAGE</button>
     </form>
     <h2>Creating Service Package</h2>
     <form action="servicePackageToSelect" method="post">
 
         <%--@declare id="nameservpackage"--%>
         <label for="nameServPackage">Name Service Package:</label>
-        <input name="nameServPackage" size="30" />
+        <input name="nameServPackage" size="30" required/>
         <br><br>
 
         <fieldset>
@@ -82,7 +76,6 @@
         <fieldset>
             <legend>Choose one or more validity periods associated to this service package</legend>
             <%
-
                 for (ValidityPeriodEntity valPer: validityPeriods) {
             %>
             <input type="checkbox" name="validityPeriods"
@@ -94,7 +87,7 @@
 
         <br>${messageServicePackage}
         <br><br>
-        <button type="submit">CREATE</button>
+        <button class="button" type="submit">CREATE</button>
     </form>
 
 
@@ -115,46 +108,56 @@
         <br><br>
 
         <br>${messageOptProduct}<br>
-        <button type="submit">CREATE</button>
+        <button class="button" type="submit">CREATE</button>
     </form>
 </div>
 
 <div style="text-align: center">
-    <h3>Service Packages created</h3>
-    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
-        <tr>
-            <td>Name Service Package</td>
-        </tr>
-        <%
-            for (ServicePackageToSelectEntity servicePackageToSelectEntity: servicePackagesToSelect) {
-        %>
-        <tr>
-            <td><%=servicePackageToSelectEntity.getName() %></td>
-        </tr>
-        <%
-            }
-        %>
+    <h2>Service Packages created</h2>
+    <table class="table" >
+        <thead class="white">
+            <tr>
+                <td>Name Service Package</td>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                for (ServicePackageToSelectEntity servicePackageToSelectEntity: servicePackagesToSelect) {
+            %>
+            <tr>
+                <td><%=servicePackageToSelectEntity.getName() %></td>
+            </tr>
+            <%
+                }
+            %>
+        </tbody>
+
     </table>
 </div>
 
-
+<br><br>
 <div style="text-align: center">
-    <h3>Optional Products created</h3>
-    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
+    <h2>Optional Products created</h2>
+    <table class="table">
+        <thead class="white">
         <tr>
             <td>Name Optional Product</td>
             <td>Monthly Fee</td>
         </tr>
-        <%
-            for (OptionalProductEntity optProd: optionalProducts) {
-        %>
-        <tr>
-            <td><%=optProd.getName() %></td>
-            <td><%=optProd.getMonthlyFee() %></td>
-        </tr>
-        <%
-            }
-        %>
+        </thead>
+       <tbody>
+       <%
+           for (OptionalProductEntity optProd: optionalProducts) {
+       %>
+       <tr>
+           <td><%=optProd.getName() %></td>
+           <td><%=optProd.getMonthlyFee() %></td>
+       </tr>
+       <%
+           }
+       %>
+       </tbody>
+
     </table>
 </div>
 

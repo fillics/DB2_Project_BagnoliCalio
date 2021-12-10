@@ -17,8 +17,7 @@
 <body>
 
 <%
-  ServicePackageEntity servicePackage = (ServicePackageEntity)
-  request.getAttribute("servicePackage");
+  ServicePackageEntity servicePackage = (ServicePackageEntity) request.getAttribute("servicePackage");
 
   UserEntity user = null;
   String userUsername = null;
@@ -53,11 +52,9 @@ else{
         <td>Type of services</td>
         <%
           if(servicePackage.getOptionalProducts()!=null){
-            for (int i = 0; i < servicePackage.getOptionalProducts().size(); i++) {
         %>
         <td>Optional products</td>
         <%
-            }
           }
         %>
         <td>Start date of subscription</td>
@@ -67,20 +64,12 @@ else{
 
       <tr>
         <td><%=servicePackage.getPackageSelected().getName()%></td>
+        <td><%=servicePackage.getPackageSelected().getServices()%></td>
         <%
-          for (ServiceEntity service: servicePackage.getPackageSelected().getServices()) {
+          if(servicePackage.getOptionalProducts()!=null && servicePackage.getOptionalProducts().size()!=0){
         %>
-        <td><%=service.getTypeOfService()%></td>
+        <td><%=servicePackage.getOptionalProducts()%></td>
         <%
-          }
-        %>
-        <%
-          if(servicePackage.getOptionalProducts()!=null){
-            for (OptionalProductEntity optProduct: servicePackage.getOptionalProducts()) {
-        %>
-        <td><%=optProduct.getName()%></td>
-        <%
-            }
           }
         %>
         <td><%=servicePackage.getStartDate()%></td>
@@ -101,19 +90,19 @@ else{
   <%
     if(userUsername!=null){
   %>
-  <div class="inner">
-    <form action="confirmationPage" method="post">
-      <button class="button" name="result" value="success" type="submit">BUY (billing accepted)</button>
+  <div>
+    <form class="inner" action="confirmationPage" method="post">
+      <button class="buttonGreen" name="result" value="success" type="submit">BUY (billing accepted)</button>
+      <button class="buttonRed" name="result" value="fail" type="submit">BUY (billing rejected)</button>
     </form>
 
-    <form action="confirmationPage" method="post">
-      <button class="button" name="result" value="fail" type="submit">BUY (billing rejected)</button>
-    </form>
+  </div>
+  <br><br>
 
     <form action="confirmationPage" method="post">
       <button class="button" name="result" value="random" type="submit">BUY (random billing status)</button>
     </form>
-  </div>
+
 
   <%
     }

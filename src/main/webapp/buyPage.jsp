@@ -19,12 +19,9 @@
 <body>
 
 <%
-    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-    request.getAttribute("servicePackagesToSelect");
-    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>)
-            request.getAttribute("validityPeriods");
-    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>)
-    request.getAttribute("optionalProducts");
+    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>) request.getAttribute("servicePackagesToSelect");
+    List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>) request.getAttribute("validityPeriods");
+    List<OptionalProductEntity> optionalProducts = (List<OptionalProductEntity>) request.getAttribute("optionalProducts");
     String packageSelected = (String) request.getAttribute("packageSelected");
 
     UserEntity user = null;
@@ -72,7 +69,7 @@ else{
         </select>
         <br><br>
 
-        <button type="submit" name = "servPackageBtn">SELECT SERVICE PACKAGE</button>
+        <button type="submit" class="button" name = "servPackageBtn">SELECT SERVICE PACKAGE</button>
 
         <br><br>
         </form>
@@ -83,72 +80,78 @@ else{
         %>
 
             <h4>Package selected: <%=packageSelected%></h4>
-        <label for="valPeriod">Choose a validity period:</label>
-        <select name="valPeriod" id="valPeriod">
+            <label for="valPeriod">Choose a validity period:</label>
+            <select name="valPeriod" id="valPeriod">
+                <%
+                    for (ValidityPeriodEntity valPeriod: validityPeriods) {
+                %>
+
+                <option value="<%=valPeriod.getValidityPeriod_id()%>"><%=valPeriod.toString() %></option>
+                <%
+                    }
+                %>
+            </select>
+            <br><br>
+
+            <div style="text-align: center">
             <%
-                for (ValidityPeriodEntity valPeriod: validityPeriods) {
+                if(optionalProducts.size()!= 0){
+            %>
+                <table class="table" >
+                    <thead class="theadGrey">
+                        <tr>
+                            <td>Name Optional Product</td>
+                            <td>Monthly Fee</td>
+                        </tr>
+                    </thead>
+
+                    <tbody class="tbodyWhite">
+                        <%
+                            for (OptionalProductEntity optProd: optionalProducts) {
+                        %>
+                        <tr>
+                            <td><%=optProd.getName() %></td>
+                            <td><%=optProd.getMonthlyFee() %></td>
+                        </tr>
+                        <%
+                                }
+                            }
+                        %>
+                    </tbody>
+
+                </table>
+
+            <br><br>
+
+            <%
+                if(optionalProducts.size()!= 0){
             %>
 
-            <option value="<%=valPeriod.getValidityPeriod_id()%>"><%=valPeriod.toString() %></option>
-            <%
-                }
-            %>
-        </select>
-        <br><br>
-
-        <div style="text-align: center">
-        <%
-            if(optionalProducts.size()!= 0){
-        %>
-            <table style="border:2px solid black;margin-left:auto;margin-right:auto;" >
-                <tr>
-                    <td>Name Optional Product</td>
-                    <td>Monthly Fee</td>
-                </tr>
+                <fieldset>
+                <legend>Choose one or more optional products</legend>
                 <%
                     for (OptionalProductEntity optProd: optionalProducts) {
                 %>
-                <tr>
-                    <td><%=optProd.getName() %></td>
-                    <td><%=optProd.getMonthlyFee() %></td>
-                </tr>
+                <input type="checkbox" name="optProducts"
+                       value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
                 <%
-                    }
+                        }
                     }
                 %>
-            </table>
+            </fieldset>
+            <br><br>
 
-        <br><br>
+            <label>Choose the start date:
+                <input type="date" name="startDate" required>
+            </label>
 
-        <%
-            if(optionalProducts.size()!= 0){
-        %>
+            <br><br>
 
-            <fieldset>
-            <legend>Choose one or more optional products</legend>
-            <%
-                for (OptionalProductEntity optProd: optionalProducts) {
-            %>
-            <input type="checkbox" name="optProducts"
-                   value="<%=optProd.getOptionalProduct_id() %>"><%=optProd.getName() %><br>
-            <%
+            <button type="submit" class="button" name ="confirmBtn">CONFIRM</button>
+                <%
                     }
-                }
-            %>
-        </fieldset>
-        <br><br>
-
-        <label>Choose the start date:
-            <input type="date" name="startDate" required>
-        </label>
-
-        <br><br>
-
-        <button type="submit" name ="confirmBtn">CONFIRM</button>
-            <%
-                }
-            %>
-        </form>
+                %>
+            </form>
 </div>
 
 </div>

@@ -40,13 +40,11 @@ public class SalesReportPageServlet extends HttpServlet {
         String srvPackageWithValPeriod = request.getParameter("srvPackageWithValPeriod");
         String valPeriod = request.getParameter("valPeriod");
 
-
         //third query
         String srvPackageWithOptProducts = request.getParameter("srvPackageWithOptProducts");
 
         //forth query
         String srvPackageAvg = request.getParameter("srvPackageAvg");
-
 
 
         Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
@@ -61,9 +59,8 @@ public class SalesReportPageServlet extends HttpServlet {
             servicePackageSelected = employeeService.findServicePackageToSelectByID(Long.parseLong(srvPackageWithValPeriod)).get();
             validityPeriods = employeeService.findValPeriodsOfServicePackage(Long.parseLong(srvPackageWithValPeriod));
         }
-        if(servicePackageSelected!=null && valPeriod!=null){
-            totalPurchasesPerPackageAndValPeriod = employeeService.purchasesPerPackageAndValPeriod(servicePackageSelected.getServicePackageToSelect_id(), Long.parseLong(valPeriod));
-        }
+        if(servicePackageSelected!=null && valPeriod!=null) totalPurchasesPerPackageAndValPeriod = employeeService.purchasesPerPackageAndValPeriod(servicePackageSelected.getServicePackageToSelect_id(), Long.parseLong(valPeriod));
+
 
         //third query
         if(srvPackageWithOptProducts!=null){
@@ -72,10 +69,7 @@ public class SalesReportPageServlet extends HttpServlet {
         }
 
         //forth query
-        if(srvPackageAvg!=null){
-            avgNumOfOptProductsSoldPerPackage = employeeService.avgNumOfOptProductsSoldPerPackage(Long.parseLong(srvPackageAvg));
-
-        }
+        if(srvPackageAvg!=null) avgNumOfOptProductsSoldPerPackage = employeeService.avgNumOfOptProductsSoldPerPackage(Long.parseLong(srvPackageAvg));
 
 
         response.sendRedirect(destServlet);

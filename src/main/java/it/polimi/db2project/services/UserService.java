@@ -22,29 +22,6 @@ public class UserService {
     public UserService(){
     }
 
-    boolean theUserWantsToBuyAndHeIsNotLogged = false;
-
-    public boolean isTheUserWantsToBuyAndHeIsNotLogged() {
-        return theUserWantsToBuyAndHeIsNotLogged;
-    }
-
-    public void setTheUserWantsToBuyAndHeIsNotLogged(boolean theUserWantsToBuyAndHeIsNotLogged) {
-        this.theUserWantsToBuyAndHeIsNotLogged = theUserWantsToBuyAndHeIsNotLogged;
-    }
-
-
-    // function to call the external service
-    boolean itIsTrue = true;
-    public Boolean callExternalService(){
-        if (itIsTrue){
-            itIsTrue = false;
-            return true;
-        }
-        else{
-            itIsTrue = true;
-            return false;
-        }
-    }
     public boolean randomPayment(){
         Random rd = new Random();
         return rd.nextBoolean();
@@ -82,7 +59,7 @@ public class UserService {
         try {
             em.persist(alert);
             em.flush();
-        } catch (ConstraintViolationException e) {
+        } catch (ConstraintViolationException ignored) {
         }
     }
 
@@ -175,18 +152,14 @@ public class UserService {
         return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
     }
 
-    // TODO: 16/11/2021 metodo in comune con employee service
     public List<ValidityPeriodEntity> findAllValidityPeriods(){
         return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
     }
 
     public OrderEntity createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage){
-        System.out.println(servicePackage.getValuePackage());
-        System.out.println(servicePackage.getTotalValueOptionalProducts());
 
         float totalValueOrder = servicePackage.getValuePackage() + servicePackage.getTotalValueOptionalProducts();
 
-        System.out.println("totalValueOrder: "+totalValueOrder);
         OrderEntity order = new OrderEntity(now, totalValueOrder, userOwner, servicePackage);
         try {
             em.persist(order);
@@ -217,7 +190,7 @@ public class UserService {
         return userEntity;
     }
 
-    public void setNumFailedPagaments(UserEntity user){
+    public void setNumFailedPayments(UserEntity user){
         UserEntity userEntity = em.find(UserEntity.class, user.getUser_id());
         userEntity.setNumFailedPayments(0);
         em.merge(userEntity);

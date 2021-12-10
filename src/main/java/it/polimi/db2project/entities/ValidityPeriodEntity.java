@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.List;
 
 
-//GIA VISTA
 @Entity
 @NamedQueries(
         {

@@ -27,7 +27,6 @@ public class ServiceActivationScheduleServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String destServlet;
-
         destServlet = "homePageCustomer";
         resp.sendRedirect(destServlet);
 
@@ -41,8 +40,6 @@ public class ServiceActivationScheduleServlet extends HttpServlet {
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         List<OrderEntity> ordersToActivate = userService.findOrdersToActivate(user.getUser_id());
-        System.out.println("dentro get service activation schedule: "+ordersToActivate.size());
-
         req.setAttribute("ordersToActivate", ordersToActivate);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("serviceActivationSchedule.jsp");

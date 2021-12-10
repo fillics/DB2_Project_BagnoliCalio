@@ -2,7 +2,6 @@ package it.polimi.db2project.web;
 
 import it.polimi.db2project.entities.EmployeeEntity;
 import it.polimi.db2project.entities.UserEntity;
-import it.polimi.db2project.exception.CredentialsException;
 import it.polimi.db2project.services.EmployeeService;
 import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
@@ -12,7 +11,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -25,12 +23,6 @@ public class SignupServlet extends HttpServlet {
     @EJB
     private EmployeeService employeeService;
 
-    public SignupServlet() {
-        super();
-    }
-
-
-    //destServlet = "signup?signupFailed=true"; FIL DEVI SPIEGARMI QUESTE COSE QUA BACI BACI
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
@@ -38,46 +30,42 @@ public class SignupServlet extends HttpServlet {
         boolean isEmployee = request.getParameter( "employee" ) != null;
         String destServlet = "signup";
 
+        boolean checkLength = username.length() != 0 && email.length() != 0 && password.length() != 0;
+        boolean checkAlreadySignup = employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent() ||
+                userService.findByUsername(username).isPresent() || userService.findByEmail(email).isPresent();
 
-        //se sono un employee
+        //employee case
         if(isEmployee) {
             EmployeeEntity employee;
-            if (employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent() ||
-                    userService.findByUsername(username).isPresent() || userService.findByEmail(email).isPresent() ) {
-                destServlet = "signup?signupFailed=true";
-            }
+
+            if (checkAlreadySignup) destServlet = "signup?signupFailed=true";
             else {
                 try {
-                    employee = employeeService.createEmployee(username, email, password);
+                    if(checkLength){
+                        employee = employeeService.createEmployee(username, email, password);
+                        if (employee != null) destServlet = "signup?signupDone=true";
+                        else destServlet = "signup?signupError=true";
+                    }
+                    else destServlet = "signup?signupError=true";
 
-                    if (employee != null) {
-                        destServlet = "signup?signupDone=true";
-                    }
-                    else {
-                        destServlet = "signup?signupError=true";
-                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
         }
 
-        //se non sono un employee
+        //user case
         else {
             UserEntity user;
-            if (userService.findByUsername(username).isPresent() || userService.findByEmail(email).isPresent() ||
-                    employeeService.findByUsername(username).isPresent() || employeeService.findByEmail(email).isPresent()) {
-                destServlet = "signup?signupFailed=true";
-            }
+            if (checkAlreadySignup) destServlet = "signup?signupFailed=true";
             else {
                 try {
-                    user = userService.createUser(username, email, password);
-
-                    if (user != null) {
-                        destServlet = "signup?signupDone=true";
-                    } else {
-                        destServlet = "signup?signupError=true";
+                    if(checkLength){
+                        user = userService.createUser(username, email, password);
+                        if (user != null) destServlet = "signup?signupDone=true";
+                        else destServlet = "signup?signupError=true";
                     }
+                    else destServlet = "signup?signupError=true";
 
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -86,7 +74,6 @@ public class SignupServlet extends HttpServlet {
         }
 
         response.sendRedirect(destServlet);
-
 
     }
 

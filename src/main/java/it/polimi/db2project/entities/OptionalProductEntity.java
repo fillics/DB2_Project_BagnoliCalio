@@ -15,6 +15,13 @@ import java.util.List;
                 "FROM OptionalProductEntity o " +
                 "WHERE o.optionalProduct_id = :optionalProduct_id"
         ),
+
+        @NamedQuery(
+                name = "OptionalProduct.findByName",
+                query = "SELECT o FROM OptionalProductEntity o " +
+                        "WHERE o.name = :name"
+        ),
+
         @NamedQuery(
             name = "OptionalProduct.findAll",
             query = "SELECT o " +
@@ -53,7 +60,6 @@ public class OptionalProductEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-// gia controllato
     @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
     private List<ServicePackageEntity> servicePackages;
 
@@ -110,5 +116,10 @@ public class OptionalProductEntity implements Serializable {
 
     public void setServicePackagesToSelect(List<ServicePackageToSelectEntity> servicePackagesToSelect) {
         this.servicePackagesToSelect = servicePackagesToSelect;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

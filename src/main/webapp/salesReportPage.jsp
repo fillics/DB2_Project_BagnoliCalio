@@ -73,12 +73,12 @@
             %>
         </select>
         <br><br>
-        <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
+        <button name="button" class="button" type="submit">SELECT SERVICE PACKAGE</button>
             <br><br>
             <%
                 if(totPurchaseXPackage !=null){
             %>
-            <p class="redText"><%=totPurchaseXPackage%></p>
+            <p class="cyanText"><%=totPurchaseXPackage%></p>
             <%
                 }
             %>
@@ -107,7 +107,7 @@
             %>
         </select>
         <br><br>
-        <button type="submit">SELECT SERVICE PACKAGE</button>
+        <button class="button" type="submit">SELECT SERVICE PACKAGE</button>
         <br><br>
     </form>
         <%
@@ -129,14 +129,14 @@
             </select>
             <br><br>
 
-            <button type="submit">SELECT VALIDITY PERIOD</button>
+            <button class="button" type="submit">SELECT VALIDITY PERIOD</button>
 
     </form>
         <br><br>
             <%
                 if(totalPurchasesPerPackageAndValPeriod !=null){
             %>
-            <p class="redText"><%=totalPurchasesPerPackageAndValPeriod%></p>
+            <p class="cyanText"><%=totalPurchasesPerPackageAndValPeriod%></p>
             <%
                  }
                 }
@@ -165,14 +165,14 @@
         </select>
         <br><br>
 
-        <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
+        <button name="button" class="button" type="submit">SELECT SERVICE PACKAGE</button>
         <br><br>
         <%
             if(salesPerPackageWithOptProduct !=null && salesPerPackageWithoutOptProduct!=null){
         %>
-        <p class="redText"><%=salesPerPackageWithOptProduct%></p>
+        <p class="cyanText"><%=salesPerPackageWithOptProduct%></p>
         <br>
-        <p class="redText"><%=salesPerPackageWithoutOptProduct%></p>
+        <p class="cyanText"><%=salesPerPackageWithoutOptProduct%></p>
         <%
             }
         %>
@@ -206,7 +206,7 @@
             <%
                 if(avgNumOfOptProductsSoldPerPackage !=null){
             %>
-            <p class="redText"><%=avgNumOfOptProductsSoldPerPackage%></p>
+            <p class="cyanText"><%=avgNumOfOptProductsSoldPerPackage%></p>
 
             <%
                 }
@@ -220,8 +220,11 @@
 
 <div>
     <h3>List of insolvent users, suspended orders and alerts.</h3>
-    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
+    <div style="text-align: center">
         <h5>INSOLVENT USERS</h5>
+    </div>
+
+    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
         <tr>
             <td>Username</td>
         </tr>
@@ -238,8 +241,10 @@
         %>
     </table>
 
-    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
+    <div style="text-align: center">
         <h5>SUSPENDED ORDERS</h5>
+    </div>
+    <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
         <tr>
             <td>Username</td>
             <td>Date and Hour</td>
@@ -259,7 +264,9 @@
     </table>
 
     <table style="border:2px solid black;margin-left:auto;margin-right:auto;">
-        <h5>ALERTS</h5>
+        <div style="text-align: center">
+            <h5>ALERTS</h5>
+        </div>
         <tr>
             <td>UserID</td>
             <td>Username</td>
@@ -291,7 +298,7 @@
     <h3>Best Seller Optional Product: the optional product with the greatest value of sales across all
         the sold service packages.</h3>
     <div style="text-align: center">
-        <p class="redText"><%=salesPerOptProduct %></p>
+        <p class="cyanText"><%=salesPerOptProduct %></p>
 
     </div>
 </div>

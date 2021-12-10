@@ -26,9 +26,7 @@ public class LoginServlet extends HttpServlet {
     @EJB
     private EmployeeService employeeService;
 
-    public LoginServlet() {
-        super();
-    }
+
     ServicePackageEntity servicePackage;
 
     @Override
@@ -60,19 +58,16 @@ public class LoginServlet extends HttpServlet {
             }
             if(user!=null){
                 if(servicePackage==null){
-                    destServlet = "homePageCustomer"; // TODO: 03/12/2021 CAMBIARE IN HOME PAGE CUSTOMER serviceActivationSchedule
+                    destServlet = "homePageCustomer";
                     if(user.getInsolvent()){
                         session.setAttribute("rejectedOrders", userService.findRejectedOrdersByUser(user.getUser_id()));
                     }
                 }
-                else{
-                    destServlet = "confirmationPage";
-                }
+                else destServlet = "confirmationPage";
+
                 session.setAttribute("user", user);
             }
-            else {
-                destServlet = "login?loginFailed=true";
-            }
+            else destServlet = "login?loginFailed=true";
         }
 
         resp.sendRedirect(destServlet);
@@ -83,11 +78,10 @@ public class LoginServlet extends HttpServlet {
 
         servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
         String message = "Invalid email/password";
-        if (req.getParameter("loginFailed") != null) {
-            req.setAttribute("messageLogin", message);
-        }
+        if (req.getParameter("loginFailed") != null) req.setAttribute("messageLogin", message);
+
+        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
         dispatcher.forward(req, resp);
     }
 }

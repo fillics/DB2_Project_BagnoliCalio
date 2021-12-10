@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Telco Website</title>
+    <title>Home Page Customer</title>
 </head>
 
 <style><%@include file="css/style.css"%></style>
@@ -16,8 +16,7 @@
 <body>
 
 <%
-    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>)
-            request.getAttribute("servicePackagesToSelect");
+    List<ServicePackageToSelectEntity> servicePackagesToSelect = (List<ServicePackageToSelectEntity>) request.getAttribute("servicePackagesToSelect");
 
     UserEntity user = null;
     String userUsername = null;
@@ -54,16 +53,21 @@
         <div style="text-align: center">
             <h3>ID rejected order: <%=order.getOrder_id() %></h3>
             <table class="table">
-                <tr>
-                    <td>Date and Hour</td>
-                    <td>Name Service Package</td>
-                    <td>Total Value Order</td>
-                </tr>
-                <tr>
-                    <td><%=order.getDateAndHour() %></td>
-                    <td><%=order.getServicePackage().getPackageSelected().getName() %></td>
-                    <td><%=order.getTotalValueOrder() %></td>
-                </tr>
+                <thead class="theadRed">
+                    <tr>
+                        <td>Date and Hour</td>
+                        <td>Name Service Package</td>
+                        <td>Total Value Order</td>
+                    </tr>
+                </thead>
+                <tbody  class="tbodyWhite">
+                    <tr>
+                        <td><%=order.getDateAndHour() %></td>
+                        <td><%=order.getServicePackage().getPackageSelected().getName() %></td>
+                        <td><%=order.getTotalValueOrder() %></td>
+                    </tr>
+                </tbody>
+
             </table>
             <form action="confirmationPage" method="get">
                 <button class="button" name="rejectedOrder" value="<%=order.getOrder_id()%>" type="submit">PAY AGAIN</button>
@@ -75,6 +79,12 @@
             %>
 
     <br>
+    <h2>Orders already bought</h2>
+    <form action="serviceActivationSchedule" method="get">
+        <button class="button" type="submit">GO TO MY ORDERS</button>
+    </form>
+
+    <br>
     <h2>List of Service Package available</h2>
     <br>
 
@@ -83,7 +93,9 @@
     %>
     <div style="text-align: center">
         <h3>Service Package Name: <%=servicePackageToSelect.getName() %></h3>
+
         <table class="table">
+            <thead class="theadGrey">
             <tr>
                 <td>Name Service</td>
                 <td>Number of Minutes</td>
@@ -93,6 +105,9 @@
                 <td>Fee Extra SMS</td>
                 <td>Fee Extra GB</td>
             </tr>
+            </thead>
+
+            <tbody class="tbodyWhite">
             <%
                 for (ServiceEntity service: servicePackageToSelect.getServices()) {
             %>
@@ -108,6 +123,8 @@
             <%
                 }
             %>
+            </tbody>
+
         </table>
     </div>
     <%

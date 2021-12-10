@@ -25,16 +25,14 @@ public class HomePageCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        UserEntity user = null;
+        UserEntity user;
         HttpSession session = req.getSession();
         List<OrderEntity> rejectedOrders = null;
 
         if(session.getAttribute("user")!=null){
             user = (UserEntity) session.getAttribute("user");
 
-            if(user.getUsername()!=null) {
-                rejectedOrders = userService.findRejectedOrdersByUser(user.getUser_id());
-            }
+            if(user.getUsername()!=null) rejectedOrders = userService.findRejectedOrdersByUser(user.getUser_id());
 
             req.setAttribute("rejectedOrders", rejectedOrders);
         }
@@ -50,7 +48,4 @@ public class HomePageCustomerServlet extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
 }

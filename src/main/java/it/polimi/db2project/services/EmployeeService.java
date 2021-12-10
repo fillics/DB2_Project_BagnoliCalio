@@ -21,39 +21,26 @@ public class EmployeeService {
     @PersistenceContext
     private EntityManager em;
 
-    public EmployeeService() {
+    public Optional<ServicePackageToSelectEntity> findByNameServicePackage(String namePackage) {
+        return em.createNamedQuery("ServicePackageToSelect.findByName", ServicePackageToSelectEntity.class)
+                .setParameter("name", namePackage)
+                .getResultStream().findFirst();
+    }
+
+    public Optional<OptionalProductEntity> findByNameOptProd(String nameOptProd) {
+        return em.createNamedQuery("OptionalProduct.findByName", OptionalProductEntity.class)
+                .setParameter("name", nameOptProd)
+                .getResultStream().findFirst();
     }
 
 
-//    public EmployeeEntity findByUsername(String usrn) {
-//        List<EmployeeEntity> listForUsrn = null;
 
-        public Optional<EmployeeEntity> findByUsername(String usrn) {
-            return em.createNamedQuery("Employee.findByUsername", EmployeeEntity.class)
-                .setParameter("username", usrn)
-                .getResultStream().findFirst();
-        }
-//        listForUsrn = em.createNamedQuery("Employee.findByUsername", EmployeeEntity.class)
-//            .getResultList();
-//
-//        if (listForUsrn.isEmpty())
-//            return null;
-//        else
-//            return listForUsrn.get(0);
-//
-//    }
+    public Optional<EmployeeEntity> findByUsername(String usrn) {
+        return em.createNamedQuery("Employee.findByUsername", EmployeeEntity.class)
+            .setParameter("username", usrn)
+            .getResultStream().findFirst();
+    }
 
-//    public EmployeeEntity findByEmail(String email) {
-//        List<EmployeeEntity> listForEmail = null;
-//
-//        listForEmail = em.createNamedQuery("Employee.findByEmail", EmployeeEntity.class)
-//            .getResultList();
-//
-//        if (listForEmail.isEmpty())
-//            return null;
-//        else
-//            return listForEmail.get(0);
-//    }
 
     public Optional<EmployeeEntity> findByEmail(String email) {
         return em.createNamedQuery("Employee.findByEmail", EmployeeEntity.class)

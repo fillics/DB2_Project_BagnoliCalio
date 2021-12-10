@@ -39,7 +39,6 @@ import java.sql.Timestamp;
 
 )
 
-
 @Table(name = "order", schema = "dbtelco")
 public class OrderEntity implements Serializable {
     private static final long serialVersionUID = 1L;

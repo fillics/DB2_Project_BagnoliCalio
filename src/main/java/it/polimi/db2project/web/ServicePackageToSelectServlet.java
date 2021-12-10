@@ -50,23 +50,20 @@ public class ServicePackageToSelectServlet extends HttpServlet {
                 validityPeriodEntities.add(employeeService.findByValPeriodID(Long.parseLong(validityPeriod)).get());
             }
 
-            try {
-                servicePackageToSelect = employeeService.createServicePackageToSelect(
-                        nameServPackage,
-                        serviceEntities,
-                        optionalProductEntities,
-                        validityPeriodEntities
-                );
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            if (servicePackageToSelect != null) {
-                destServlet = "homePageEmployee?servPackageCreated=true";
-            }
-            else
-            {
-                destServlet = "homePageEmployee?creationServPackageFailed=true";
+            if(employeeService.findByNameServicePackage(nameServPackage).isPresent()) destServlet = "homePageEmployee?nameAlreadyExist=true";
+            else{
+                try {
+                    servicePackageToSelect = employeeService.createServicePackageToSelect(
+                            nameServPackage,
+                            serviceEntities,
+                            optionalProductEntities,
+                            validityPeriodEntities
+                    );
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (servicePackageToSelect != null) destServlet = "homePageEmployee?servPackageCreated=true";
+                else destServlet = "homePageEmployee?creationServPackageFailed=true";
             }
 
         }
@@ -79,7 +76,6 @@ public class ServicePackageToSelectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeEmployee.jsp");
-
         dispatcher.forward(req, resp);
     }
 }

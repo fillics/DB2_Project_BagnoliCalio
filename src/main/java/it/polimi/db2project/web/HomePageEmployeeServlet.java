@@ -40,6 +40,8 @@ public class HomePageEmployeeServlet extends HttpServlet {
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("homeEmployee.jsp");
         String message;
+
+
         if (req.getParameter("creationOptProductFailed") != null) {
             message = "Error in the creation of the optional product, please retry!";
             req.setAttribute("messageOptProduct", message);
@@ -48,12 +50,20 @@ public class HomePageEmployeeServlet extends HttpServlet {
             message = "Optional Product created successfully!";
             req.setAttribute("messageOptProduct", message);
         }
+        else if (req.getParameter("optProductExists") != null) {
+            message = "Name Optional Product already exists. Please retry with another name!";
+            req.setAttribute("messageOptProduct", message);
+        }
         else if (req.getParameter("servPackageCreated") != null) {
             message = "Service Package to select created successfully!";
             req.setAttribute("messageServicePackage", message);
         }
         else if (req.getParameter("creationServPackageFailed") != null) {
             message = "Error in the creation of the service package, please retry!";
+            req.setAttribute("messageServicePackage", message);
+        }
+        else if (req.getParameter("nameAlreadyExist") != null) {
+            message = "Name Package already exists. Please retry with another name!";
             req.setAttribute("messageServicePackage", message);
         }
         dispatcher.forward(req, resp);
