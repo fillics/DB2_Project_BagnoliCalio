@@ -59,7 +59,7 @@ public class LoginServlet extends HttpServlet {
             if(user!=null){
                 if(servicePackage==null){
                     destServlet = "homePageCustomer";
-                    if(user.getInsolvent()){
+                    if(user.getInsolvent()!=null && user.getInsolvent()){
                         session.setAttribute("rejectedOrders", userService.findRejectedOrdersByUser(user.getUser_id()));
                     }
                 }

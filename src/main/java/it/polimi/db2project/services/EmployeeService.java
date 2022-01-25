@@ -4,10 +4,7 @@ import it.polimi.db2project.entities.*;
 import it.polimi.db2project.entities.employeeQueries.*;
 import it.polimi.db2project.exception.CredentialsException;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NonUniqueResultException;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceException;
+import jakarta.persistence.*;
 import jakarta.validation.ConstraintViolationException;
 
 import java.sql.SQLException;
@@ -270,6 +267,12 @@ public class EmployeeService {
 
 
     public SalesPerOptProduct findMax(){
-        return em.createNamedQuery("SalesPerOptProduct.findMax", SalesPerOptProduct.class).getSingleResult();
+        SalesPerOptProduct salesPerOptProduct = null;
+
+        try{
+            salesPerOptProduct = em.createNamedQuery("SalesPerOptProduct.findMax", SalesPerOptProduct.class).getSingleResult();
+        }catch(NoResultException e){}
+
+        return salesPerOptProduct;
     }
 }

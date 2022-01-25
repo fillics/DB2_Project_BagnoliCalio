@@ -30,7 +30,7 @@ public class ServicePackageToSelectServlet extends HttpServlet {
         String[] validityPeriods = request.getParameterValues("validityPeriods");
         String destServlet;
 
-        if(services!=null || validityPeriods!=null){
+        if(services!=null && validityPeriods!=null){
             ServicePackageToSelectEntity servicePackageToSelect = null;
 
             ArrayList<ServiceEntity> serviceEntities = new ArrayList<>();
