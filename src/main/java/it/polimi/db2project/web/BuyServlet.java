@@ -43,7 +43,6 @@ public class BuyServlet extends HttpServlet {
             srvPackageToSelect = request.getParameter("srvPackage");
 
             packageSelected = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get().getName();
-
             validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackageToSelect));
             optionalProducts = userService.findOptProdOfService(Long.parseLong(srvPackageToSelect));
         }
@@ -109,7 +108,6 @@ public class BuyServlet extends HttpServlet {
         req.setAttribute("validityPeriods", validityPeriods);
         req.setAttribute("optionalProducts", optionalProducts);
         req.setAttribute("packageSelected", packageSelected);
-
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("buyPage.jsp");
         dispatcher.forward(req, resp);
