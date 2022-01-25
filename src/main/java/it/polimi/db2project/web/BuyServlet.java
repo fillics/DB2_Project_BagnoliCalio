@@ -35,11 +35,12 @@ public class BuyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        destServlet = "buyPage";
 
-        if (request.getParameter("servPackageBtn")!=null) {
+        String servPackageBtn = request.getParameter("servPackageBtn");
+
+        if (servPackageBtn.length()!=0) {
             srvPackageToSelect = request.getParameter("srvPackage");
-
-            destServlet = "buyPage";
 
             packageSelected = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get().getName();
 
