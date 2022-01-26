@@ -34,14 +34,16 @@
     <br>
 
     <form action="salesReportPage">
-        <button class="buttonEmployee" type="submit">GO TO THE SALES REPORT PAGE</button>
+        <button class="niceButtonEmployee" type="submit">GO TO THE SALES REPORT PAGE</button>
     </form>
+    <br>
+
+    <div class="shadowDiv">
     <h2>Creating Service Package</h2>
     <form action="servicePackageToSelect" method="post">
 
         <%--@declare id="nameservpackage"--%>
-        <label for="nameServPackage">Name Service Package:</label>
-        <input name="nameServPackage" size="30" required/>
+        <input class="inputSrvPackage" name="nameServPackage" placeholder="Name Service Package" required/>
         <br><br>
 
         <fieldset>
@@ -87,18 +89,19 @@
 
         <br>${messageServicePackage}
         <br><br>
-        <button class="button" type="submit">CREATE</button>
+        <button class="niceButton" type="submit">CREATE</button>
     </form>
 
+    </div>
 
     <br><br>
 
-
+    <div class="shadowDiv">
     <h2>Creating Optional Product</h2>
     <form action="optionalProduct" method="post">
         <%--@declare id="name"--%><%--@declare id="monthlyfee"--%>
-        <label for="name">Name Optional Product:</label>
-        <input name="name" size="30" required/>
+
+        <input class="inputSrvPackage" name="name" placeholder="Name Optional Product" required/>
 
         <br><br>
 
@@ -108,8 +111,11 @@
         <br><br>
 
         <br>${messageOptProduct}<br>
-        <button class="button" type="submit">CREATE</button>
+        <button class="niceButton" type="submit">CREATE</button>
     </form>
+
+    </div>
+
 </div>
 
 <div style="text-align: center">

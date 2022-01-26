@@ -37,16 +37,15 @@ public class BuyServlet extends HttpServlet {
         HttpSession session = request.getSession();
         destServlet = "buyPage";
 
-        String servPackageBtn = request.getParameter("servPackageBtn");
 
-        if (servPackageBtn.length()!=0) {
+        if (request.getParameter("servPackageBtn")!=null) {
             srvPackageToSelect = request.getParameter("srvPackage");
 
             packageSelected = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get().getName();
             validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackageToSelect));
             optionalProducts = userService.findOptProdOfService(Long.parseLong(srvPackageToSelect));
-        }
 
+        }
         if (request.getParameter("confirmBtn") != null){
 
             String valPeriod = request.getParameter("valPeriod");

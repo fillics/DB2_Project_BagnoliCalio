@@ -54,6 +54,8 @@ else{
     <h1>BUY PAGE</h1>
     <br>
     <h2>Selecting Service Package</h2>
+
+    <div class="shadowDiv">
     <form action="buyPage" method="post">
 
         <br><br>
@@ -69,7 +71,7 @@ else{
         </select>
         <br><br>
 
-        <button type="submit" class="button" name = "servPackageBtn">SELECT SERVICE PACKAGE</button>
+        <button type="submit" class="niceButton" name = "servPackageBtn">SELECT SERVICE PACKAGE</button>
 
         <br><br>
         </form>
@@ -147,13 +149,13 @@ else{
 
             <br><br>
 
-            <button type="submit" class="button" name ="confirmBtn">CONFIRM</button>
+            <button type="submit" class="niceButton" name ="confirmBtn">CONFIRM</button>
                 <%
                     }
                 %>
             </form>
-</div>
 
+    </div>
 </div>
 
 </body>

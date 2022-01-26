@@ -41,11 +41,23 @@
 
 <div style="text-align: center">
     <h1>HOME PAGE</h1>
+
+    <div class="form">
+        <form action="serviceActivationSchedule">
+            <button type="submit" class="niceButton">
+                my orders
+            </button>
+        </form>
+    </div>
+
+
+    <div class="shadowDiv">
+
     <%
         if(userUsername!=null && rejectedOrders!=null && rejectedOrders.size()>0) {
     %>
     <br>
-    <h2>You are an insolvent user: list of rejected orders</h2>
+    <h2>You are an insolvent user. List of rejected orders:</h2>
     <br>
         <%
         for (OrderEntity order: rejectedOrders) {
@@ -69,29 +81,24 @@
                 </tbody>
 
             </table>
+            <br>
             <form action="confirmationPage" method="get">
-                <button class="button" name="rejectedOrder" value="<%=order.getOrder_id()%>" type="submit">PAY AGAIN</button>
+                <button class="niceButton" name="rejectedOrder" value="<%=order.getOrder_id()%>" type="submit">PAY AGAIN</button>
             </form>
         </div>
             <%
                  }
             }
             %>
+    </div>
 
     <br>
-    <h2>Orders already bought</h2>
-    <form action="serviceActivationSchedule" method="get">
-        <button class="button" type="submit">GO TO MY ORDERS</button>
-    </form>
 
-    <br>
     <h2>List of Service Package available</h2>
-    <br>
-
+    <div style="text-align: center">
     <%
         for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
     %>
-    <div style="text-align: center">
         <h3>Service Package Name: <%=servicePackageToSelect.getName() %></h3>
 
         <table class="table">
@@ -126,16 +133,18 @@
             </tbody>
 
         </table>
-    </div>
+
     <%
         }
     %>
+        <br>
+        <form action="buyPage">
+            <button class="niceButton" type="submit">GO TO THE BUY PAGE</button>
+        </form>
 
-    <br><br>
-    <form action="buyPage">
-    <button class="button" type="submit">GO TO THE BUY PAGE</button>
-    </form>
-    </div>
+
+</div>
+</div>
 
 
 </body>

@@ -16,85 +16,56 @@
 
 <body>
 
-<%--
-<div class="login">
-    <h1>LOGIN</h1>
-    <form action="login" method="post">
-        &lt;%&ndash;@declare id="password"&ndash;%&gt;&lt;%&ndash;@declare id="email"&ndash;%&gt;
-        &lt;%&ndash;@declare id="username"&ndash;%&gt;
-        <label for="username">Username:</label>
-        <input name="username" size="30" required/>
 
-        <br><br>
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" size="30" required/>
-        <br><br>
-
-        <br>${messageLogin}
-        <br><br>
-        <button class="buttonIndex" type="submit">LOGIN</button>
-    </form>
-</div>
---%>
-
-
-
-<div class="login-page">
-    <div class="form">
-        <h1>LOGIN</h1>
-        <form class="login-form" action="login" method="post">
-            <input type="text" name="username" placeholder="username" required/>
-            <input type="password" name="password" placeholder="password" required/>
-            <br>${messageLogin}
-            <button type="submit">login</button>
-        </form>
+<div class='parent'>
+<h1>Telco Company</h1>
+    <div class="login-page">
+        <div class="form">
+            <h2>LOGIN</h2>
+            <form action="login" method="post">
+                <input type="text" name="username" placeholder="username" required/>
+                <input type="password" name="password" placeholder="password" required/>
+                <br>${messageLogin}
+                <button type="submit">login</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<div class="login-page">
-    <div class="form">
-        <h1>REGISTRATION</h1>
-        <form class="login-form" action="signup" method="post">
-            <input type="text" name="username" placeholder="username" required/>
-            <input type="text" name="email" placeholder="email" required/>
-            <input type="password" name="password" placeholder="password" required/>
-            <label for="employee">I am an employee:</label>
-            <input type="checkbox" class="check" id="employee" name="employee" value="employee">
-            <br>${messageSignUp}
-            <button type="submit">sign up</button>
-        </form>
+    <div class="login-page">
+        <div class="form">
+            <h2>REGISTRATION</h2>
+            <form action="signup" method="post">
+                <input type="text" name="username" placeholder="username" required/>
+                <input type="text" name="email" placeholder="email" required/>
+                <input type="password" name="password" placeholder="password" required/>
+                <label for="employee">I am an employee:</label>
+                <input type="checkbox" class="check" id="employee" name="employee" value="employee">
+                <br>${messageSignUp}
+                <button type="submit">sign up</button>
+            </form>
+        </div>
     </div>
+
 </div>
 
-<%--<div class="signup">
-    <h1>REGISTRATION</h1>
-    <form action="signup" method="post">
-        &lt;%&ndash;@declare id="password"&ndash;%&gt;&lt;%&ndash;@declare id="email"&ndash;%&gt;
-        <label for="username">Username:</label>
-        <input name="username" size="30" required/>
-        <br><br>
-        <label for="email">Email:</label>
-        <input name="email" size="30" required/>
-        <br><br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" size="30" required/>
-        <br><br>
-        <label for="employee">I am an employee</label>
-        <input type="checkbox" id="employee" name="employee" value="employee">
-        <br>${messageSignUp}
-        <br><br>
-        <button class="buttonIndex" type="submit">SIGN UP</button>
-    </form>
-</div>--%>
 
 <%
     if(servicePackage==null){
 %>
-<div style="text-align: center">
-    <h2>Skip the Login</h2>
-    <a href="homePageCustomer">Click here to enter in the website without the login</a>
+
+<div class="parent">
+    <div class="login-page">
+        <div class="form">
+            <form action="homePageCustomer">
+                <button type="submit">
+                    skip login
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
+
+
 <%
     }
 %>

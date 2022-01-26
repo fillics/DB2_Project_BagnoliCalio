@@ -1,14 +1,17 @@
 .login-page {
     width: 360px;
     margin: auto;
-
-}
-
-.inline {
     display: inline-block;
-    border: 1px solid red;
-    margin:10px;
+    padding: 1rem 1rem;
+    vertical-align: top;
 }
+
+.parent {
+    margin: 1rem;
+    text-align: center;
+    clear: none;
+}
+
 .form {
     position: relative;
     z-index: 1;
@@ -50,7 +53,6 @@ input.check{
     padding: 15px;
     color: #FFFFFF;
     font-size: 14px;
-
     cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
@@ -106,4 +108,19 @@ body {
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.button{
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    border: #1a1a1a;
+    outline: 0;
+    background: #86c5da;
+    height:75px;
+    width:150px;
+    border: 0;
+    color: #FFFFFF;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
 }
