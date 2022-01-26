@@ -51,7 +51,7 @@ else{
         <td>Package Selected</td>
         <td>Type of services</td>
         <%
-          if(servicePackage.getOptionalProducts()!=null){
+          if(servicePackage.getOptionalProducts()!=null && servicePackage.getOptionalProducts().size()!=0){
         %>
         <td>Optional products</td>
         <%
