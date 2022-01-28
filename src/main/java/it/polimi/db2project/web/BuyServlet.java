@@ -32,13 +32,14 @@ public class BuyServlet extends HttpServlet {
     String packageSelected = null;
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession();
         destServlet = "buyPage";
 
 
         if (request.getParameter("servPackageBtn")!=null) {
+            System.out.println(request.getParameter("servPackageBtn"));
             srvPackageToSelect = request.getParameter("srvPackage");
 
             packageSelected = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get().getName();
@@ -46,7 +47,7 @@ public class BuyServlet extends HttpServlet {
             optionalProducts = userService.findOptProdOfService(Long.parseLong(srvPackageToSelect));
 
         }
-        if (request.getParameter("confirmBtn") != null){
+        else if (request.getParameter("confirmBtn") != null){
 
             String valPeriod = request.getParameter("valPeriod");
 
@@ -91,9 +92,9 @@ public class BuyServlet extends HttpServlet {
                                                         optionalProducts);
 
             session.setAttribute("servicePackage", servicePackage);
-
             destServlet = "confirmationPage";
         }
+
         response.sendRedirect(destServlet);
     }
 

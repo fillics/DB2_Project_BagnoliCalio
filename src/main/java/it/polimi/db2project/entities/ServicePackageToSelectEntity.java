@@ -7,15 +7,15 @@ import java.util.List;
 
 @Entity
 @NamedQuery(
-        name = "ServicePackageToSelect.findByID",
-        query = "SELECT s " +
-                "FROM ServicePackageToSelectEntity s " +
-                "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id"
+    name = "ServicePackageToSelect.findByID",
+    query = "SELECT s " +
+        "FROM ServicePackageToSelectEntity s " +
+        "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id"
 )
 @NamedQuery(
-        name = "ServicePackageToSelect.findByName",
-        query = "SELECT s FROM ServicePackageToSelectEntity s " +
-                "WHERE s.name = :name"
+    name = "ServicePackageToSelect.findByName",
+    query = "SELECT s FROM ServicePackageToSelectEntity s " +
+        "WHERE s.name = :name"
 )
 
 @NamedQuery(
@@ -39,10 +39,10 @@ public class ServicePackageToSelectEntity implements Serializable {
     }
 
     public ServicePackageToSelectEntity(
-            String name,
-            List<ServiceEntity> services,
-            List<OptionalProductEntity> optionalProducts,
-            List<ValidityPeriodEntity> validityPeriods
+        String name,
+        List<ServiceEntity> services,
+        List<OptionalProductEntity> optionalProducts,
+        List<ValidityPeriodEntity> validityPeriods
     ) {
         this.name = name;
         this.services = services;
@@ -52,7 +52,12 @@ public class ServicePackageToSelectEntity implements Serializable {
 
 
     //relationship definition part
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER,cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
     @JoinTable(
         name="offer",
         joinColumns={@JoinColumn(name="servicePackageToSelect_id")},
@@ -61,7 +66,12 @@ public class ServicePackageToSelectEntity implements Serializable {
     private List<ServiceEntity> services;
 
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
     @JoinTable(
         name="offerProduct",
         joinColumns={@JoinColumn(name="servicePackageToSelect_id")},
@@ -69,7 +79,12 @@ public class ServicePackageToSelectEntity implements Serializable {
     )
     private List<OptionalProductEntity> optionalProducts;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
     @JoinTable(
         name="proposal",
         joinColumns={@JoinColumn(name="servicePackageToSelect_id")},
@@ -77,7 +92,7 @@ public class ServicePackageToSelectEntity implements Serializable {
     )
     private List<ValidityPeriodEntity> validityPeriods;
 
-    @OneToMany(mappedBy="packageSelected", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="packageSelected", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ServicePackageEntity> servicePackages;
 
 

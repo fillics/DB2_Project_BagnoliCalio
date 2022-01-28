@@ -52,13 +52,29 @@ public class ServicePackageEntity implements Serializable {
     private float totalValueOptionalProducts;
 
     //relationship definition part
-    @ManyToOne @JoinColumn(name = "packageSelected")
+    @ManyToOne (fetch = FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
+    @JoinColumn(name = "packageSelected")
     private ServicePackageToSelectEntity packageSelected;
 
-    @ManyToOne @JoinColumn(name = "validityPeriod")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    ) @JoinColumn(name = "validityPeriod")
     private ValidityPeriodEntity validityPeriod;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
     @JoinTable(
         name="addedProduct",
         joinColumns={@JoinColumn(name="servicePackage_id")},
@@ -66,10 +82,16 @@ public class ServicePackageEntity implements Serializable {
     )
     private List<OptionalProductEntity> optionalProducts;
 
-    @ManyToOne @JoinColumn(name = "userOwner")
+    @ManyToOne (fetch = FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
+    @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
-    @OneToOne(mappedBy = "servicePackageAssociated", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "servicePackageAssociated", cascade = CascadeType.ALL, orphanRemoval = true)
     private OrderEntity order;
 
 

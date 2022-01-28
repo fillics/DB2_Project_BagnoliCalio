@@ -60,10 +60,20 @@ public class OptionalProductEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH}
+    )
     private List<ServicePackageEntity> servicePackages;
 
-    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
     public OptionalProductEntity(){

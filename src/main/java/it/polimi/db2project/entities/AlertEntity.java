@@ -38,7 +38,12 @@ public class AlertEntity implements Serializable {
     @Column(name = "dateAndTime", nullable = false)
     private Timestamp dateAndTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}
+    )
     @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 

@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @WebServlet("/confirmationPage")
@@ -32,6 +33,9 @@ public class ConfirmationServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         UserEntity user = (UserEntity) session.getAttribute("user");
+
+        List<OrderEntity> orders = userService.findAllOrdersByUser(user.getUser_id());
+
         String result = req.getParameter("result");
 
         String destServlet;
@@ -46,6 +50,7 @@ public class ConfirmationServlet extends HttpServlet {
             order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage);
         }
         else order = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get();
+
         
         boolean isValid;
         switch (result) {
@@ -82,6 +87,7 @@ public class ConfirmationServlet extends HttpServlet {
 
         resp.sendRedirect(destServlet);
 
+
     }
 
     @Override
@@ -89,10 +95,10 @@ public class ConfirmationServlet extends HttpServlet {
 
         rejectedOrderID = req.getParameter("rejectedOrder");
 
+
         if(rejectedOrderID!=null){
             servicePackage = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get().getServicePackage();
             creatingPackage = false;
-
         }
         else{
             servicePackage = (ServicePackageEntity) req.getSession(false).getAttribute("servicePackage");

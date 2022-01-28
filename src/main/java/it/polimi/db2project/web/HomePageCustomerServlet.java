@@ -25,12 +25,16 @@ public class HomePageCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        UserEntity user;
+        UserEntity user = null;
         HttpSession session = req.getSession();
+        
         List<OrderEntity> rejectedOrders = null;
 
         if(session.getAttribute("user")!=null){
             user = (UserEntity) session.getAttribute("user");
+
+            //DA TOGLIERE
+            List<OrderEntity> orders = userService.findAllOrdersByUser(user.getUser_id());
 
             if(user.getUsername()!=null) rejectedOrders = userService.findRejectedOrdersByUser(user.getUser_id());
 

@@ -44,11 +44,10 @@ public class ValidityPeriodEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-    @ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
-
-
-    @OneToMany(mappedBy="validityPeriod", fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
+    
+    @OneToMany(mappedBy="validityPeriod", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
     private List<ServicePackageEntity> servicePackages;
 
     public Long getValidityPeriod_id() {

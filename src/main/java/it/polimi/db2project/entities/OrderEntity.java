@@ -13,14 +13,13 @@ import java.sql.Timestamp;
                 "FROM OrderEntity o " +
                 "WHERE o.order_id = :order_id"
 )
+
 @NamedQuery(
         name = "Order.findAllOrderByUser",
         query = "SELECT o " +
                 "FROM OrderEntity o " +
                 "WHERE o.userOwner = :user "
 )
-
-
 @NamedQuery(
         name = "Order.findRejectedOrdersOfUser",
         query = "SELECT o " +
@@ -28,16 +27,15 @@ import java.sql.Timestamp;
                 "WHERE o.userOwner = :user AND " +
                 "o.isValid=false"
 )
-
 @NamedQuery(
         name = "Order.findOrdersToActivate",
-        query = "SELECT DISTINCT o FROM OrderEntity o " +
+        query = "SELECT o FROM OrderEntity o " +
                 "JOIN o.servicePackageAssociated s " +
                 "WHERE o.userOwner = :user AND " +
                 "o.isValid=true AND " +
                 "s.startDate > CURRENT_TIMESTAMP "
-
 )
+
 
 @Table(name = "order", schema = "dbtelco")
 public class OrderEntity implements Serializable {
@@ -71,11 +69,21 @@ public class OrderEntity implements Serializable {
     private boolean isValid;
 
     //relationship definition part
-    @ManyToOne (cascade = CascadeType.ALL, optional = false)
+    @ManyToOne (fetch = FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}, optional = false
+    )
     @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
-    @OneToOne
+    @OneToOne (cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE,
+        CascadeType.REFRESH,
+        CascadeType.DETACH}, optional = false
+    )
     @JoinColumn(name = "servicePackageAssociated")
     private ServicePackageEntity servicePackageAssociated;
 
@@ -118,9 +126,6 @@ public class OrderEntity implements Serializable {
         return servicePackageAssociated;
     }
 
-    public void setServicePackageAssociated(ServicePackageEntity servicePackage) {
-        this.servicePackageAssociated = servicePackageAssociated;
-    }
     public boolean isValid() {
         return isValid;
     }

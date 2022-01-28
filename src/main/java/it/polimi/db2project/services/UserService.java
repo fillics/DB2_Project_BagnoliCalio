@@ -93,17 +93,21 @@ public class UserService {
     }
 
     public List<OrderEntity> findAllOrdersByUser(Long user_id){
-        return em.createNamedQuery("Order.findAllOrderByUser", OrderEntity.class).
-                setParameter("user", findByUserID(user_id).get()).
-                getResultList();
+
+
+        List<OrderEntity> allOrders = em.createNamedQuery("Order.findAllOrderByUser", OrderEntity.class).
+            setParameter("user", findByUserID(user_id).get()).
+            getResultList();
+
+        System.out.println("\n\nordini dentro metodo find all");
+        for (OrderEntity order: allOrders){
+            System.out.println(order);
+        }
+
+        return allOrders;
     }
 
-    public List<ServicePackageEntity> findServPackageUser(Long user_id){
-        Optional<UserEntity> userEntity = findByUserID(user_id);
-        return em.createNamedQuery("ServicePackage.findServicePackageOfUser", ServicePackageEntity.class)
-            .setParameter("user", userEntity.get())
-            .getResultList();
-    }
+
 
     public Optional<UserEntity> findByUserID(Long user_id){
         return em.createNamedQuery("User.findByID", UserEntity.class)
@@ -152,15 +156,17 @@ public class UserService {
         return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
     }
 
-    public List<ValidityPeriodEntity> findAllValidityPeriods(){
-        return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
-    }
+//    public List<ValidityPeriodEntity> findAllValidityPeriods(){
+//        return em.createNamedQuery("ValidityPeriod.findAll", ValidityPeriodEntity.class).getResultList();
+//    }
 
     public OrderEntity createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage){
 
         float totalValueOrder = servicePackage.getValuePackage() + servicePackage.getTotalValueOptionalProducts();
 
         OrderEntity order = new OrderEntity(now, totalValueOrder, userOwner, servicePackage);
+
+        System.out.println("order dentro createOrder in UserService: "+order);
         try {
             em.persist(order);
             em.flush();
@@ -168,12 +174,21 @@ public class UserService {
         } catch (ConstraintViolationException ignored) {
             return null;
         }
+
+
     }
 
     public OrderEntity updateOrder (OrderEntity order, boolean isValid){
+
         OrderEntity orderEntity = em.find(OrderEntity.class, order.getOrder_id());
+
         orderEntity.setValid(isValid);
+        System.out.println("order pre merge: "+orderEntity);
+
         em.merge(orderEntity);
+
+        System.out.println("order dopo merge: "+orderEntity);
+
         return orderEntity;
     }
 
@@ -207,15 +222,18 @@ public class UserService {
 
     public List<OrderEntity> findOrdersToActivate(Long user_id){
         UserEntity user = findByUserID(user_id).get();
-        return em.createNamedQuery("Order.findOrdersToActivate", OrderEntity.class)
-                .setParameter("user", user)
-                .getResultList();
+
+        List<OrderEntity> orders = em.createNamedQuery("Order.findOrdersToActivate", OrderEntity.class)
+            .setParameter("user", user)
+            .getResultList();
+
+        return orders;
     }
 
-    public List<AlertEntity> findAlertByUser(Long user_id){
-        UserEntity user = findByUserID(user_id).get();
-        return em.createNamedQuery("Alert.findByUser", AlertEntity.class)
-                .setParameter("user", user)
-                .getResultList();
-    }
+//    public List<AlertEntity> findAlertByUser(Long user_id){
+//        UserEntity user = findByUserID(user_id).get();
+//        return em.createNamedQuery("Alert.findByUser", AlertEntity.class)
+//                .setParameter("user", user)
+//                .getResultList();
+//    }
 }

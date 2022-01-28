@@ -40,6 +40,7 @@ public class ServiceActivationScheduleServlet extends HttpServlet {
         UserEntity user = (UserEntity) session.getAttribute("user");
 
         List<OrderEntity> ordersToActivate = userService.findOrdersToActivate(user.getUser_id());
+
         req.setAttribute("ordersToActivate", ordersToActivate);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("serviceActivationSchedule.jsp");
