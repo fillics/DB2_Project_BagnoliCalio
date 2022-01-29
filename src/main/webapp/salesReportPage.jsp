@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <title>Telco Website</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    <style><%@include file="css/style.css"%></style>
 </head>
 <body>
 

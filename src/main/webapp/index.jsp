@@ -8,7 +8,7 @@
     <title>Telco Website</title>
 </head>
 
-<style><%@include file="css/index.css"%></style>
+<style><%@include file="css/style.css"%></style>
 
 <%
     ServicePackageEntity servicePackage = (ServicePackageEntity) request.getSession().getAttribute("servicePackage");

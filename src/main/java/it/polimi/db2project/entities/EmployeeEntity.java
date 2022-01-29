@@ -9,14 +9,12 @@ import java.io.Serializable;
     {
         @NamedQuery(
             name = "Employee.findByUsername",
-            query = "SELECT e " +
-                "FROM EmployeeEntity e " +
+            query = "SELECT e FROM EmployeeEntity e " +
                 "WHERE e.username = :username"
         ),
         @NamedQuery(
             name = "Employee.findByEmail",
-            query = "SELECT e " +
-                "FROM EmployeeEntity e " +
+            query = "SELECT e FROM EmployeeEntity e " +
                 "WHERE e.email = :email"
         ),
         @NamedQuery(

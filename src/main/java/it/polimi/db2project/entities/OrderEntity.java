@@ -1,39 +1,37 @@
 package it.polimi.db2project.entities;
 
 import jakarta.persistence.*;
-
 import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
 @NamedQuery(
         name = "Order.findByID",
-        query = "SELECT o " +
-                "FROM OrderEntity o " +
+        query = "SELECT o FROM OrderEntity o " +
                 "WHERE o.order_id = :order_id"
 )
-
 @NamedQuery(
         name = "Order.findAllOrderByUser",
-        query = "SELECT o " +
-                "FROM OrderEntity o " +
+        query = "SELECT o FROM OrderEntity o " +
                 "WHERE o.userOwner = :user "
 )
+
+
 @NamedQuery(
         name = "Order.findRejectedOrdersOfUser",
-        query = "SELECT o " +
-                "FROM OrderEntity o " +
+        query = "SELECT o FROM OrderEntity o " +
                 "WHERE o.userOwner = :user AND " +
                 "o.isValid=false"
 )
+
 @NamedQuery(
         name = "Order.findOrdersToActivate",
-        query = "SELECT o FROM OrderEntity o " +
+        query = "SELECT DISTINCT o FROM OrderEntity o " +
                 "JOIN o.servicePackageAssociated s " +
                 "WHERE o.userOwner = :user AND " +
                 "o.isValid=true AND " +
                 "s.startDate > CURRENT_TIMESTAMP "
+
 )
 
 
@@ -70,19 +68,19 @@ public class OrderEntity implements Serializable {
 
     //relationship definition part
     @ManyToOne (fetch = FetchType.EAGER, cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE,
-        CascadeType.REFRESH,
-        CascadeType.DETACH}, optional = false
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH}, optional = false
     )
     @JoinColumn(name = "userOwner")
     private UserEntity userOwner;
 
     @OneToOne (cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE,
-        CascadeType.REFRESH,
-        CascadeType.DETACH}, optional = false
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.DETACH}, optional = false
     )
     @JoinColumn(name = "servicePackageAssociated")
     private ServicePackageEntity servicePackageAssociated;

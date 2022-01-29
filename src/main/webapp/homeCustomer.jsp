@@ -42,6 +42,10 @@
 <div style="text-align: center">
     <h1>HOME PAGE</h1>
 
+    <%
+        if(user!=null){
+    %>
+
     <div class="form">
         <form action="serviceActivationSchedule">
             <button type="submit" class="niceButton">
@@ -50,7 +54,9 @@
         </form>
     </div>
 
-
+    <%
+        }
+    %>
     <div class="shadowDiv">
 
     <%

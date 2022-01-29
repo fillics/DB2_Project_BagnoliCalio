@@ -14,9 +14,9 @@ import java.util.List;
 )
 
 @NamedQuery(
-    name = "Service.findAll",
-    query = "SELECT o " +
-        "FROM ServiceEntity o "
+        name = "Service.findAll",
+        query = "SELECT o " +
+                "FROM ServiceEntity o "
 )
 
 @Table(name = "service", schema = "dbtelco")
@@ -57,14 +57,14 @@ public class ServiceEntity implements Serializable {
     }
 
     public ServiceEntity(
-        Long service_id,
-        String typeOfService,
-        int numMinutes,
-        int numSMS,
-        float feeExtraMinute,
-        float feeExtraSMSs,
-        int numGigabytes,
-        float feeForExtraGigabytes
+            Long service_id,
+            String typeOfService,
+            int numMinutes,
+            int numSMS,
+            float feeExtraMinute,
+            float feeExtraSMSs,
+            int numGigabytes,
+            float feeForExtraGigabytes
     ) {
         this.service_id = service_id;
         this.typeOfService = typeOfService;

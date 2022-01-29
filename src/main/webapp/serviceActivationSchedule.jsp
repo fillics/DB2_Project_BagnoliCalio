@@ -1,7 +1,5 @@
 <%@ page import="it.polimi.db2project.entities.OrderEntity" %>
 <%@ page import="java.util.List" %>
-<%@ page import="it.polimi.db2project.entities.ServiceEntity" %>
-<%@ page import="it.polimi.db2project.entities.OptionalProductEntity" %>
 <%@ page import="it.polimi.db2project.entities.UserEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -13,8 +11,7 @@
 
 <%
     List<OrderEntity> ordersToActivate = (List<OrderEntity>) request.getAttribute("ordersToActivate");
-
-
+    
     UserEntity user = null;
     String userUsername = null;
     if(request.getSession().getAttribute("user")!=null){

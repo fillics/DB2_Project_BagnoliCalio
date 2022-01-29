@@ -33,9 +33,6 @@ public class HomePageCustomerServlet extends HttpServlet {
         if(session.getAttribute("user")!=null){
             user = (UserEntity) session.getAttribute("user");
 
-            //DA TOGLIERE
-            List<OrderEntity> orders = userService.findAllOrdersByUser(user.getUser_id());
-
             if(user.getUsername()!=null) rejectedOrders = userService.findRejectedOrdersByUser(user.getUser_id());
 
             req.setAttribute("rejectedOrders", rejectedOrders);

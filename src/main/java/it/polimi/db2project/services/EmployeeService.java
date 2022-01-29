@@ -94,6 +94,7 @@ public class EmployeeService {
         List<ValidityPeriodEntity> validityPeriods
     ) throws SQLException {
         ServicePackageToSelectEntity servicePackageToSelect = new ServicePackageToSelectEntity(name, services, optionalProducts, validityPeriods);
+
         try {
             em.persist(servicePackageToSelect);
             em.flush();
@@ -151,42 +152,6 @@ public class EmployeeService {
                 .getResultStream().findFirst();
     }
 
-
-
-//    public List<OptionalProductEntity> findOptProdOfServicePackageToSelect(Long servicePackageToSelect_id){
-//        return em.createNamedQuery("OptionalProduct.findOptProdOfServicePackageToSelect", OptionalProductEntity.class)
-//                .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
-//                .getResultList();
-//    }
-//
-//    public List<ServicePackageEntity> findServicePackageThatContainServicePackageToSelect (Long servicePackageToSelect_id){
-//        Optional<ServicePackageToSelectEntity> servicePackageEntity = findServicePackageToSelectByID(servicePackageToSelect_id);
-//        return em.createNamedQuery("ServicePackage.findServicePackageThatContainServicePackageToSelect", ServicePackageEntity.class)
-//            .setParameter("servicePackageToSelect_id", servicePackageEntity.get())
-//            .getResultList();
-//    }
-//
-//
-//
-//    public List<ServicePackageEntity> findServicePackageThatContainServicePackageToSelectAndValPeriod (
-//        Long servicePackageToSelect_id,
-//        Long validityPeriod_id
-//    ){
-//        return em.createNamedQuery(
-//            "ServicePackage.findServicePackageThatContainServicePackageToSelectAndValPeriod",
-//                ServicePackageEntity.class
-//        )
-//            .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
-//            .setParameter("validityPeriod_id", validityPeriod_id)
-//            .getResultList();
-//    }
-
-
-//    public List<OptionalProductEntity> findOptProdOfServicePackage (Long servicePackage_id){
-//        return em.createNamedQuery("OptionalProduct.findOptProdOfServicePackage", OptionalProductEntity.class)
-//            .setParameter("servicePackage_id", servicePackage_id)
-//            .getResultList();
-//    }
 
     public TotalPurchasesPerPackageEntity purchasesPerPackage(Long package_id){
         TotalPurchasesPerPackageEntity totalPurchasesPerPackageEntity = null;
@@ -272,7 +237,7 @@ public class EmployeeService {
         try{
             if (em.createNamedQuery("SalesPerOptProduct.findMax", SalesPerOptProduct.class).getResultList().size() != 0)
                 salesPerOptProduct = em.createNamedQuery("SalesPerOptProduct.findMax", SalesPerOptProduct.class).getResultList().get(0);
-        }catch(NoResultException e){}
+        }catch(NoResultException ignored){}
 
         return salesPerOptProduct;
     }

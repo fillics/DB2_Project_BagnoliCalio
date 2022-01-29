@@ -20,7 +20,6 @@ public class ServiceActivationScheduleServlet extends HttpServlet {
 
     @EJB
     UserService userService;
-
     HttpSession session;
 
     @Override

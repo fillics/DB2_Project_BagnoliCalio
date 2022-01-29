@@ -8,42 +8,42 @@ import java.util.List;
 
 @Entity
 @NamedQueries(
-    {
-        @NamedQuery(
-            name = "OptionalProduct.findByID",
-            query = "SELECT o " +
-                "FROM OptionalProductEntity o " +
-                "WHERE o.optionalProduct_id = :optionalProduct_id"
-        ),
+        {
+                @NamedQuery(
+                        name = "OptionalProduct.findByID",
+                        query = "SELECT o " +
+                                "FROM OptionalProductEntity o " +
+                                "WHERE o.optionalProduct_id = :optionalProduct_id"
+                ),
 
-        @NamedQuery(
-                name = "OptionalProduct.findByName",
-                query = "SELECT o FROM OptionalProductEntity o " +
-                        "WHERE o.name = :name"
-        ),
+                @NamedQuery(
+                        name = "OptionalProduct.findByName",
+                        query = "SELECT o FROM OptionalProductEntity o " +
+                                "WHERE o.name = :name"
+                ),
 
-        @NamedQuery(
-            name = "OptionalProduct.findAll",
-            query = "SELECT o " +
-                "FROM OptionalProductEntity o "
-        ),
+                @NamedQuery(
+                        name = "OptionalProduct.findAll",
+                        query = "SELECT o " +
+                                "FROM OptionalProductEntity o "
+                ),
 
-        @NamedQuery(
-            name = "OptionalProduct.findOptProdOfServicePackageToSelect",
-            query = "SELECT o " +
-                "FROM OptionalProductEntity o " +
-                "JOIN o.servicePackagesToSelect s " +
-                "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id "
-        ),
+                @NamedQuery(
+                        name = "OptionalProduct.findOptProdOfServicePackageToSelect",
+                        query = "SELECT o " +
+                                "FROM OptionalProductEntity o " +
+                                "JOIN o.servicePackagesToSelect s " +
+                                "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id "
+                ),
 
-        @NamedQuery(
-            name = "OptionalProduct.findOptProdOfServicePackage",
-            query = "SELECT o " +
-                "FROM OptionalProductEntity o " +
-                "JOIN o.servicePackages s " +
-                "WHERE s.servicePackage_id = :servicePackage_id "
-        )
-    }
+                @NamedQuery(
+                        name = "OptionalProduct.findOptProdOfServicePackage",
+                        query = "SELECT o " +
+                                "FROM OptionalProductEntity o " +
+                                "JOIN o.servicePackages s " +
+                                "WHERE s.servicePackage_id = :servicePackage_id "
+                )
+        }
 )
 
 @Table(name = "optionalproduct", schema = "dbtelco")
@@ -60,20 +60,10 @@ public class OptionalProductEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.DETACH}
-    )
+    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
     private List<ServicePackageEntity> servicePackages;
 
-    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER, cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE,
-        CascadeType.REFRESH,
-        CascadeType.DETACH}
-    )
+    @ManyToMany(mappedBy = "optionalProducts", fetch = FetchType.EAGER)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
     public OptionalProductEntity(){

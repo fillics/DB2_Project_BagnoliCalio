@@ -69,16 +69,11 @@ public class ServicePackageEntity implements Serializable {
     ) @JoinColumn(name = "validityPeriod")
     private ValidityPeriodEntity validityPeriod;
 
-    @ManyToMany(fetch=FetchType.EAGER, cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE,
-        CascadeType.REFRESH,
-        CascadeType.DETACH}
-    )
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
-        name="addedProduct",
-        joinColumns={@JoinColumn(name="servicePackage_id")},
-        inverseJoinColumns={@JoinColumn(name="optionalProduct_id")}
+            name="addedProduct",
+            joinColumns={@JoinColumn(name="servicePackage_id")},
+            inverseJoinColumns={@JoinColumn(name="optionalProduct_id")}
     )
     private List<OptionalProductEntity> optionalProducts;
 

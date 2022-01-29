@@ -9,8 +9,7 @@ import java.sql.Timestamp;
 
 @NamedQuery(
         name = "Alert.findByUser",
-        query = "SELECT a " +
-                "FROM AlertEntity a " +
+        query = "SELECT a FROM AlertEntity a " +
                 "WHERE a.userOwner = : user"
 )
 
