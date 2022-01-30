@@ -9,8 +9,7 @@ import java.io.Serializable;
 
 @NamedQuery(
         name = "TotalPurchasesPerPackage.findByServPackage",
-        query = "SELECT n " +
-                "FROM TotalPurchasesPerPackageEntity n " +
+        query = "SELECT n FROM TotalPurchasesPerPackageEntity n " +
                 "WHERE n.package_id = :package_id"
 )
 

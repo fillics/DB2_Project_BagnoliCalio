@@ -33,6 +33,7 @@ public class HomePageEmployeeServlet extends HttpServlet {
         List<ValidityPeriodEntity> validityPeriods = employeeService.findAllValidityPeriods();
         List<ServicePackageToSelectEntity> servicePackagesToSelect = employeeService.findAllServicePackageToSelect();
 
+
         req.setAttribute("optionalProducts", optionalProducts);
         req.setAttribute("validityPeriods", validityPeriods);
         req.setAttribute("services", services);

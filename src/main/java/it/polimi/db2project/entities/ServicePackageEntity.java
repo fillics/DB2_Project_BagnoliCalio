@@ -9,22 +9,19 @@ import java.util.List;
 @Entity
 @NamedQuery(
     name = "ServicePackage.findServicePackageThatContainServicePackageToSelect",
-    query = "SELECT s " +
-        "FROM ServicePackageEntity s " +
+    query = "SELECT s FROM ServicePackageEntity s " +
         "WHERE s.packageSelected = : servicePackageToSelect_id "
 )
 
 @NamedQuery(
     name = "ServicePackage.findServicePackageThatContainServicePackageToSelectAndValPeriod",
-    query = "SELECT s " +
-        "FROM ServicePackageEntity s " +
+    query = "SELECT s FROM ServicePackageEntity s " +
         "WHERE s.packageSelected = : servicePackageToSelect_id AND s.validityPeriod =: validityPeriod_id "
 )
 
 @NamedQuery(
         name = "ServicePackage.findServicePackageOfUser",
-        query = "SELECT s " +
-                "FROM ServicePackageEntity s " +
+        query = "SELECT s FROM ServicePackageEntity s " +
                 "WHERE s.userOwner = : user"
 )
 

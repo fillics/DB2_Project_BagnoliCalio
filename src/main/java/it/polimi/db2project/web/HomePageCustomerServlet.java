@@ -27,7 +27,9 @@ public class HomePageCustomerServlet extends HttpServlet {
 
         UserEntity user = null;
         HttpSession session = req.getSession();
-        
+
+
+
         List<OrderEntity> rejectedOrders = null;
 
         if(session.getAttribute("user")!=null){

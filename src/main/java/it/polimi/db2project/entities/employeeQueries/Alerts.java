@@ -11,8 +11,7 @@ import java.io.Serializable;
 
 @NamedQuery(
         name = "Alerts.findAll",
-        query = "SELECT n " +
-                "FROM Alerts n "
+        query = "SELECT n FROM Alerts n "
 )
 
 @Table(name = "alerts", schema = "dbtelco")
@@ -27,7 +26,6 @@ public class Alerts implements Serializable {
     @OneToOne
     @JoinColumn(name = "alert_id")
     private AlertEntity alert;
-
 
     public Alerts() {
     }

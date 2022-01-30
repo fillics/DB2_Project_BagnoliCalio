@@ -11,8 +11,7 @@ import java.io.Serializable;
 
 @NamedQuery(
         name = "SuspendedOrders.findAll",
-        query = "SELECT n " +
-                "FROM SuspendedOrders n "
+        query = "SELECT n FROM SuspendedOrders n "
 )
 
 @Table(name = "suspendedorders", schema = "dbtelco")

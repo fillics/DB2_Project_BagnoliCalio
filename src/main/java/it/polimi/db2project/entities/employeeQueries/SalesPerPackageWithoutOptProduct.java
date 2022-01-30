@@ -10,8 +10,7 @@ import java.io.Serializable;
 
 @NamedQuery(
         name = "SalesPerPackageWithoutOptProduct.findByServPackage",
-        query = "SELECT n " +
-                "FROM SalesPerPackageWithoutOptProduct n " +
+        query = "SELECT n FROM SalesPerPackageWithoutOptProduct n " +
                 "WHERE n.package_id = :package_id"
 )
 

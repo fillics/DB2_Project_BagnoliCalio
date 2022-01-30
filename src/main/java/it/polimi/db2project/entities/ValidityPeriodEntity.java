@@ -11,20 +11,17 @@ import java.util.List;
         {
                 @NamedQuery(
                         name = "ValidityPeriod.findByID",
-                        query = "SELECT v " +
-                                "FROM ValidityPeriodEntity v " +
+                        query = "SELECT v FROM ValidityPeriodEntity v " +
                                 "WHERE v.validityPeriod_id = :validityPeriod_id"
                 ),
                 @NamedQuery(
                         name = "ValidityPeriod.findAll",
-                        query = "SELECT v " +
-                                "FROM ValidityPeriodEntity v "
+                        query = "SELECT v FROM ValidityPeriodEntity v "
                 ),
 
                 @NamedQuery(
                         name = "ValidityPeriod.findValPeriodsByServPackage",
-                        query = "SELECT v " +
-                                "FROM ValidityPeriodEntity v " +
+                        query = "SELECT v FROM ValidityPeriodEntity v " +
                                 "JOIN v.servicePackagesToSelect s " +
                                 "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id "
                 )
@@ -44,10 +41,12 @@ public class ValidityPeriodEntity implements Serializable {
     private float monthlyFee;
 
     //relationship definition part
-    @ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    //quando carico un validity period, non ho bisogno dei service packages associati a esso, quindi lo poniamo a lazy
+    @ManyToMany(mappedBy = "validityPeriods", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
     
-    @OneToMany(mappedBy="validityPeriod", fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="validityPeriod", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
     private List<ServicePackageEntity> servicePackages;
 
     public Long getValidityPeriod_id() {

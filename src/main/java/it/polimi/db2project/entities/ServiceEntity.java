@@ -8,15 +8,13 @@ import java.util.List;
 @Entity
 @NamedQuery(
         name = "Service.findByID",
-        query = "SELECT s " +
-                "FROM ServiceEntity s " +
+        query = "SELECT s FROM ServiceEntity s " +
                 "WHERE s.service_id = :service_id"
 )
 
 @NamedQuery(
         name = "Service.findAll",
-        query = "SELECT o " +
-                "FROM ServiceEntity o "
+        query = "SELECT o FROM ServiceEntity o "
 )
 
 @Table(name = "service", schema = "dbtelco")
@@ -50,7 +48,9 @@ public class ServiceEntity implements Serializable {
 
 
     //relationship definition part
-    @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    //quando carico un service, non devo caricare tutti i service packages associated
+    @ManyToMany(mappedBy = "services", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ServicePackageToSelectEntity> servicePackagesToSelect;
 
     public ServiceEntity(){

@@ -94,9 +94,17 @@ public class UserService {
     }
 
     public List<OrderEntity> findAllOrdersByUser(Long user_id){
-        return em.createNamedQuery("Order.findAllOrderByUser", OrderEntity.class).
-            setParameter("user", findByUserID(user_id).get()).
-            getResultList();
+        List<OrderEntity> orders = em.createNamedQuery("Order.findAllOrderByUser", OrderEntity.class).
+                setParameter("user", findByUserID(user_id).get()).
+                getResultList();
+
+        int i=0;
+        for(OrderEntity order: orders){
+            order.setUserOwner(orders.get(i).getUserOwner());
+            i++;
+        }
+
+        return orders;
     }
 
 
@@ -137,10 +145,10 @@ public class UserService {
             .getResultList();
     }
 
-    public List<OptionalProductEntity> findOptProdOfService(Long servicePackageToSelect_id){
+    public List<OptionalProductEntity> findOptProdOfServicePackageToSelect(Long servicePackageToSelect_id){
         return em.createNamedQuery("OptionalProduct.findOptProdOfServicePackageToSelect", OptionalProductEntity.class)
-            .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
-            .getResultList();
+                .setParameter("servicePackageToSelect_id", servicePackageToSelect_id)
+                .getResultList();
     }
 
     public List<ServiceEntity> findAllService() {

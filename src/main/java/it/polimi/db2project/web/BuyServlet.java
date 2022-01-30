@@ -1,10 +1,8 @@
 package it.polimi.db2project.web;
 
 import it.polimi.db2project.entities.*;
-import it.polimi.db2project.services.EmployeeService;
 import it.polimi.db2project.services.UserService;
 import jakarta.ejb.EJB;
-import jakarta.ejb.Local;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,7 +42,9 @@ public class BuyServlet extends HttpServlet {
 
             packageSelected = userService.findByServicePackageToSelectID(Long.parseLong(srvPackageToSelect)).get().getName();
             validityPeriods = userService.findValPeriodsOfService(Long.parseLong(srvPackageToSelect));
-            optionalProducts = userService.findOptProdOfService(Long.parseLong(srvPackageToSelect));
+            optionalProducts = userService.findOptProdOfServicePackageToSelect(Long.parseLong(srvPackageToSelect));
+
+
 
         }
         else if (request.getParameter("confirmBtn") != null){

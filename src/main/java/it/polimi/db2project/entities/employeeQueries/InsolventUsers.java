@@ -11,8 +11,7 @@ import java.io.Serializable;
 
 @NamedQuery(
         name = "InsolventUsers.findAll",
-        query = "SELECT n " +
-                "FROM InsolventUsers n "
+        query = "SELECT n FROM InsolventUsers n "
 )
 
 @Table(name = "insolventusers", schema = "dbtelco")

@@ -1,6 +1,24 @@
 body {
     background-color: #86c5da;
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
+
+.shadowDiv{
+    font-family: "Roboto", sans-serif;
+    background-color: #add8e6;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+    width: 90%;
+    z-index: 1;
+    margin: 0 auto 40px;
+    padding: 25px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
 
 h1
 {
@@ -88,17 +106,30 @@ td {
     width:150px;
     background-color: cadetblue;
 }
-.buttonGreen{
-    height:75px;
-    width:150px;
-    background-color: green;
+
+
+.niceButtonGreen {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: green;
+    width: auto;
+    border: 2px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
 }
-.buttonRed{
-    height:75px;
-    width:150px;
+.niceButtonRed {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
     background-color: red;
     color: white;
+    width: auto;
+    border: 2px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
 }
+
 
 .buttonIndex{
     height:50px;
@@ -116,18 +147,6 @@ td {
     font-size: 20px;
 }
 
-
-.shadowDiv{
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    text-align: center;
-    position: relative;
-    width: 90%;
-    z-index: 1;
-    margin: 0 auto 40px;
-    padding: 25px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
 
 
 .inputSrvPackage {
@@ -154,7 +173,7 @@ td {
     background: cadetblue;
     width: auto;
     border: 2px;
-    padding: 15px;
+    padding: 10px;
     font-size: 14px;
     cursor: pointer;
 }
@@ -281,12 +300,7 @@ input.check{
 .container .info span .fa {
     color: #EF3B3A;
 }
-body {
-    background-color: #86c5da;
-    font-family: "Roboto", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+
 
 .button{
     font-family: "Roboto", sans-serif;

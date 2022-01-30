@@ -56,9 +56,8 @@
 </div>
 
 <br>
-<div>
+<div class="shadowDiv">
     <h3>Number of total purchases per package</h3>
-    <div style="text-align: center">
 
         <form action="salesReportPage" method="post">
 
@@ -73,7 +72,7 @@
             %>
         </select>
         <br><br>
-        <button name="button" class="button" type="submit">SELECT SERVICE PACKAGE</button>
+        <button name="button" class="niceButton" type="submit">SELECT SERVICE PACKAGE</button>
             <br><br>
             <%
                 if(totPurchaseXPackage !=null){
@@ -84,15 +83,14 @@
             %>
 
     </form>
-</div>
-</div>
+
+    </div>
 
 <br><br>
 
 
-<div>
+<div class="shadowDiv">
     <h3>Number of total purchases per package and validity period</h3>
-    <div style="text-align: center">
 
     <form action="salesReportPage" method="post">
 
@@ -107,7 +105,7 @@
             %>
         </select>
         <br><br>
-        <button class="button" type="submit">SELECT SERVICE PACKAGE</button>
+        <button class="niceButton" type="submit">SELECT SERVICE PACKAGE</button>
         <br><br>
     </form>
         <%
@@ -129,7 +127,7 @@
             </select>
             <br><br>
 
-            <button class="button" type="submit">SELECT VALIDITY PERIOD</button>
+            <button class="niceButton" type="submit">SELECT VALIDITY PERIOD</button>
 
     </form>
         <br><br>
@@ -141,14 +139,12 @@
                  }
                 }
             %>
-    </div>
 </div>
 
 <br><br>
 
-<div>
+<div class="shadowDiv">
     <h3>Total value of sales per package with and without the optional products.</h3>
-    <div style="text-align: center">
 
     <form action="salesReportPage" method="post">
 
@@ -165,7 +161,7 @@
         </select>
         <br><br>
 
-        <button name="button" class="button" type="submit">SELECT SERVICE PACKAGE</button>
+        <button name="button" class="niceButton" type="submit">SELECT SERVICE PACKAGE</button>
         <br><br>
         <%
             if(salesPerPackageWithOptProduct !=null && salesPerPackageWithoutOptProduct!=null){
@@ -177,14 +173,12 @@
             }
         %>
     </form>
-    </div>
 </div>
 
 <br><br>
 
-<div>
+<div class="shadowDiv">
     <h3>Average number of optional products sold together with each service package</h3>
-    <div style="text-align: center">
 
         <form action="salesReportPage" method="post">
 
@@ -201,7 +195,7 @@
             </select>
             <br><br>
 
-            <button name="button" type="submit">SELECT SERVICE PACKAGE</button>
+            <button name="button" class="niceButton"  type="submit">SELECT SERVICE PACKAGE</button>
             <br><br>
             <%
                 if(avgNumOfOptProductsSoldPerPackage !=null){
@@ -212,13 +206,12 @@
                 }
             %>
         </form>
-    </div>
 
 </div>
 
 <br><br>
 
-<div>
+<div class="shadowDiv">
     <h3>List of insolvent users, suspended orders and alerts.</h3>
     <div style="text-align: center">
         <h5>INSOLVENT USERS</h5>
@@ -294,7 +287,7 @@
 
 <br><br>
 
-<div>
+<div class="shadowDiv">
     <h3>Best Seller Optional Product: the optional product with the greatest value of sales across all
         the sold service packages.</h3>
     <div style="text-align: center">

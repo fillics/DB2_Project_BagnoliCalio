@@ -77,7 +77,7 @@ public class ServicePackageToSelectEntity implements Serializable {
     )
     private List<ValidityPeriodEntity> validityPeriods;
 
-    @OneToMany(mappedBy="packageSelected", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="packageSelected", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ServicePackageEntity> servicePackages;
 
 

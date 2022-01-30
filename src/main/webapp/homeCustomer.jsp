@@ -57,12 +57,12 @@
     <%
         }
     %>
-    <div class="shadowDiv">
+    <div style="text-align: center">
 
     <%
         if(userUsername!=null && rejectedOrders!=null && rejectedOrders.size()>0) {
     %>
-    <br>
+    <div class="shadowDiv">
     <h2>You are an insolvent user. List of rejected orders:</h2>
     <br>
         <%
@@ -92,16 +92,19 @@
                 <button class="niceButton" name="rejectedOrder" value="<%=order.getOrder_id()%>" type="submit">PAY AGAIN</button>
             </form>
         </div>
-            <%
+
+        <%
                  }
             }
             %>
     </div>
 
+    </div>
+
     <br>
 
-    <h2>List of Service Package available</h2>
     <div style="text-align: center">
+    <h2>List of Service Package available</h2>
     <%
         for (ServicePackageToSelectEntity servicePackageToSelect: servicePackagesToSelect) {
     %>
@@ -144,9 +147,15 @@
         }
     %>
         <br>
+        <%
+            if(servicePackagesToSelect.size()!=0){
+        %>
         <form action="buyPage">
             <button class="niceButton" type="submit">GO TO THE BUY PAGE</button>
         </form>
+        <%
+            }
+        %>
 
 
 </div>

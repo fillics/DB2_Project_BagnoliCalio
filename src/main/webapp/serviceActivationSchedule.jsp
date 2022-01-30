@@ -101,7 +101,7 @@ else{
 
     <div>
         <form action="serviceActivationSchedule" method="post">
-            <button class="button" type="submit">GO TO THE HOME PAGE</button>
+            <button class="niceButton" type="submit">GO TO THE HOME PAGE</button>
         </form>
 
     </div>

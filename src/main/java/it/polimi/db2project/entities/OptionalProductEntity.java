@@ -11,8 +11,7 @@ import java.util.List;
         {
                 @NamedQuery(
                         name = "OptionalProduct.findByID",
-                        query = "SELECT o " +
-                                "FROM OptionalProductEntity o " +
+                        query = "SELECT o FROM OptionalProductEntity o " +
                                 "WHERE o.optionalProduct_id = :optionalProduct_id"
                 ),
 
@@ -24,22 +23,19 @@ import java.util.List;
 
                 @NamedQuery(
                         name = "OptionalProduct.findAll",
-                        query = "SELECT o " +
-                                "FROM OptionalProductEntity o "
+                        query = "SELECT o FROM OptionalProductEntity o "
                 ),
 
                 @NamedQuery(
                         name = "OptionalProduct.findOptProdOfServicePackageToSelect",
-                        query = "SELECT o " +
-                                "FROM OptionalProductEntity o " +
+                        query = "SELECT o FROM OptionalProductEntity o " +
                                 "JOIN o.servicePackagesToSelect s " +
                                 "WHERE s.servicePackageToSelect_id = :servicePackageToSelect_id "
                 ),
 
                 @NamedQuery(
                         name = "OptionalProduct.findOptProdOfServicePackage",
-                        query = "SELECT o " +
-                                "FROM OptionalProductEntity o " +
+                        query = "SELECT o FROM OptionalProductEntity o " +
                                 "JOIN o.servicePackages s " +
                                 "WHERE s.servicePackage_id = :servicePackage_id "
                 )
@@ -77,7 +73,6 @@ public class OptionalProductEntity implements Serializable {
     /**
      * getter and setter
      */
-
     public Long getOptionalProduct_id() {
         return optionalProduct_id;
     }

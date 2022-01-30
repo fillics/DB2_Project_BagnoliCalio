@@ -92,15 +92,15 @@ else{
   %>
   <div>
     <form class="inner" action="confirmationPage" method="post">
-      <button class="buttonGreen" name="result" value="success" type="submit">BUY (billing accepted)</button>
-      <button class="buttonRed" name="result" value="fail" type="submit">BUY (billing rejected)</button>
+      <button class="niceButtonGreen" name="result" value="success" type="submit">BUY (billing accepted)</button>
+      <button class="niceButtonRed" name="result" value="fail" type="submit">BUY (billing rejected)</button>
     </form>
 
   </div>
   <br><br>
 
     <form action="confirmationPage" method="post">
-      <button class="button" name="result" value="random" type="submit">BUY (random billing status)</button>
+      <button class="niceButton" name="result" value="random" type="submit">BUY (random billing status)</button>
     </form>
 
 
@@ -109,7 +109,7 @@ else{
     else{
   %>
   <form action="login" method="get">
-    <button class="button" type="submit">LOGIN/SIGNUP</button>
+    <button class="niceButton" type="submit">LOGIN/SIGNUP</button>
   </form>
   <%
     }

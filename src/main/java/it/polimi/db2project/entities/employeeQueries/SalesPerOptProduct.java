@@ -12,8 +12,7 @@ import java.io.Serializable;
 
 @NamedQuery(
         name = "SalesPerOptProduct.findMax",
-        query = "SELECT s " +
-                "FROM SalesPerOptProduct s " +
+        query = "SELECT s FROM SalesPerOptProduct s " +
                 "WHERE s.salesOfOptProd  = (SELECT MAX(s2.salesOfOptProd) " +
                 "FROM SalesPerOptProduct s2 )"
 )
