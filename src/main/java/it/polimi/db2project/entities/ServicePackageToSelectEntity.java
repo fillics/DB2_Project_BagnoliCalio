@@ -35,6 +35,7 @@ public class ServicePackageToSelectEntity implements Serializable {
     @Column(name = "name", nullable=false)
     private String name;
 
+
     public ServicePackageToSelectEntity(){
     }
 

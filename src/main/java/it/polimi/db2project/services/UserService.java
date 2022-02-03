@@ -155,9 +155,11 @@ public class UserService {
         return em.createNamedQuery("Service.findAll", ServiceEntity.class).getResultList();
     }
 
-    public OrderEntity createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage){
+    public OrderEntity createOrder(Timestamp now, UserEntity userOwner, ServicePackageEntity servicePackage,  boolean isValid){
         float totalValueOrder = servicePackage.getValuePackage() + servicePackage.getTotalValueOptionalProducts();
         OrderEntity order = new OrderEntity(now, totalValueOrder, userOwner, servicePackage);
+        order.setValid(isValid);
+
         try {
             em.persist(order);
             em.flush();

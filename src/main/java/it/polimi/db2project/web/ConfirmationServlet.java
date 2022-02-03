@@ -41,17 +41,6 @@ public class ConfirmationServlet extends HttpServlet {
         String destServlet;
         OrderEntity order;
 
-        if(creatingPackage){
-            try {
-                servicePackage = userService.createServicePackage(servicePackage, user);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage);
-        }
-        else order = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get();
-
-        
         boolean isValid;
         switch (result) {
             case "success":
@@ -67,16 +56,27 @@ public class ConfirmationServlet extends HttpServlet {
                 throw new IllegalStateException("Unexpected value: " + result);
         }
 
-        if(!isValid) user = userService.incrementsFailedPayments(user);
 
-        order = userService.updateOrder(order, isValid);
+        if(creatingPackage){
+            try {
+                servicePackage = userService.createServicePackage(servicePackage, user);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            order = userService.createOrder(new Timestamp(System.currentTimeMillis()), user, servicePackage, isValid);
+        }
+        else {
+            order = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get();
+            order = userService.updateOrder(order, isValid);
+        }
+
+        if(!isValid) user = userService.incrementsFailedPayments(user);
 
         if(user.getNumFailedPayments()==3){
             AlertEntity alert = new AlertEntity(order.getTotalValueOrder(), order.getDateAndHour(), user);
             userService.createAlert(alert);
             user = userService.setNumFailedPayments(user);
         }
-
 
         // if the user has rejected orders we set him to insolvent
         if(userService.findRejectedOrdersByUser(user.getUser_id()).size()>=1) userService.setUserInsolvent(user, true);
@@ -94,7 +94,6 @@ public class ConfirmationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         rejectedOrderID = req.getParameter("rejectedOrder");
-
 
         if(rejectedOrderID!=null){
             servicePackage = userService.findOrderByID(Long.parseLong(rejectedOrderID)).get().getServicePackage();
