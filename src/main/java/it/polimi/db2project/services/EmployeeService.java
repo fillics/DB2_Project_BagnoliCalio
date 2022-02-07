@@ -179,31 +179,20 @@ public class EmployeeService {
         return totalPurchasesPerPackageAndValPeriodEntity;
     }
 
-    public SalesPerPackageWithOptProduct valueOfSalesWithOptProduct(Long package_id){
-        SalesPerPackageWithOptProduct salesPerPackageWithOptProduct = null;
+
+
+    public SalesPackage valuesOfSales(Long package_id){
+        SalesPackage salesPackage = null;
         try{
-            salesPerPackageWithOptProduct = em.createNamedQuery("SalesPerPackageWithOptProduct.findByServPackage", SalesPerPackageWithOptProduct.class)
+            salesPackage = em.createNamedQuery("SalesPackage.findByServPackage", SalesPackage.class)
                     .setParameter("package_id", package_id)
                     .getResultList().stream().findFirst().get();
         }catch (NoSuchElementException exception){
-            salesPerPackageWithOptProduct = new SalesPerPackageWithOptProduct(package_id, findServicePackageToSelectByID(package_id).get(), 0);
+            salesPackage = new SalesPackage(package_id, findServicePackageToSelectByID(package_id).get(), 0, 0);
         }
-
-        return salesPerPackageWithOptProduct;
+        return salesPackage;
     }
 
-    public SalesPerPackageWithoutOptProduct valueOfSalesWithoutOptProduct(Long package_id){
-        SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct = null;
-        try{
-            salesPerPackageWithoutOptProduct = em.createNamedQuery("SalesPerPackageWithoutOptProduct.findByServPackage", SalesPerPackageWithoutOptProduct.class)
-                    .setParameter("package_id", package_id)
-                    .getResultList().stream().findFirst().get();
-        }catch (NoSuchElementException exception){
-            salesPerPackageWithoutOptProduct = new SalesPerPackageWithoutOptProduct(package_id, findServicePackageToSelectByID(package_id).get(), 0);
-        }
-
-        return salesPerPackageWithoutOptProduct;
-    }
 
     public AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage(Long package_id){
         AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage;
@@ -230,15 +219,13 @@ public class EmployeeService {
         return em.createNamedQuery("Alerts.findAll", Alerts.class).getResultList();
     }
 
-
-    public SalesPerOptProduct findMax(){
-        SalesPerOptProduct salesPerOptProduct = null;
-
+    public BestOptionalProduct findBest(){
+        BestOptionalProduct bestOptionalProduct = null;
         try{
-            if (em.createNamedQuery("SalesPerOptProduct.findMax", SalesPerOptProduct.class).getResultList().size() != 0)
-                salesPerOptProduct = em.createNamedQuery("SalesPerOptProduct.findMax", SalesPerOptProduct.class).getResultList().get(0);
+            if (em.createNamedQuery("BestOptionalProduct.findMax", BestOptionalProduct.class).getResultList().size() != 0)
+                bestOptionalProduct = em.createNamedQuery("BestOptionalProduct.findMax", BestOptionalProduct.class).getSingleResult();
         }catch(NoResultException ignored){}
 
-        return salesPerOptProduct;
+        return bestOptionalProduct;
     }
 }

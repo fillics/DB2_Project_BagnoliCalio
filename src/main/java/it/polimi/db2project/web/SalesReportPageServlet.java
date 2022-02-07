@@ -27,8 +27,7 @@ public class SalesReportPageServlet extends HttpServlet {
     private List<ValidityPeriodEntity> validityPeriods = null;
     private TotalPurchasesPerPackageEntity totPurchaseXPackage;
     private TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriod;
-    private SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct;
-    private SalesPerPackageWithOptProduct salesPerPackageWithOptProduct;
+    private SalesPackage salesPackage;
     private AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,7 +44,6 @@ public class SalesReportPageServlet extends HttpServlet {
 
         //forth query
         String srvPackageAvg = request.getParameter("srvPackageAvg");
-
 
         Optional<ServicePackageToSelectEntity> servicePackageToSelect = null;
         String destServlet = "salesReportPage";
@@ -64,9 +62,8 @@ public class SalesReportPageServlet extends HttpServlet {
 
         //third query
         if(srvPackageWithOptProducts!=null){
-            salesPerPackageWithOptProduct = employeeService.valueOfSalesWithOptProduct(Long.parseLong(srvPackageWithOptProducts));
-            salesPerPackageWithoutOptProduct = employeeService.valueOfSalesWithoutOptProduct(Long.parseLong(srvPackageWithOptProducts));
-        }
+            salesPackage = employeeService.valuesOfSales(Long.parseLong(srvPackageWithOptProducts));
+            }
 
         //forth query
         if(srvPackageAvg!=null) avgNumOfOptProductsSoldPerPackage = employeeService.avgNumOfOptProductsSoldPerPackage(Long.parseLong(srvPackageAvg));
@@ -91,8 +88,7 @@ public class SalesReportPageServlet extends HttpServlet {
         req.setAttribute("totalPurchasesPerPackageAndValPeriod", totalPurchasesPerPackageAndValPeriod);
 
         //third query
-        req.setAttribute("salesPerPackageWithOptProduct", salesPerPackageWithOptProduct);
-        req.setAttribute("salesPerPackageWithoutOptProduct", salesPerPackageWithoutOptProduct);
+        req.setAttribute("salesPerPackage", salesPackage);
 
         //forth query
         req.setAttribute("avgNumOfOptProductsSoldPerPackage", avgNumOfOptProductsSoldPerPackage);
@@ -106,8 +102,8 @@ public class SalesReportPageServlet extends HttpServlet {
         req.setAttribute("alerts", alerts);
 
         //sixth query
-        SalesPerOptProduct salesPerOptProduct = employeeService.findMax();
-        req.setAttribute("salesPerOptProduct", salesPerOptProduct);
+        BestOptionalProduct bestOptionalProduct = employeeService.findBest();
+        req.setAttribute("bestOptionalProduct", bestOptionalProduct);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("salesReportPage.jsp");
         dispatcher.forward(req, resp);

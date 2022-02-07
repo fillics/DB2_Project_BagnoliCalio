@@ -1,6 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.sql.*" %>
 <%@ page import="it.polimi.db2project.entities.*" %>
 <%@ page import="it.polimi.db2project.entities.employeeQueries.*" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -20,7 +18,6 @@
 
     ServicePackageToSelectEntity servicePackageSelected = (ServicePackageToSelectEntity) request.getAttribute("servicePackageSelected");
 
-
     //first query
     TotalPurchasesPerPackageEntity totPurchaseXPackage = (TotalPurchasesPerPackageEntity) request.getAttribute("totPurchaseXPackage");
 
@@ -29,8 +26,7 @@
     List<ValidityPeriodEntity> validityPeriods = (List<ValidityPeriodEntity>) request.getAttribute("validityPeriods");
 
     //third query
-    SalesPerPackageWithOptProduct salesPerPackageWithOptProduct = (SalesPerPackageWithOptProduct) request.getAttribute("salesPerPackageWithOptProduct");
-    SalesPerPackageWithoutOptProduct salesPerPackageWithoutOptProduct = (SalesPerPackageWithoutOptProduct) request.getAttribute("salesPerPackageWithoutOptProduct");
+    SalesPackage salesPackage = (SalesPackage) request.getAttribute("salesPerPackage");
 
     //forth query
     AvgNumOfOptProductsSoldPerPackage avgNumOfOptProductsSoldPerPackage = (AvgNumOfOptProductsSoldPerPackage) request.getAttribute("avgNumOfOptProductsSoldPerPackage");
@@ -41,7 +37,7 @@
     List<InsolventUsers> insolventUsers = (List<InsolventUsers>) request.getAttribute("insolventUsers");
 
     //sixth query
-    SalesPerOptProduct salesPerOptProduct = (SalesPerOptProduct) request.getAttribute("salesPerOptProduct");
+    BestOptionalProduct bestOptionalProduct = (BestOptionalProduct) request.getAttribute("bestOptionalProduct");
 
 
 %>
@@ -164,11 +160,10 @@
         <button name="button" class="niceButton" type="submit">SELECT SERVICE PACKAGE</button>
         <br><br>
         <%
-            if(salesPerPackageWithOptProduct !=null && salesPerPackageWithoutOptProduct!=null){
+            if(salesPackage !=null){
         %>
-        <p class="cyanText"><%=salesPerPackageWithOptProduct%></p>
-        <br>
-        <p class="cyanText"><%=salesPerPackageWithoutOptProduct%></p>
+        <p class="cyanText"><%=salesPackage%></p>
+
         <%
             }
         %>
@@ -291,8 +286,18 @@
     <h3>Best Seller Optional Product: the optional product with the greatest value of sales across all
         the sold service packages.</h3>
     <div style="text-align: center">
-        <p class="cyanText"><%=salesPerOptProduct %></p>
-
+        <%
+            if(bestOptionalProduct!=null){
+        %>
+        <p class="cyanText"><%=bestOptionalProduct %></p>
+        <%
+                }
+            else {
+        %>
+        <p class="cyanText">No optional product sold yet</p>
+        <%
+            }
+        %>
     </div>
 </div>
 

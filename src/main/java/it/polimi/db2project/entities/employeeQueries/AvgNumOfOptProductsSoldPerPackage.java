@@ -44,7 +44,6 @@ public class AvgNumOfOptProductsSoldPerPackage implements Serializable {
     }
 
 
-
     public Long getPackage_id() {
         return package_id;
     }

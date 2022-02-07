@@ -1,24 +1,19 @@
 package it.polimi.db2project.entities.employeeQueries;
 
 import it.polimi.db2project.entities.OptionalProductEntity;
-import it.polimi.db2project.entities.UserEntity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 
-
 @Entity
 
-
 @NamedQuery(
-        name = "SalesPerOptProduct.findMax",
-        query = "SELECT s FROM SalesPerOptProduct s " +
-                "WHERE s.salesOfOptProd  = (SELECT MAX(s2.salesOfOptProd) " +
-                "FROM SalesPerOptProduct s2 )"
+        name = "BestOptionalProduct.findMax",
+        query = "SELECT s FROM BestOptionalProduct s "
 )
 
-@Table(name = "salesperoptproduct", schema = "dbtelco")
-public class SalesPerOptProduct implements Serializable {
+@Table(name = "bestoptionalproduct", schema = "dbtelco")
+public class BestOptionalProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,16 +25,16 @@ public class SalesPerOptProduct implements Serializable {
     @JoinColumn(name = "optionalProduct_id")
     private OptionalProductEntity optionalProduct;
 
-    @Column(name = "salesOfOptProd", nullable = false)
-    private float salesOfOptProd;
+    @Column(name = "sales", nullable = false)
+    private float sales;
 
-    public SalesPerOptProduct() {
+    public BestOptionalProduct() {
     }
 
-    public SalesPerOptProduct(Long optionalProduct_id, OptionalProductEntity optionalProduct, float salesOfOptProd) {
+    public BestOptionalProduct(Long optionalProduct_id, OptionalProductEntity optionalProduct, float sales) {
         this.optionalProduct_id = optionalProduct_id;
         this.optionalProduct = optionalProduct;
-        this.salesOfOptProd = salesOfOptProd;
+        this.sales = sales;
     }
 
     public Long getOptionalProduct_id() {
@@ -58,19 +53,19 @@ public class SalesPerOptProduct implements Serializable {
         this.optionalProduct = optionalProduct;
     }
 
-    public float getSalesOfOptProd() {
-        return salesOfOptProd;
+    public float getSales() {
+        return sales;
     }
 
-    public void setSalesOfOptProd(float salesOfOptProd) {
-        this.salesOfOptProd = salesOfOptProd;
+    public void setSales(float salesOfOptProd) {
+        this.sales = salesOfOptProd;
     }
 
     @Override
     public String toString() {
 
         return "The optional product: "+optionalProduct.getName()+" (id: "+optionalProduct.getOptionalProduct_id()+")" +
-                " has greatest value of sales across all the sold service packages: "+ salesOfOptProd+"€";
+                " has greatest value of sales across all the sold service packages: "+ sales +"€";
 
     }
 }
