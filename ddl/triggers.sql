@@ -365,14 +365,18 @@ CREATE DEFINER  = CURRENT_USER trigger updateInsolventUser
     for each row
 begin
     IF NEW.isInsolvent = true THEN
-        INSERT INTO insolventusers
-        VALUES (NEW.user_id);
+        IF(NEW.user_id NOT IN (SELECT user_id FROM insolventusers)) THEN
+            INSERT INTO insolventusers
+            VALUES (NEW.user_id);
+        END IF;
+
     ELSE
         DELETE FROM insolventusers i
         WHERE i.user_id = NEW.user_id;
     END IF;
 end //
 delimiter ;
+
 
 create table insolventusers
 (
