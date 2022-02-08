@@ -98,12 +98,6 @@ public class UserService {
                 setParameter("user", findByUserID(user_id).get()).
                 getResultList();
 
-        int i=0;
-        for(OrderEntity order: orders){
-            order.setUserOwner(orders.get(i).getUserOwner());
-            i++;
-        }
-
         return orders;
     }
 
