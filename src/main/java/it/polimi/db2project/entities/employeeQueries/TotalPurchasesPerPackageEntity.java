@@ -35,10 +35,10 @@ public class TotalPurchasesPerPackageEntity implements Serializable {
     public TotalPurchasesPerPackageEntity() {
     }
 
-    public TotalPurchasesPerPackageEntity(Long package_id, ServicePackageToSelectEntity servicePackage, int totalPurchases) {
+    public TotalPurchasesPerPackageEntity(Long package_id, ServicePackageToSelectEntity servicePackage) {
         this.package_id = package_id;
         this.servicePackage = servicePackage;
-        this.totalPurchases = totalPurchases;
+        totalPurchases=0;
     }
 
     public ServicePackageToSelectEntity getServicePackage() {

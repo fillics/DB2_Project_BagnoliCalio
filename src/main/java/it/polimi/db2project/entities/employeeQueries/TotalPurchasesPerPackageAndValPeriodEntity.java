@@ -41,12 +41,12 @@ public class TotalPurchasesPerPackageAndValPeriodEntity implements Serializable 
     public TotalPurchasesPerPackageAndValPeriodEntity() {
     }
 
-    public TotalPurchasesPerPackageAndValPeriodEntity(Long package_id, ServicePackageToSelectEntity servicePackage, Long valPeriod_id, ValidityPeriodEntity validityPeriod, int totalPurchases) {
+    public TotalPurchasesPerPackageAndValPeriodEntity(Long package_id, ServicePackageToSelectEntity servicePackage, Long valPeriod_id, ValidityPeriodEntity validityPeriod) {
         this.package_id = package_id;
         this.servicePackage = servicePackage;
         this.valPeriod_id = valPeriod_id;
         this.validityPeriod = validityPeriod;
-        this.totalPurchases = totalPurchases;
+        totalPurchases=0;
     }
 
     public Long getPackage_id() {

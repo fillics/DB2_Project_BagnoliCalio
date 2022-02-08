@@ -48,7 +48,7 @@ public class EmployeeService {
 
     public EmployeeEntity checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
 
-        List<EmployeeEntity> eList = null;
+        List<EmployeeEntity> eList;
         try {
             eList = em.createNamedQuery("Employee.checkCredentials", EmployeeEntity.class).setParameter(1, usrn).setParameter(2, pwd)
                     .getResultList();
@@ -154,41 +154,39 @@ public class EmployeeService {
 
 
     public TotalPurchasesPerPackageEntity purchasesPerPackage(Long package_id){
-        TotalPurchasesPerPackageEntity totalPurchasesPerPackageEntity = null;
+        TotalPurchasesPerPackageEntity totalPurchasesPerPackageEntity;
         try{
             totalPurchasesPerPackageEntity = em.createNamedQuery("TotalPurchasesPerPackage.findByServPackage", TotalPurchasesPerPackageEntity.class)
                     .setParameter("package_id", package_id).getResultList().stream().findFirst().get();
         }catch (NoSuchElementException exception){
-            totalPurchasesPerPackageEntity = new TotalPurchasesPerPackageEntity(package_id, findServicePackageToSelectByID(package_id).get(), 0);
+            totalPurchasesPerPackageEntity = new TotalPurchasesPerPackageEntity(package_id, findServicePackageToSelectByID(package_id).get());
         }
 
         return totalPurchasesPerPackageEntity;
     }
 
     public TotalPurchasesPerPackageAndValPeriodEntity purchasesPerPackageAndValPeriod(Long package_id, Long valPeriod_id){
-        TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriodEntity = null;
+        TotalPurchasesPerPackageAndValPeriodEntity totalPurchasesPerPackageAndValPeriodEntity;
         try{
             totalPurchasesPerPackageAndValPeriodEntity = em.createNamedQuery("TotalPurchasesPerPackageAndValPeriod.findByServPackageAndValPeriod", TotalPurchasesPerPackageAndValPeriodEntity.class)
                     .setParameter("package_id", package_id)
                     .setParameter("valPeriod_id", valPeriod_id)
                     .getResultList().stream().findFirst().get();
         }catch (NoSuchElementException exception){
-            totalPurchasesPerPackageAndValPeriodEntity = new TotalPurchasesPerPackageAndValPeriodEntity(package_id, findServicePackageToSelectByID(package_id).get(), valPeriod_id, findByValPeriodID(valPeriod_id).get(), 0);
+            totalPurchasesPerPackageAndValPeriodEntity = new TotalPurchasesPerPackageAndValPeriodEntity(package_id, findServicePackageToSelectByID(package_id).get(), valPeriod_id, findByValPeriodID(valPeriod_id).get());
         }
 
         return totalPurchasesPerPackageAndValPeriodEntity;
     }
 
-
-
     public SalesPackage valuesOfSales(Long package_id){
-        SalesPackage salesPackage = null;
+        SalesPackage salesPackage;
         try{
             salesPackage = em.createNamedQuery("SalesPackage.findByServPackage", SalesPackage.class)
                     .setParameter("package_id", package_id)
                     .getResultList().stream().findFirst().get();
         }catch (NoSuchElementException exception){
-            salesPackage = new SalesPackage(package_id, findServicePackageToSelectByID(package_id).get(), 0, 0);
+            salesPackage = new SalesPackage(package_id, findServicePackageToSelectByID(package_id).get());
         }
         return salesPackage;
     }
@@ -201,7 +199,7 @@ public class EmployeeService {
                     .setParameter("package_id", package_id)
                     .getResultList().stream().findFirst().get();
         }catch (NoSuchElementException exception){
-            avgNumOfOptProductsSoldPerPackage = new AvgNumOfOptProductsSoldPerPackage(package_id, findServicePackageToSelectByID(package_id).get(), -1);
+            avgNumOfOptProductsSoldPerPackage = new AvgNumOfOptProductsSoldPerPackage(package_id, findServicePackageToSelectByID(package_id).get());
         }
         return avgNumOfOptProductsSoldPerPackage;
     }

@@ -36,10 +36,10 @@ public class AvgNumOfOptProductsSoldPerPackage implements Serializable {
     public AvgNumOfOptProductsSoldPerPackage() {
     }
 
-    public AvgNumOfOptProductsSoldPerPackage(Long package_id, ServicePackageToSelectEntity servicePackage, float average) {
+    public AvgNumOfOptProductsSoldPerPackage(Long package_id, ServicePackageToSelectEntity servicePackage) {
         this.package_id = package_id;
         this.servicePackage = servicePackage;
-        this.average = average;
+        average=-1;
 
     }
 

@@ -5,8 +5,8 @@ create table user
     username          varchar(64)       not null,
     password          varchar(64)       not null,
     email             varchar(64)       not null,
-    isInsolvent       tinyint default 0 null,
-    numFailedPayments int     default 0 null,
+    isInsolvent       tinyint default 0  NOT NULL,
+    numFailedPayments int     default 0 NOT NULL,
     constraint email
         unique (email),
     constraint user_id

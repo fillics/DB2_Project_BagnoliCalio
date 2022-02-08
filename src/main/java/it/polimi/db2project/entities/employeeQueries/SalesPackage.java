@@ -11,7 +11,7 @@ import java.io.Serializable;
                 "WHERE n.package_id = :package_id"
 )
 
-@Table(name = "sales_package", schema = "dbtelco")
+@Table(name = "salespackage", schema = "dbtelco")
 public class SalesPackage implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -34,12 +34,11 @@ public class SalesPackage implements Serializable {
     public SalesPackage() {
     }
 
-    public SalesPackage(Long package_id, ServicePackageToSelectEntity servicePackage, float totalSalesWithOptProduct,
-                        float totalSalesWithoutOptProduct) {
+    public SalesPackage(Long package_id, ServicePackageToSelectEntity servicePackage) {
         this.package_id = package_id;
         this.servicePackage = servicePackage;
-        this.totalSalesWithoutOptProduct = totalSalesWithoutOptProduct;
-        this.totalSalesWithOptProduct = totalSalesWithoutOptProduct;
+        totalSalesWithOptProduct=0;
+        totalSalesWithoutOptProduct=0;
     }
 
     public Long getPackage_id() {
