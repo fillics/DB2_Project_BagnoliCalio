@@ -475,9 +475,10 @@ begin
         SELECT s1.optionalProduct_id, s1.salesOfOptProd INTO id,amount
         FROM salesperoptproduct s1
         WHERE s1.salesOfOptProd IN (SELECT MAX(s2.salesOfOptProd) FROM salesperoptproduct s2);
-        DELETE FROM bestoptionalproduct;
-        INSERT INTO bestoptionalproduct VALUES (id,amount);
-
+        IF id IS NOT null OR amount IS NOT null THEN
+            DELETE FROM bestoptionalproduct;
+            INSERT INTO bestoptionalproduct VALUES (id,amount);
+        end if;
     end if;
 
 end //
@@ -513,14 +514,14 @@ begin
         SELECT s1.optionalProduct_id, s1.salesOfOptProd INTO id,amount
         FROM salesperoptproduct s1
         WHERE s1.salesOfOptProd IN (SELECT MAX(s2.salesOfOptProd) FROM salesperoptproduct s2);
-        DELETE FROM bestoptionalproduct;
-        INSERT INTO bestoptionalproduct VALUES (id,amount);
-
+        IF id IS NOT null OR amount IS NOT null THEN
+            DELETE FROM bestoptionalproduct;
+            INSERT INTO bestoptionalproduct VALUES (id,amount);
+        end if;
     end if;
 
 end //
 delimiter ;
-
 
 
 delimiter //
