@@ -6,3 +6,6 @@ INSERT INTO dbtelco.service (typeOfService, numGigabytes, feeForExtraGigabytes) 
 INSERT INTO dbtelco.validityperiod (numOfMonths, monthlyFee) VALUES ('12', '20');
 INSERT INTO dbtelco.validityperiod (numOfMonths, monthlyFee) VALUES ('24', '18');
 INSERT INTO dbtelco.validityperiod (numOfMonths, monthlyFee) VALUES ('36', '15');
+
+INSERT INTO `dbtelco`.`user` (`username`, `password`, `email`) VALUES ('a', 'a', 'a');
+INSERT INTO `dbtelco`.`employee` (`username`, `password`, `email`) VALUES ('e', 'e', 'e');
