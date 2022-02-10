@@ -40,23 +40,23 @@ CREATE DEFINER  = CURRENT_USER TRIGGER addPurchaseToPackage
     AFTER INSERT ON `order` FOR EACH ROW
 BEGIN
     IF NEW.isValid = true THEN
-        UPDATE totalpurchasesperpackage SET totalPurchases = totalPurchases + 1
-        WHERE package_id IN (SELECT s.packageSelected
-                             FROM servicepackage s
-                             WHERE s.servicePackage_id = NEW.servicePackageAssociated);
-    END IF;
+UPDATE totalpurchasesperpackage SET totalPurchases = totalPurchases + 1
+WHERE package_id IN (SELECT s.packageSelected
+                     FROM servicepackage s
+                     WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+END IF;
 end //
 delimiter ;
 
 delimiter //
 CREATE DEFINER  = CURRENT_USER TRIGGER updatePurchaseToPackage
     AFTER UPDATE ON `order` FOR EACH ROW BEGIN
-    IF NEW.isValid = true THEN
-        UPDATE dbtelco.totalpurchasesperpackage SET totalPurchases = totalPurchases + 1
-        WHERE package_id IN (SELECT s.packageSelected
-                             FROM dbtelco.servicepackage s
-                             WHERE s.servicePackage_id = NEW.servicePackageAssociated);
-    END IF;
+                                   IF NEW.isValid = true THEN
+UPDATE dbtelco.totalpurchasesperpackage SET totalPurchases = totalPurchases + 1
+WHERE package_id IN (SELECT s.packageSelected
+                     FROM dbtelco.servicepackage s
+                     WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+END IF;
 end //
 delimiter ;
 
@@ -65,8 +65,8 @@ delimiter //
 CREATE DEFINER  = CURRENT_USER TRIGGER createServicePackageToSelect1
     AFTER INSERT ON servicepackagetoselect FOR EACH ROW
 BEGIN
-    INSERT INTO dbtelco.totalpurchasesperpackage(package_id)
-    VALUES(NEW.servicePackageToSelect_id);
+INSERT INTO dbtelco.totalpurchasesperpackage(package_id)
+VALUES(NEW.servicePackageToSelect_id);
 end //
 delimiter ;
 
@@ -95,25 +95,25 @@ delimiter //
 CREATE DEFINER  = CURRENT_USER TRIGGER addPurchaseToPackageAndValPeriod
     AFTER INSERT ON `order` FOR EACH ROW BEGIN
     IF NEW.isValid = true THEN
-        UPDATE dbtelco.totalpurchasesperpackageandvalperiod SET totalPurchases = totalPurchases + 1
-        WHERE (package_id, valPeriod_id) IN (SELECT s.packageSelected, s.validityPeriod
-                                             FROM dbtelco.servicepackage s
-                                             WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+UPDATE dbtelco.totalpurchasesperpackageandvalperiod SET totalPurchases = totalPurchases + 1
+WHERE (package_id, valPeriod_id) IN (SELECT s.packageSelected, s.validityPeriod
+                                     FROM dbtelco.servicepackage s
+                                     WHERE s.servicePackage_id = NEW.servicePackageAssociated);
 
-    END IF;
+END IF;
 end //
 delimiter ;
 
 delimiter //
 CREATE DEFINER  = CURRENT_USER TRIGGER updatePurchaseToPackageAndValPeriod
     AFTER UPDATE ON `order` FOR EACH ROW BEGIN
-    IF NEW.isValid = true THEN
-        UPDATE dbtelco.totalpurchasesperpackageandvalperiod SET totalPurchases = totalPurchases + 1
-        WHERE (package_id, valPeriod_id) IN (SELECT s.packageSelected, s.validityPeriod
-                                             FROM dbtelco.servicepackage s
-                                             WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+                                   IF NEW.isValid = true THEN
+UPDATE dbtelco.totalpurchasesperpackageandvalperiod SET totalPurchases = totalPurchases + 1
+WHERE (package_id, valPeriod_id) IN (SELECT s.packageSelected, s.validityPeriod
+                                     FROM dbtelco.servicepackage s
+                                     WHERE s.servicePackage_id = NEW.servicePackageAssociated);
 
-    END IF;
+END IF;
 end //
 delimiter ;
 
@@ -142,17 +142,17 @@ CREATE DEFINER  = CURRENT_USER TRIGGER addSales
 BEGIN
     DECLARE x,y float;
     IF NEW.isValid = true THEN
-        SELECT sp.valuePackage, sp.totalValueOptionalProducts INTO x,y
-        FROM servicepackage sp
-        WHERE sp.servicePackage_id = NEW.servicePackageAssociated;
+SELECT sp.valuePackage, sp.totalValueOptionalProducts INTO x,y
+FROM servicepackage sp
+WHERE sp.servicePackage_id = NEW.servicePackageAssociated;
 
-        UPDATE salespackage s
-        SET s.totalSalesWithOptProduct = s.totalSalesWithOptProduct + x + y,
-            s.totalSalesWithoutOptProduct = s.totalSalesWithoutOptProduct + x
-        WHERE s.package_id IN (SELECT s.packageSelected
-                               FROM servicepackage s
-                               WHERE s.servicePackage_id = NEW.servicePackageAssociated );
-    END IF;
+UPDATE salespackage s
+SET s.totalSalesWithOptProduct = s.totalSalesWithOptProduct + x + y,
+    s.totalSalesWithoutOptProduct = s.totalSalesWithoutOptProduct + x
+WHERE s.package_id IN (SELECT s.packageSelected
+                       FROM servicepackage s
+                       WHERE s.servicePackage_id = NEW.servicePackageAssociated );
+END IF;
 end //
 delimiter ;
 
@@ -163,17 +163,17 @@ CREATE DEFINER  = CURRENT_USER TRIGGER updateSales
 BEGIN
     DECLARE x,y float;
     IF NEW.isValid = true THEN
-        SELECT sp.valuePackage, sp.totalValueOptionalProducts INTO x,y
-        FROM servicepackage sp
-        WHERE sp.servicePackage_id = NEW.servicePackageAssociated;
+SELECT sp.valuePackage, sp.totalValueOptionalProducts INTO x,y
+FROM servicepackage sp
+WHERE sp.servicePackage_id = NEW.servicePackageAssociated;
 
-        UPDATE salespackage s
-        SET s.totalSalesWithOptProduct = s.totalSalesWithOptProduct + x + y,
-            s.totalSalesWithoutOptProduct = s.totalSalesWithoutOptProduct + x
-        WHERE s.package_id IN (SELECT s.packageSelected
-                               FROM servicepackage s
-                               WHERE s.servicePackage_id = NEW.servicePackageAssociated );
-    END IF;
+UPDATE salespackage s
+SET s.totalSalesWithOptProduct = s.totalSalesWithOptProduct + x + y,
+    s.totalSalesWithoutOptProduct = s.totalSalesWithoutOptProduct + x
+WHERE s.package_id IN (SELECT s.packageSelected
+                       FROM servicepackage s
+                       WHERE s.servicePackage_id = NEW.servicePackageAssociated );
+END IF;
 end //
 delimiter ;
 
@@ -210,8 +210,8 @@ CREATE DEFINER  = CURRENT_USER trigger createServicePackageToSelect3
     on servicepackagetoselect
     for each row
 begin
-    INSERT INTO dbtelco.avgnumofoptproductssoldperpackage(PACKAGE_ID)
-    VALUES(NEW.servicePackageToSelect_id);
+INSERT INTO dbtelco.avgnumofoptproductssoldperpackage(PACKAGE_ID)
+VALUES(NEW.servicePackageToSelect_id);
 end //
 delimiter ;
 
@@ -225,87 +225,87 @@ CREATE DEFINER  = CURRENT_USER trigger addOptProduct
 begin
 
     IF NEW.isValid = true THEN
-        DELETE FROM totalnumberofoptionalproduct t
-        WHERE t.package_id IN (SELECT s.packageSelected
-                               FROM servicepackage s
-                               WHERE s.servicePackage_id = NEW.servicePackageAssociated );
+DELETE FROM totalnumberofoptionalproduct t
+WHERE t.package_id IN (SELECT s.packageSelected
+                       FROM servicepackage s
+                       WHERE s.servicePackage_id = NEW.servicePackageAssociated );
 
 
-        INSERT INTO totalnumberofoptionalproduct
-        SELECT ss.servicePackageToSelect_id, count(*)
-        FROM `order` as o
-                 JOIN dbtelco.servicepackage as s on o.servicePackageAssociated = s.servicePackage_id
-                 JOIN dbtelco.servicepackagetoselect as ss on s.packageSelected = ss.servicePackageToSelect_id
-                 JOIN dbtelco.addedproduct as a on a.servicePackage_id = o.servicePackageAssociated
-        WHERE o.isValid = true AND ss.servicePackageToSelect_id IN (SELECT s.packageSelected
-                                                                    FROM servicepackage s
-                                                                    WHERE s.servicePackage_id = NEW.servicePackageAssociated)
+INSERT INTO totalnumberofoptionalproduct
+SELECT ss.servicePackageToSelect_id, count(*)
+FROM `order` as o
+         JOIN dbtelco.servicepackage as s on o.servicePackageAssociated = s.servicePackage_id
+         JOIN dbtelco.servicepackagetoselect as ss on s.packageSelected = ss.servicePackageToSelect_id
+         JOIN dbtelco.addedproduct as a on a.servicePackage_id = o.servicePackageAssociated
+WHERE o.isValid = true AND ss.servicePackageToSelect_id IN (SELECT s.packageSelected
+                                                            FROM servicepackage s
+                                                            WHERE s.servicePackage_id = NEW.servicePackageAssociated)
 
-        GROUP BY ss.servicePackageToSelect_id;
-
-
-        DELETE FROM avgnumofoptproductssoldperpackage
-        WHERE package_id IN (   SELECT s.packageSelected
-                                FROM servicepackage s
-                                WHERE s.servicePackage_id = NEW.servicePackageAssociated);
-
-        INSERT INTO avgnumofoptproductssoldperpackage
-        SELECT t.package_id, IFNULL((o.total / t.totalPurchases), 0.0)
-        FROM dbtelco.totalpurchasesperpackage as t
-                 LEFT OUTER JOIN dbtelco.totalnumberofoptionalproduct as o on t.package_id = o.package_id
-
-        WHERE t.package_id IN (SELECT s.packageSelected
-                               FROM servicepackage s
-                               WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+GROUP BY ss.servicePackageToSelect_id;
 
 
-    END IF;
+DELETE FROM avgnumofoptproductssoldperpackage
+WHERE package_id IN (   SELECT s.packageSelected
+                        FROM servicepackage s
+                        WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+
+INSERT INTO avgnumofoptproductssoldperpackage
+SELECT t.package_id, IFNULL((o.total / t.totalPurchases), 0.0)
+FROM dbtelco.totalpurchasesperpackage as t
+         LEFT OUTER JOIN dbtelco.totalnumberofoptionalproduct as o on t.package_id = o.package_id
+
+WHERE t.package_id IN (SELECT s.packageSelected
+                       FROM servicepackage s
+                       WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+
+
+END IF;
 end //
 delimiter ;
 
 delimiter //
 CREATE DEFINER  = CURRENT_USER trigger updateOptProduct
     after update
-    on `order`
-    for each row
+                                   on `order`
+                                   for each row
 begin
 
     IF NEW.isValid = true THEN
-        DELETE FROM totalnumberofoptionalproduct t
-        WHERE t.package_id IN (SELECT s.packageSelected
-                               FROM servicepackage s
-                               WHERE s.servicePackage_id = NEW.servicePackageAssociated );
+DELETE FROM totalnumberofoptionalproduct t
+WHERE t.package_id IN (SELECT s.packageSelected
+                       FROM servicepackage s
+                       WHERE s.servicePackage_id = NEW.servicePackageAssociated );
 
 
-        INSERT INTO totalnumberofoptionalproduct
-        SELECT ss.servicePackageToSelect_id, count(*)
-        FROM `order` as o
-                 JOIN dbtelco.servicepackage as s on o.servicePackageAssociated = s.servicePackage_id
-                 JOIN dbtelco.servicepackagetoselect as ss on s.packageSelected = ss.servicePackageToSelect_id
-                 JOIN dbtelco.addedproduct as a on a.servicePackage_id = o.servicePackageAssociated
-        WHERE o.isValid = true AND ss.servicePackageToSelect_id IN (SELECT s.packageSelected
-                                                                    FROM servicepackage s
-                                                                    WHERE s.servicePackage_id = NEW.servicePackageAssociated)
+INSERT INTO totalnumberofoptionalproduct
+SELECT ss.servicePackageToSelect_id, count(*)
+FROM `order` as o
+         JOIN dbtelco.servicepackage as s on o.servicePackageAssociated = s.servicePackage_id
+         JOIN dbtelco.servicepackagetoselect as ss on s.packageSelected = ss.servicePackageToSelect_id
+         JOIN dbtelco.addedproduct as a on a.servicePackage_id = o.servicePackageAssociated
+WHERE o.isValid = true AND ss.servicePackageToSelect_id IN (SELECT s.packageSelected
+                                                            FROM servicepackage s
+                                                            WHERE s.servicePackage_id = NEW.servicePackageAssociated)
 
-        GROUP BY ss.servicePackageToSelect_id;
-
-
-        DELETE FROM avgnumofoptproductssoldperpackage
-        WHERE package_id IN (   SELECT s.packageSelected
-                                FROM servicepackage s
-                                WHERE s.servicePackage_id = NEW.servicePackageAssociated);
-
-        INSERT INTO avgnumofoptproductssoldperpackage
-        SELECT t.package_id, IFNULL((o.total / t.totalPurchases), 0.0)
-        FROM dbtelco.totalpurchasesperpackage as t
-                 LEFT OUTER JOIN dbtelco.totalnumberofoptionalproduct as o on t.package_id = o.package_id
-
-        WHERE t.package_id IN (SELECT s.packageSelected
-                               FROM servicepackage s
-                               WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+GROUP BY ss.servicePackageToSelect_id;
 
 
-    END IF;
+DELETE FROM avgnumofoptproductssoldperpackage
+WHERE package_id IN (   SELECT s.packageSelected
+                        FROM servicepackage s
+                        WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+
+INSERT INTO avgnumofoptproductssoldperpackage
+SELECT t.package_id, IFNULL((o.total / t.totalPurchases), 0.0)
+FROM dbtelco.totalpurchasesperpackage as t
+         LEFT OUTER JOIN dbtelco.totalnumberofoptionalproduct as o on t.package_id = o.package_id
+
+WHERE t.package_id IN (SELECT s.packageSelected
+                       FROM servicepackage s
+                       WHERE s.servicePackage_id = NEW.servicePackageAssociated);
+
+
+END IF;
 
 
 end //
@@ -340,8 +340,8 @@ CREATE DEFINER  = CURRENT_USER trigger addAlert
     on alert
     for each row
 begin
-    INSERT INTO alerts
-    VALUES (NEW.alert_id);
+INSERT INTO alerts
+VALUES (NEW.alert_id);
 end //
 delimiter ;
 
@@ -361,19 +361,19 @@ create index alerts_fk0_idx
 delimiter //
 CREATE DEFINER  = CURRENT_USER trigger updateInsolventUser
     after update
-    on user
-    for each row
+                               on user
+                               for each row
 begin
     IF NEW.isInsolvent = true THEN
         IF(NEW.user_id NOT IN (SELECT user_id FROM insolventusers)) THEN
             INSERT INTO insolventusers
             VALUES (NEW.user_id);
-        END IF;
+END IF;
 
-    ELSE
-        DELETE FROM insolventusers i
-        WHERE i.user_id = NEW.user_id;
-    END IF;
+ELSE
+DELETE FROM insolventusers i
+WHERE i.user_id = NEW.user_id;
+END IF;
 end //
 delimiter ;
 
@@ -399,38 +399,38 @@ begin
     IF(NEW.isValid = false) THEN
         IF(NEW.servicePackageAssociated NOT IN (SELECT order_id FROM suspendedorders)) THEN
             INSERT INTO suspendedorders
-            SELECT s.servicePackage_id
-            FROM servicepackage s
-            WHERE NEW.servicePackageAssociated = s.servicePackage_id;
-        END IF;
-    ELSE
+SELECT s.servicePackage_id
+FROM servicepackage s
+WHERE NEW.servicePackageAssociated = s.servicePackage_id;
+END IF;
+ELSE
         IF(NEW.servicePackageAssociated IN (SELECT order_id FROM suspendedorders)) THEN
-            DELETE FROM suspendedorders s
-            WHERE s.order_id = NEW.servicePackageAssociated;
-        END IF;
-    END IF;
+DELETE FROM suspendedorders s
+WHERE s.order_id = NEW.servicePackageAssociated;
+END IF;
+END IF;
 end //
 delimiter ;
 
 delimiter //
 CREATE DEFINER  = CURRENT_USER trigger updateSuspendedOrder
     after update
-    on `order`
-    for each row
+                                   on `order`
+                                   for each row
 begin
     IF(NEW.isValid = false) THEN
         IF(NEW.servicePackageAssociated NOT IN (SELECT order_id FROM suspendedorders)) THEN
             INSERT INTO suspendedorders
-            SELECT s.servicePackage_id
-            FROM servicepackage s
-            WHERE NEW.servicePackageAssociated = s.servicePackage_id;
-        END IF;
-    ELSE
+SELECT s.servicePackage_id
+FROM servicepackage s
+WHERE NEW.servicePackageAssociated = s.servicePackage_id;
+END IF;
+ELSE
         IF(NEW.servicePackageAssociated IN (SELECT order_id FROM suspendedorders)) THEN
-            DELETE FROM suspendedorders s
-            WHERE s.order_id = NEW.servicePackageAssociated;
-        END IF;
-    END IF;
+DELETE FROM suspendedorders s
+WHERE s.order_id = NEW.servicePackageAssociated;
+END IF;
+END IF;
 
 end //
 delimiter ;
@@ -456,30 +456,28 @@ begin
     DECLARE id int;
     DECLARE amount int;
     IF NEW.isValid = true THEN
-        DELETE FROM optProductsOrder;
-        INSERT INTO optProductsOrder
+DELETE FROM optProductsOrder;
+INSERT INTO optProductsOrder
 
-        SELECT op.optionalProduct_id, (op.monthlyFee * v.numOfMonths)
-        FROM `order` o
-                 JOIN servicepackage s on s.servicePackage_id = o.servicePackageAssociated
-                 JOIN addedproduct a on a.servicePackage_id = s.servicePackage_id
-                 JOIN validityperiod v on v.validityPeriod_Id = s.validityPeriod
-                 JOIN optionalproduct op on op.optionalProduct_Id = a.optionalProduct_id
-        WHERE s.servicePackage_id = NEW.servicePackageAssociated;
+SELECT op.optionalProduct_id, (op.monthlyFee * v.numOfMonths)
+FROM `order` o
+         JOIN servicepackage s on s.servicePackage_id = o.servicePackageAssociated
+         JOIN addedproduct a on a.servicePackage_id = s.servicePackage_id
+         JOIN validityperiod v on v.validityPeriod_Id = s.validityPeriod
+         JOIN optionalproduct op on op.optionalProduct_Id = a.optionalProduct_id
+WHERE s.servicePackage_id = NEW.servicePackageAssociated;
 
-        UPDATE salesperoptproduct s, optProductsOrder op
-        SET s.salesOfOptProd = s.salesOfOptProd + op.salesOfOptProd
-        WHERE s.optionalProduct_id = op.optionalProduct_id;
+UPDATE salesperoptproduct s, optProductsOrder op
+SET s.salesOfOptProd = s.salesOfOptProd + op.salesOfOptProd
+WHERE s.optionalProduct_id = op.optionalProduct_id;
 
 
-        SELECT s1.optionalProduct_id, s1.salesOfOptProd INTO id,amount
-        FROM salesperoptproduct s1
-        WHERE s1.salesOfOptProd IN (SELECT MAX(s2.salesOfOptProd) FROM salesperoptproduct s2);
-        IF id IS NOT null OR amount IS NOT null THEN
-            DELETE FROM bestoptionalproduct;
-            INSERT INTO bestoptionalproduct VALUES (id,amount);
-        end if;
-    end if;
+DELETE FROM bestoptionalproduct;
+INSERT INTO bestoptionalproduct
+SELECT s1.optionalProduct_id, s1.salesOfOptProd
+FROM salesperoptproduct s1
+WHERE s1.optionalProduct_id is not null and s1.salesOfOptProd IN (SELECT MAX(s2.salesOfOptProd) FROM salesperoptproduct s2);
+end if;
 
 end //
 delimiter ;
@@ -488,37 +486,35 @@ delimiter ;
 delimiter //
 CREATE DEFINER  = CURRENT_USER trigger updateSalesOptProduct
     after update
-    on `order`
-    for each row
+                                   on `order`
+                                   for each row
 begin
 
     DECLARE id int;
     DECLARE amount int;
     IF NEW.isValid = true THEN
-        DELETE FROM optProductsOrder;
-        INSERT INTO optProductsOrder
+DELETE FROM optProductsOrder;
+INSERT INTO optProductsOrder
 
-        SELECT op.optionalProduct_id, (op.monthlyFee * v.numOfMonths)
-        FROM `order` o
-                 JOIN servicepackage s on s.servicePackage_id = o.servicePackageAssociated
-                 JOIN addedproduct a on a.servicePackage_id = s.servicePackage_id
-                 JOIN validityperiod v on v.validityPeriod_Id = s.validityPeriod
-                 JOIN optionalproduct op on op.optionalProduct_Id = a.optionalProduct_id
-        WHERE s.servicePackage_id = NEW.servicePackageAssociated;
+SELECT op.optionalProduct_id, (op.monthlyFee * v.numOfMonths)
+FROM `order` o
+         JOIN servicepackage s on s.servicePackage_id = o.servicePackageAssociated
+         JOIN addedproduct a on a.servicePackage_id = s.servicePackage_id
+         JOIN validityperiod v on v.validityPeriod_Id = s.validityPeriod
+         JOIN optionalproduct op on op.optionalProduct_Id = a.optionalProduct_id
+WHERE s.servicePackage_id = NEW.servicePackageAssociated;
 
-        UPDATE salesperoptproduct s, optProductsOrder op
-        SET s.salesOfOptProd = s.salesOfOptProd + op.salesOfOptProd
-        WHERE s.optionalProduct_id = op.optionalProduct_id;
+UPDATE salesperoptproduct s, optProductsOrder op
+SET s.salesOfOptProd = s.salesOfOptProd + op.salesOfOptProd
+WHERE s.optionalProduct_id = op.optionalProduct_id;
 
 
-        SELECT s1.optionalProduct_id, s1.salesOfOptProd INTO id,amount
-        FROM salesperoptproduct s1
-        WHERE s1.salesOfOptProd IN (SELECT MAX(s2.salesOfOptProd) FROM salesperoptproduct s2);
-        IF id IS NOT null OR amount IS NOT null THEN
-            DELETE FROM bestoptionalproduct;
-            INSERT INTO bestoptionalproduct VALUES (id,amount);
-        end if;
-    end if;
+DELETE FROM bestoptionalproduct;
+INSERT INTO bestoptionalproduct
+SELECT s1.optionalProduct_id, s1.salesOfOptProd
+FROM salesperoptproduct s1
+WHERE s1.optionalProduct_id is not null and s1.salesOfOptProd IN (SELECT MAX(s2.salesOfOptProd) FROM salesperoptproduct s2);
+end if;
 
 end //
 delimiter ;
@@ -556,6 +552,3 @@ create table salesperoptproduct
     optionalProduct_id int             not null,
     salesOfOptProd     float default 0 not null
 );
-
-
-
