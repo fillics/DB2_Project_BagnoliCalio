@@ -61,7 +61,7 @@ public class UserEntity implements Serializable {
     private List<ServicePackageEntity> servicePackages;
 
     //gli ordini vengono caricati solo quando premiamo sul pulsante "go to my orders" -> metodo findAllOrdersByUser dentro userservice
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderEntity> orders;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy="userOwner", cascade = CascadeType.ALL, orphanRemoval = true)
