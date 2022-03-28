@@ -8,6 +8,9 @@ The aim of this JPA project was the creation of a telco website, where registere
 The website was connected to a database managed with MySQL.
 For the front end part, we used HTML and CSS, the whole back end part is written in Java.
 
+## Collaborator
+- [Natalia Bagnoli](https://github.com/NataliaBagnoli)
+
 # Employee 
 ## Registration Phase
 ![gif1](https://user-images.githubusercontent.com/24494773/155732329-6202e905-2142-438c-8fba-8997f44849f3.gif)
